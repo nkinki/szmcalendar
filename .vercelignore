@@ -1,0 +1,15 @@
+# Ignore large data directories
+face
+public/scraped_images
+public/scraped_data.json
+public/book_events.json
+ai_inputs
+browser-profile
+node_modules
+.vercel
+dev.err
+dev.out
+*.log
+.git
+.vscode
+*.bak
