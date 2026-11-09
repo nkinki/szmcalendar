@@ -4,7 +4,14 @@ export const STORAGE_KEY = 'iskoEvkonyv_bookData';
 /** Normalize image entries from both old (string) and new (object) saves. */
 export function normalizeEventImages(images = []) {
   return (Array.isArray(images) ? images : [])
-    .map(image => typeof image === 'string' ? { url: image, enabled: true } : { enabled: true, ...image })
+    .map(image => {
+      const obj = typeof image === 'string' ? { url: image, enabled: true } : { enabled: true, ...image };
+      // Drive thumbnail URL használata ha elérhető (CORS-barát)
+      if (obj.thumbnail && !obj.url?.startsWith('data:')) {
+        obj.url = obj.thumbnail;
+      }
+      return obj;
+    })
     .filter(image => Boolean(image.url));
 }
 
