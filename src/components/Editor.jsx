@@ -1566,6 +1566,18 @@ function RightInspector({
           </button>
         </div>
 
+        <Divider label="Borítólap Fotó" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <label style={labelStyle}>Kép nagyítás: {bookData.coverPhotoZoom || 100}%</label>
+          <input
+            type="range" min="100" max="200" step="5"
+            value={bookData.coverPhotoZoom || 100}
+            onChange={e => setBookData(prev => ({ ...prev, coverPhotoZoom: Number(e.target.value) }))}
+            style={{ width: '100%' }}
+          />
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>100% = kitölti a keretet, 150%+ = nagyított/vágott</span>
+        </div>
+
         <Divider label="Ballagási Évek (2026, 2025...)" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(bookData.graduationPages || []).sort((a, b) => b.year - a.year).map(g => (
@@ -2340,16 +2352,35 @@ function CoverContent({ page, bookData }) {
         position: 'absolute',
         left: `${photoBox.x}%`, top: `${photoBox.y}%`, width: `${photoBox.w}%`, height: `${photoBox.h}%`,
         zIndex: photoBox.zIndex || 1,
-        borderRadius: 8, overflow: 'hidden', boxSizing: 'border-box'
+        borderRadius: 8,
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        isolation: 'isolate',
       }}>
-        {g?.image ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /> : (
+        {/* Szegély overlay — legfelül, a kép FELETT látszik */}
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: 8,
+          border: '2px solid #d97706',
+          boxShadow: 'inset 0 0 0 1px rgba(245,158,11,0.3), 0 8px 24px rgba(0,0,0,0.5)',
+          pointerEvents: 'none', zIndex: 10
+        }} />
+        {g?.image ? (
+          <img src={g.image} alt="" style={{
+            position: 'absolute', inset: 0,
+            width: `${bookData.coverPhotoZoom || 100}%`,
+            height: `${bookData.coverPhotoZoom || 100}%`,
+            objectFit: 'cover',
+            objectPosition: 'center',
+            left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'block',
+          }} />
+        ) : (
           <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(124, 58, 237, 0.15))', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             <ByzantineCross size={42} color="#fbbf24" />
             <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 700 }}>Iskolai Évkönyv</span>
           </div>
         )}
-        {/* Szegély overlay — a kép FELETT, nem takarja el a kép */}
-        <div style={{ position: 'absolute', inset: 0, borderRadius: 8, border: '2px solid #d97706', boxShadow: '0 8px 24px rgba(0,0,0,0.5)', pointerEvents: 'none', zIndex: 2 }} />
       </div>
 
       {/* Title & Year Badge */}
