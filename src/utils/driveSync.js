@@ -11,7 +11,7 @@
  * A mappa ID a Drive linkből: /folders/FOLDER_ID
  */
 
-export const DRIVE_FOLDER_ID = '1PoNDuPDTxqqKgBLX6CIg3cD0I5kji5ql';
+export const DRIVE_FOLDER_ID = '1QZRHWec4VW62TLH9vHrNiFa-cQeWKxcM';
 
 // A Drive API publikus lekéréshez kell egy API key (csak olvasás, ingyenes)
 // Ezt a Vercel env változóból veszi, vagy ide írhatod
