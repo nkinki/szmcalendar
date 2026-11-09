@@ -7,6 +7,11 @@ import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
 import { isAdminLoggedIn, adminLogout } from './utils/driveSync';
 
+// Admin által szerkesztett adat tartós mentése — külön kulcs a per-session
+// STORAGE_KEY-től, hogy F5/reload után is a szerkesztett adat töltődjön be,
+// nem a /book_events.json.
+const ADMIN_STORAGE_KEY = 'szmc_admin_bookdata';
+
 // ── Greek Catholic Primary School Default Data ─────────────────────────────
 export const DEFAULT_BOOK = {
   schoolName: 'Szent Mihály Görögkatolikus Óvoda és Általános Iskola',
@@ -68,6 +73,16 @@ function App() {
   const loadFromDrive = async () => {
     setDriveLoading(true);
     try {
+      // 1) Admin mentés prioritása: ha az admin már szerkesztett és elmentette,
+      //    azt töltjük be (nem a /book_events.json-t), így a változtatások F5
+      //    után is megmaradnak.
+      const adminSaved = localStorage.getItem(ADMIN_STORAGE_KEY);
+      if (adminSaved) {
+        const parsed = repairBookData(JSON.parse(adminSaved));
+        setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
+        return;
+      }
+      // 2) Ha nincs admin mentés, a public/book_events.json-t töltjük be.
       const res = await fetch('/book_events.json?v=' + Date.now());
       const text = await res.text();
       if (text.trim().startsWith('[')) {
@@ -87,12 +102,16 @@ function App() {
   // Persist to localStorage on every change (csak admin módban)
   useEffect(() => {
     if (!isAdmin) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData)); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
+      // Admin tartós mentés: F5/reload után is a szerkesztett adat töltődjön be.
+      localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(bookData));
+    } catch {}
   }, [bookData, isAdmin]);
 
   const handleResetDefault = () => {
     if (window.confirm('Biztosan visszaállítod az évkönyvet a Görögkatolikus Általános Iskola alapértelmezett beállításaira?')) {
-      try { localStorage.removeItem(STORAGE_KEY); } catch {}
+      try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(ADMIN_STORAGE_KEY); } catch {}
       setBookData(DEFAULT_BOOK);
     }
   };
@@ -113,8 +132,28 @@ function App() {
         events: [],
         pageLayouts: {},
       };
-      try { localStorage.removeItem(STORAGE_KEY); } catch {}
+      try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(ADMIN_STORAGE_KEY); } catch {}
       setBookData(EMPTY_BOOK);
+    }
+  };
+
+  const handlePublish = async () => {
+    const pw = prompt('Admin jelszó a közzétételhez:');
+    if (!pw) return;
+    try {
+      const res = await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events: bookData.events, adminPassword: pw }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~2 percen belül frissül mindenkinél.`);
+      } else {
+        alert('❌ Hiba: ' + data.error);
+      }
+    } catch (err) {
+      alert('❌ Hiba: ' + err.message);
     }
   };
 
@@ -165,6 +204,7 @@ function App() {
           onResetEmpty={handleResetEmpty}
           isAdmin={isAdmin}
           onAdminLogout={() => { adminLogout(); setIsAdmin(false); }}
+          onPublish={handlePublish}
         />
       )}
 

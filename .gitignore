@@ -30,3 +30,4 @@ browser-profile
 
 # Facebook export data
 face/
+.env*

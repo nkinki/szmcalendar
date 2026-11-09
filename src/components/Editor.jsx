@@ -70,7 +70,7 @@ function buildPages(bookData) {
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ══════════════════════════════════════════════════════════════════════════════
-export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty, isAdmin, onAdminLogout }) {
+export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty, isAdmin, onAdminLogout, onPublish }) {
   const pages = buildPages(bookData);
   const [selectedPageId, setSelectedPageId] = useState(pages[0]?.id || 'cover');
   const [editingText, setEditingText] = useState(false);
@@ -92,6 +92,19 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     const link = document.createElement('a');
     link.href = url;
     link.download = `${(bookData.schoolName || 'evkonyv').replace(/[^a-z0-9áéíóöőúüű]+/gi, '-').toLowerCase()}-${bookData.currentYear || ''}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Események exportálása külön JSON fájlként (book_events_YYYY-MM-DD.json),
+  // amit az admin feltölthet a Drive-ra vagy a public mappába.
+  const exportBookEvents = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const blob = new Blob([JSON.stringify(bookData.events || [], null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `book_events_${today}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -552,6 +565,24 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           >
             <Save size={14} /> {saveFeedback ? 'Mentve!' : 'Mentés'}
           </button>
+
+          <button
+            onClick={exportBookEvents}
+            style={btn('secondary', 'sm')}
+            title="Események exportálása JSON fájlként (feltölthető a Drive-ra / public mappába)"
+          >
+            <Download size={14} /> Export JSON
+          </button>
+
+          {onAdminLogout && onPublish && (
+            <button
+              onClick={onPublish}
+              style={{ ...btn('accent', 'sm'), background: 'linear-gradient(135deg,#16a34a,#22c55e)' }}
+              title="Mentés és közzététel — mindenkinél frissül (~2 perc)"
+            >
+              🚀 Közzététel
+            </button>
+          )}
 
           {lastSavedAt && (
             <span style={{ fontSize: 10, color: '#475569', whiteSpace: 'nowrap', display: 'none' }}>
