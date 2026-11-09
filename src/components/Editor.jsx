@@ -181,7 +181,11 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
 
   const handleManualSave = () => {
     try {
+      // Csak manuális mentéskor kerül localStorage-ba
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
+      // Admin backup mentés is
+      const ADMIN_STORAGE_KEY = 'szmc_admin_bookdata';
+      localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(bookData));
       setLastSavedAt(new Date());
       setSaveFeedback(true);
       setTimeout(() => setSaveFeedback(false), 2000);
@@ -397,12 +401,13 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
   };
 
   const handleRestoreOriginal = () => {
-    if (!originalBookDataRef.current) return;
-    if (!window.confirm('Biztosan visszaállítod az eredeti betöltött évkönyvet? Minden mentetlen módosítás elveszik.')) return;
-    setBookData(JSON.parse(JSON.stringify(originalBookDataRef.current)));
-    setSelectedPageId(pages[0]?.id || 'cover');
-    setSelectedElemId(null);
-    setEditingText(false);
+    if (!window.confirm('Biztosan visszaállítod a szerveren lévő legutóbbi közzétett verziót? Minden mentetlen módosítás elveszik.')) return;
+    // localStorage törlése hogy a szerver adatát töltse be
+    try {
+      localStorage.removeItem('szmc_admin_bookdata');
+      localStorage.removeItem('iskoEvkonyv_bookData');
+    } catch {}
+    window.location.reload();
   };
 
   // ── Update event text ──────────────────────────────────────────────────────

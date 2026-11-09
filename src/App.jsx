@@ -111,15 +111,8 @@ function App() {
     }
   };
 
-  // Persist to localStorage on every change (csak admin módban)
-  useEffect(() => {
-    if (!isAdmin) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
-      // Admin tartós mentés: F5/reload után is a szerkesztett adat töltődjön be.
-      localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(bookData));
-    } catch {}
-  }, [bookData, isAdmin]);
+  // localStorage mentés CSAK manuális mentéskor (handleManualSave hívja)
+  // Automatikus mentés szándékosan ki van kapcsolva — F5 után a szerver adatát tölti be
 
   const handleResetDefault = () => {
     if (window.confirm('Biztosan visszaállítod az évkönyvet a Görögkatolikus Általános Iskola alapértelmezett beállításaira?')) {
