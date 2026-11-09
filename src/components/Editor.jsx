@@ -70,7 +70,7 @@ function buildPages(bookData) {
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ══════════════════════════════════════════════════════════════════════════════
-export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty }) {
+export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty, isAdmin, onAdminLogout }) {
   const pages = buildPages(bookData);
   const [selectedPageId, setSelectedPageId] = useState(pages[0]?.id || 'cover');
   const [editingText, setEditingText] = useState(false);
@@ -588,6 +588,11 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           <button onClick={() => setViewMode('print')} style={{ ...btn('primary', 'sm'), background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)' }}>
             <Printer size={15} /> Nyomtatás / PDF
           </button>
+          {onAdminLogout && (
+            <button onClick={onAdminLogout} style={{ ...btn('secondary', 'sm'), color: '#f87171', borderColor: '#7f1d1d' }} title="Admin kijelentkezés">
+              🔐 Kilépés
+            </button>
+          )}
         </div>
       </div>
 

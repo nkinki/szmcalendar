@@ -3,7 +3,9 @@ import Editor from './components/Editor';
 import BookPreview from './components/BookPreview';
 import PrintBook from './components/PrintBook';
 import AlbumFlipbook from './components/AlbumFlipbook';
+import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
+import { isAdminLoggedIn, adminLogout, loadBookDataFromDrive, DRIVE_FOLDER_ID, DRIVE_API_KEY } from './utils/driveSync';
 
 // ── Greek Catholic Primary School Default Data ─────────────────────────────
 export const DEFAULT_BOOK = {
@@ -38,12 +40,15 @@ export const DEFAULT_BOOK = {
 
 function App() {
   const [viewMode, setViewMode] = useState('editor'); // 'editor' | 'preview' | 'print'
+  const [isAdmin, setIsAdmin] = useState(() => isAdminLoggedIn());
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [driveLoading, setDriveLoading] = useState(false);
+  const [driveError, setDriveError] = useState('');
   const [bookData, setBookData] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = repairBookData(JSON.parse(saved));
-        // Migrate data by merging with default arrays if they are missing
         return {
           ...DEFAULT_BOOK,
           ...parsed,
@@ -56,10 +61,38 @@ function App() {
     return DEFAULT_BOOK;
   });
 
-  // Persist to localStorage on every change
+  // Drive betöltés indításkor (ha van API key)
   useEffect(() => {
+    if (!DRIVE_API_KEY) return; // nincs API key, marad a localStorage
+    loadFromDrive();
+  }, []);
+
+  const loadFromDrive = async () => {
+    setDriveLoading(true);
+    setDriveError('');
+    try {
+      const data = await loadBookDataFromDrive(DRIVE_FOLDER_ID);
+      const repaired = repairBookData(data);
+      setBookData(prev => ({
+        ...DEFAULT_BOOK,
+        ...repaired,
+        teachers: repaired.teachers?.length ? repaired.teachers : DEFAULT_BOOK.teachers,
+        classes: repaired.classes?.length ? repaired.classes : DEFAULT_BOOK.classes,
+        graduationPages: repaired.graduationPages?.length ? repaired.graduationPages : DEFAULT_BOOK.graduationPages,
+      }));
+    } catch (err) {
+      setDriveError(err.message);
+      console.warn('Drive betöltés sikertelen, localStorage használat:', err.message);
+    } finally {
+      setDriveLoading(false);
+    }
+  };
+
+  // Persist to localStorage on every change (csak admin módban)
+  useEffect(() => {
+    if (!isAdmin) return;
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData)); } catch {}
-  }, [bookData]);
+  }, [bookData, isAdmin]);
 
   const handleResetDefault = () => {
     if (window.confirm('Biztosan visszaállítod az évkönyvet a Görögkatolikus Általános Iskola alapértelmezett beállításaira?')) {
@@ -91,26 +124,161 @@ function App() {
 
   return (
     <>
-      {viewMode === 'editor' && (
-        <Editor 
-          bookData={bookData} 
-          setBookData={setBookData} 
-          setViewMode={setViewMode} 
-          onResetDefault={handleResetDefault}
-          onResetEmpty={handleResetEmpty}
+      {/* Drive betöltés jelző */}
+      {driveLoading && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 999,
+          background: 'linear-gradient(90deg, #7c3aed, #a855f7)',
+          padding: '8px 16px', textAlign: 'center',
+          fontSize: 13, color: '#fff', fontWeight: 600,
+        }}>
+          ⏳ Adatok betöltése a Google Drive-ról...
+        </div>
+      )}
+      {driveError && !DRIVE_API_KEY && (
+        <div style={{ display: 'none' }} /> // szótlan fallback localStorage-ra
+      )}
+
+      {/* Admin login modal */}
+      {showAdminLogin && (
+        <AdminLogin
+          onSuccess={() => { setIsAdmin(true); setShowAdminLogin(false); }}
+          onCancel={() => setShowAdminLogin(false)}
         />
       )}
+
+      {/* Nézői mód — ha nem admin, csak preview */}
+      {!isAdmin && viewMode === 'editor' && (
+        <ViewerMode
+          bookData={bookData}
+          onAdminLogin={() => setShowAdminLogin(true)}
+          onPreview={() => setViewMode('preview')}
+          onAlbum={() => setViewMode('album')}
+          onPrint={() => setViewMode('print')}
+          driveLoading={driveLoading}
+        />
+      )}
+
+      {/* Admin szerkesztő mód */}
+      {isAdmin && viewMode === 'editor' && (
+        <Editor
+          bookData={bookData}
+          setBookData={setBookData}
+          setViewMode={setViewMode}
+          onResetDefault={handleResetDefault}
+          onResetEmpty={handleResetEmpty}
+          isAdmin={isAdmin}
+          onAdminLogout={() => { adminLogout(); setIsAdmin(false); }}
+        />
+      )}
+
       {viewMode === 'preview' && (
-        <BookPreview bookData={bookData} setBookData={setBookData} setViewMode={setViewMode} />
+        <BookPreview bookData={bookData} setBookData={isAdmin ? setBookData : undefined} setViewMode={setViewMode} />
       )}
       {viewMode === 'print' && (
         <PrintBook bookData={bookData} setViewMode={setViewMode} />
       )}
       {viewMode === 'album' && (
-        <AlbumFlipbook bookData={bookData} setBookData={setBookData} setViewMode={setViewMode} />
+        <AlbumFlipbook bookData={bookData} setBookData={isAdmin ? setBookData : undefined} setViewMode={setViewMode} />
       )}
     </>
   );
 }
 
 export default App;
+
+// ── Nézői mód (nem admin) ──────────────────────────────────────────────────
+function ViewerMode({ bookData, onAdminLogin, onPreview, onAlbum, onPrint, driveLoading }) {
+  return (
+    <div style={{
+      minHeight: '100vh', background: '#090810',
+      fontFamily: "'Outfit','Inter',sans-serif", color: '#e2e8f0',
+      display: 'flex', flexDirection: 'column',
+    }}>
+      {/* Header */}
+      <div style={{
+        background: 'linear-gradient(90deg, #0e0c1a, #16122b, #0e0c1a)',
+        borderBottom: '1px solid #232035',
+        padding: '16px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ fontSize: 28, color: '#f59e0b' }}>✝</span>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 800, background: 'linear-gradient(135deg,#f59e0b,#fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {bookData.schoolName || 'Iskola Évkönyv'}
+            </div>
+            <div style={{ fontSize: 12, color: '#94a3b8' }}>
+              {bookData.schoolMotto} • {bookData.currentYear}
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button onClick={onAlbum} style={viewerBtn('secondary')}>📖 Album</button>
+          <button onClick={onPreview} style={viewerBtn('secondary')}>👁 Előnézet</button>
+          <button onClick={onPrint} style={viewerBtn('secondary')}>🖨 Nyomtatás</button>
+          <button onClick={onAdminLogin} style={viewerBtn('admin')}>🔐 Admin</button>
+        </div>
+      </div>
+
+      {/* Tartalom */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, padding: 40 }}>
+        {driveLoading ? (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>⏳</div>
+            <div style={{ fontSize: 18, color: '#94a3b8' }}>Adatok betöltése...</div>
+          </div>
+        ) : (
+          <>
+            <div style={{ textAlign: 'center', maxWidth: 500 }}>
+              <div style={{ fontSize: 64, marginBottom: 16 }}>📚</div>
+              <h1 style={{ fontSize: 28, fontWeight: 900, color: '#f8fafc', margin: '0 0 12px' }}>
+                {bookData.schoolName}
+              </h1>
+              <p style={{ fontSize: 16, color: '#94a3b8', lineHeight: 1.6 }}>
+                {bookData.schoolMotto}
+              </p>
+              <p style={{ fontSize: 14, color: '#64748b', marginTop: 8 }}>
+                {bookData.currentYear} — Iskolai Évkönyv
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <BigBtn icon="📖" label="Lapozható Album" onClick={onAlbum} primary />
+              <BigBtn icon="👁" label="Előnézet" onClick={onPreview} />
+              <BigBtn icon="🖨" label="Nyomtatás / PDF" onClick={onPrint} />
+            </div>
+
+            <div style={{ fontSize: 12, color: '#334155', marginTop: 8 }}>
+              Szerkesztéshez kattints az Admin gombra a jobb felső sarokban
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function BigBtn({ icon, label, onClick, primary }) {
+  return (
+    <button onClick={onClick} style={{
+      padding: '18px 32px', borderRadius: 12, border: '1px solid',
+      borderColor: primary ? 'transparent' : '#2e2a45',
+      background: primary ? 'linear-gradient(135deg,#7c3aed,#a855f7)' : '#151126',
+      color: '#fff', fontSize: 16, fontWeight: 700, cursor: 'pointer',
+      display: 'flex', alignItems: 'center', gap: 10,
+      boxShadow: primary ? '0 4px 20px rgba(124,58,237,0.4)' : 'none',
+    }}>
+      <span style={{ fontSize: 24 }}>{icon}</span> {label}
+    </button>
+  );
+}
+
+function viewerBtn(type) {
+  const base = {
+    padding: '8px 16px', borderRadius: 8, border: '1px solid',
+    fontSize: 13, fontWeight: 700, cursor: 'pointer',
+  };
+  if (type === 'admin') return { ...base, background: 'rgba(124,58,237,0.15)', borderColor: '#7c3aed', color: '#a78bfa' };
+  return { ...base, background: '#151126', borderColor: '#2e2a45', color: '#e2e8f0' };
+}
