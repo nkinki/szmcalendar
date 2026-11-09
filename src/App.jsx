@@ -5,7 +5,7 @@ import PrintBook from './components/PrintBook';
 import AlbumFlipbook from './components/AlbumFlipbook';
 import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
-import { isAdminLoggedIn, adminLogout, loadBookDataFromDrive, DRIVE_FOLDER_ID, DRIVE_API_KEY } from './utils/driveSync';
+import { isAdminLoggedIn, adminLogout, loadBookDataFromDrive, DRIVE_FOLDER_ID } from './utils/driveSync';
 
 // ── Greek Catholic Primary School Default Data ─────────────────────────────
 export const DEFAULT_BOOK = {
@@ -61,9 +61,8 @@ function App() {
     return DEFAULT_BOOK;
   });
 
-  // Drive betöltés indításkor (ha van API key)
+  // Drive betöltés indításkor — mindig, API key nélkül
   useEffect(() => {
-    if (!DRIVE_API_KEY) return; // nincs API key, marad a localStorage
     loadFromDrive();
   }, []);
 
