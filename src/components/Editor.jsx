@@ -2099,7 +2099,7 @@ function RightInspector({
                 alt={`event-${idx}`} 
                 referrerPolicy="no-referrer"
                 crossOrigin="anonymous"
-                onError={e => { e.target.src = img.url; }}
+                onError={e => { e.target.onerror = null; }}
                 style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: '1px solid #2e2a45' }} 
               />
               <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>

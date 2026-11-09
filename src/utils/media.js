@@ -6,12 +6,11 @@ export function normalizeEventImages(images = []) {
   return (Array.isArray(images) ? images : [])
     .map(image => {
       const obj = typeof image === 'string' ? { url: image, enabled: true } : { enabled: true, ...image };
-      // Drive képeknél proxy URL-t használunk (nincs CORS probléma)
+      // Drive képeknél mindig proxy URL-t használunk (nincs CORS probléma)
       if (obj.driveId) {
-        obj.url = `/api/img?id=${obj.driveId}`;
-        obj.thumbnail = `/api/img?id=${obj.driveId}`;
-      } else if (obj.thumbnail && !obj.url?.startsWith('data:')) {
-        obj.url = obj.thumbnail;
+        const proxyUrl = `/api/img?id=${obj.driveId}`;
+        obj.url = proxyUrl;
+        obj.thumbnail = proxyUrl;
       }
       return obj;
     })
