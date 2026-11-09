@@ -494,37 +494,38 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        justify: 'space-between',
-        padding: '0 24px',
-        height: 64,
+        gap: 8,
+        padding: '0 16px',
+        height: 56,
         background: 'linear-gradient(90deg, #0e0c1a 0%, #16122b 50%, #0e0c1a 100%)',
         borderBottom: '1px solid #232035',
         flexShrink: 0,
         zIndex: 20,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.4)'
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        overflow: 'hidden',
       }}>
         {/* Brand / Left title */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           {onBackToMenu && (
-            <button onClick={onBackToMenu} style={btn('secondary', 'md')} title="Vissza a főmenübe">
-              <Home size={18} /> Főmenü
+            <button onClick={onBackToMenu} style={btn('secondary', 'sm')} title="Vissza a főmenübe">
+              <Home size={15} />
             </button>
           )}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <ByzantineCross size={26} color="#f59e0b" />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: 17, fontWeight: 800, background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.3px' }}>
-                {bookData.schoolName || 'Görögkatolikus Iskola'}
-              </span>
-              <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
-                {bookData.schoolMotto || 'Évkönyv Szerkesztő Studio'} • {bookData.currentYear}
-              </span>
-            </div>
-          </div>
+          <ByzantineCross size={20} color="#f59e0b" />
+          <span
+            style={{ fontSize: 13, fontWeight: 800, background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', whiteSpace: 'nowrap', maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis' }}
+            title={`${bookData.schoolName} • ${bookData.schoolMotto} • ${bookData.currentYear}`}
+          >
+            {bookData.schoolName || 'Görögkatolikus Iskola'}
+          </span>
+          <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600, flexShrink: 0 }}>• {bookData.currentYear}</span>
         </div>
 
-        {/* Gyakori műveletek — a ritkábbak a Továbbiak menüben vannak. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto', marginRight: 18 }}>
+        {/* Divider */}
+        <div style={{ width: 1, height: 28, background: '#2e2a45', flexShrink: 0, marginLeft: 4, marginRight: 4 }} />
+
+        {/* Középső műveletek */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, overflow: 'hidden' }}>
           <input
             type="file"
             id="toolbar-facebook-folder-import"
@@ -535,34 +536,42 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
             onChange={handleFacebookFolderImport}
           />
           <input type="file" accept="application/json,.json" ref={projectInputRef} style={{ display: 'none' }} onChange={importProject} />
-          <button onClick={() => fbFolderInputRef.current?.click()} style={btn('accent', 'md')} title="Facebook export mappa importálása" disabled={fbImportBusy}>
-            <Upload size={18} /> {fbImportBusy ? 'Import folyamatban…' : 'Adatok Importálása'}
+
+          <button onClick={() => fbFolderInputRef.current?.click()} style={btn('accent', 'sm')} title="Facebook export mappa importálása" disabled={fbImportBusy}>
+            <Upload size={14} /> {fbImportBusy ? 'Import…' : 'Adatok Importálása'}
           </button>
-          <button onClick={addEventPage} style={btn('primary', 'md')} title="Új esemény dia hozzáadása">
-            <Plus size={18} /> Új Dia
+
+          <button onClick={addEventPage} style={btn('primary', 'sm')} title="Új esemény dia hozzáadása">
+            <Plus size={14} /> Új Dia
           </button>
-          <span
-            style={{ fontSize: 10.5, color: '#64748b', fontWeight: 600, alignSelf: 'center', whiteSpace: 'nowrap' }}
-            title="A munkád — szövegek, képek, logó, oldalak — automatikusan mentődik ebben a böngészőben"
+
+          <button
+            onClick={handleManualSave}
+            style={btn(saveFeedback ? 'primary' : 'secondary', 'sm')}
+            title={lastSavedAt ? `Utoljára mentve: ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })} • Ctrl+S` : 'Mentés (Ctrl+S)'}
           >
-            {lastSavedAt ? `✓ auto mentve ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}` : ''}
-          </span>
-          <button onClick={handleManualSave} style={btn(saveFeedback ? 'primary' : 'secondary', 'md')} title="Mentés most (Ctrl+S)">
-            <Save size={18} /> {saveFeedback ? 'Mentve!' : 'Mentés'}
+            <Save size={14} /> {saveFeedback ? 'Mentve!' : 'Mentés'}
           </button>
+
+          {lastSavedAt && (
+            <span style={{ fontSize: 10, color: '#475569', whiteSpace: 'nowrap', display: 'none' }}>
+              {`✓ ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}`}
+            </span>
+          )}
         </div>
 
-        {/* Right Action Switchers */}
-        <div style={{ display: 'flex', gap: 10, position: 'relative' }}>
-          <button onClick={() => setIsMoreMenuOpen(open => !open)} style={btn('secondary', 'lg')} aria-expanded={isMoreMenuOpen}>
-            <MoreHorizontal size={19} /> Továbbiak
+        {/* Jobb oldali nézetek */}
+        <div style={{ display: 'flex', gap: 6, flexShrink: 0, position: 'relative' }}>
+          <button onClick={() => setIsMoreMenuOpen(open => !open)} style={btn('secondary', 'sm')} aria-expanded={isMoreMenuOpen} title="Továbbiak">
+            <MoreHorizontal size={15} /> Továbbiak
           </button>
           {isMoreMenuOpen && (
             <div style={{
-              position: 'absolute', top: 50, right: 'calc(100% - 130px)', zIndex: 50, width: 250,
+              position: 'absolute', top: 44, right: 0, zIndex: 50, width: 250,
               padding: 8, borderRadius: 12, background: '#151126', border: '1px solid #3a3157',
               boxShadow: '0 18px 42px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: 3,
             }}>
+              <MenuAction icon={<BookOpen size={16} />} label="Album / Flipbook" onClick={() => { setIsMoreMenuOpen(false); setViewMode('album'); }} />
               <MenuAction icon={<FileCode size={16} />} label="Kész adatok böngészése" onClick={() => { setIsMoreMenuOpen(false); setIsImportModalOpen(true); }} />
               <MenuAction icon={<Download size={16} />} label="Projekt mentése" onClick={() => { setIsMoreMenuOpen(false); exportProject(); }} />
               <MenuAction icon={<FolderOpen size={16} />} label="Projekt megnyitása" onClick={() => { setIsMoreMenuOpen(false); projectInputRef.current?.click(); }} />
@@ -573,14 +582,11 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               {onResetEmpty && <MenuAction danger icon={<Trash2 size={16} />} label="Új üres projekt" onClick={() => { setIsMoreMenuOpen(false); onResetEmpty(); }} />}
             </div>
           )}
-          <button onClick={() => setViewMode('album')} style={btn('secondary', 'lg')} title="Lapozható digitális album + HTML export">
-            <BookOpen size={18} /> Album
+          <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
+            <Eye size={15} /> Előnézet
           </button>
-          <button onClick={() => setViewMode('preview')} style={btn('secondary', 'lg')}>
-            <Eye size={18} /> Előnézet
-          </button>
-          <button onClick={() => setViewMode('print')} style={btn('primary', 'lg')}>
-            <Printer size={18} /> Nyomtatás / PDF
+          <button onClick={() => setViewMode('print')} style={{ ...btn('primary', 'sm'), background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)' }}>
+            <Printer size={15} /> Nyomtatás / PDF
           </button>
         </div>
       </div>
