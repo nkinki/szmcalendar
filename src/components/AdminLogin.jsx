@@ -103,7 +103,7 @@ export default function AdminLogin({ onSuccess, onCancel }) {
         </form>
 
         <p style={{ fontSize: 11, color: '#475569', textAlign: 'center', margin: 0 }}>
-          Az első belépéskor a megadott jelszó lesz az admin jelszó.
+          Csak jogosult szerkesztők számára.
         </p>
       </div>
     </div>

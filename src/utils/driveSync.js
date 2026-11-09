@@ -19,7 +19,10 @@ export async function loadBookDataFromDrive() {
 
 // ── Admin Auth ──────────────────────────────────────────────────────────────
 
-const ADMIN_PASSWORD_HASH_KEY = 'szmc_admin_hash';
+// Admin jelszó hash — kódba égetett, nem módosítható böngészőből
+// Ha jelszót szeretnél változtatni, generálj új hash-t és cseréld le itt
+const HARDCODED_ADMIN_HASH = '82e4c422d610598d0862d3020999bcd3f728d173f9ce410ff07ce478a6febcbe';
+
 const ADMIN_SESSION_KEY = 'szmc_admin_session';
 
 async function hashPassword(password) {
@@ -30,25 +33,18 @@ async function hashPassword(password) {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-export async function setAdminPassword(password) {
-  const hash = await hashPassword(password);
-  localStorage.setItem(ADMIN_PASSWORD_HASH_KEY, hash);
-  return hash;
-}
-
 export async function checkAdminPassword(password) {
-  const storedHash = localStorage.getItem(ADMIN_PASSWORD_HASH_KEY);
-  if (!storedHash) {
-    await setAdminPassword(password);
-    localStorage.setItem(ADMIN_SESSION_KEY, Date.now().toString());
-    return true;
-  }
   const inputHash = await hashPassword(password);
-  if (inputHash === storedHash) {
+  if (inputHash === HARDCODED_ADMIN_HASH) {
     localStorage.setItem(ADMIN_SESSION_KEY, Date.now().toString());
     return true;
   }
   return false;
+}
+
+export async function setAdminPassword(password) {
+  // Csak hash megjelenítésre — a kódban kell lecserélni
+  return hashPassword(password);
 }
 
 export function isAdminLoggedIn() {
