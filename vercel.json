@@ -2,13 +2,18 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [
+  "headers": [
     {
       "source": "/book_events.json",
-      "destination": "/book_events.json"
-    },
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ],
+  "rewrites": [
     {
-      "source": "/((?!.*\\.json$).*)",
+      "source": "/((?!book_events\\.json).*)",
       "destination": "/index.html"
     }
   ]

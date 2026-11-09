@@ -61,30 +61,24 @@ function App() {
     return DEFAULT_BOOK;
   });
 
-  // Betöltés a saját szerverről (/book_events.json a public mappából)
-  // Ha nem sikerül, marad a localStorage
   useEffect(() => {
     loadFromDrive();
   }, []);
 
   const loadFromDrive = async () => {
     setDriveLoading(true);
-    setDriveError('');
     try {
-      // Először próbáljuk a saját szerverről (public/book_events.json)
-      const res = await fetch('/book_events.json');
-      if (!res.ok) throw new Error(`Betöltési hiba: ${res.status}`);
-      const data = await res.json();
-      if (!Array.isArray(data) || data.length === 0) throw new Error('Üres adat');
-      const repaired = repairBookData({ events: data });
-      setBookData(prev => ({
-        ...DEFAULT_BOOK,
-        ...prev,
-        events: repaired.events,
-      }));
+      const res = await fetch('/book_events.json?v=' + Date.now());
+      const text = await res.text();
+      if (text.trim().startsWith('[')) {
+        const data = JSON.parse(text);
+        if (Array.isArray(data) && data.length > 0) {
+          const repaired = repairBookData({ events: data });
+          setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, events: repaired.events }));
+        }
+      }
     } catch (err) {
-      setDriveError(err.message);
-      console.warn('Betöltés sikertelen, localStorage használat:', err.message);
+      console.warn('JSON betöltés sikertelen:', err.message);
     } finally {
       setDriveLoading(false);
     }
