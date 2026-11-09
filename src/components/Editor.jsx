@@ -2340,14 +2340,16 @@ function CoverContent({ page, bookData }) {
         position: 'absolute',
         left: `${photoBox.x}%`, top: `${photoBox.y}%`, width: `${photoBox.w}%`, height: `${photoBox.h}%`,
         zIndex: photoBox.zIndex || 1,
-        borderRadius: 8, overflow: 'hidden', border: '2px solid #d97706', boxShadow: '0 8px 24px rgba(0,0,0,0.5)', boxSizing: 'border-box'
+        borderRadius: 8, overflow: 'hidden', boxSizing: 'border-box'
       }}>
-        {g?.image ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : (
+        {g?.image ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /> : (
           <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(124, 58, 237, 0.15))', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             <ByzantineCross size={42} color="#fbbf24" />
             <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 700 }}>Iskolai Évkönyv</span>
           </div>
         )}
+        {/* Szegély overlay — a kép FELETT, nem takarja el a kép */}
+        <div style={{ position: 'absolute', inset: 0, borderRadius: 8, border: '2px solid #d97706', boxShadow: '0 8px 24px rgba(0,0,0,0.5)', pointerEvents: 'none', zIndex: 2 }} />
       </div>
 
       {/* Title & Year Badge */}
