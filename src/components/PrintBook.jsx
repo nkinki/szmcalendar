@@ -221,7 +221,7 @@ function EventPagePrint({ event, bookData }) {
         }}>
           {imgs.map((img, idx) => (
             <div key={idx} style={{ gridRow: grid.hero && idx === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 0 }}>
-              <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: grid.single ? 'contain' : 'cover' }} />
+              <img src={img.thumbnail || img.url} referrerPolicy="no-referrer" alt="" style={{ width: '100%', height: '100%', objectFit: grid.single ? 'contain' : 'cover' }} />
             </div>
           ))}
         </div>

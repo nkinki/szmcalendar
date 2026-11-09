@@ -2094,7 +2094,14 @@ function RightInspector({
               >
                 {img.enabled ? <Check size={14} color="#0f172a" /> : null}
               </button>
-              <img src={img.url} alt={`event-${idx}`} style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: '1px solid #2e2a45' }} />
+              <img 
+                src={img.thumbnail || img.url} 
+                alt={`event-${idx}`} 
+                referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
+                onError={e => { e.target.src = img.url; }}
+                style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: '1px solid #2e2a45' }} 
+              />
               <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: '#e2e8f0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Kép {idx + 1}</div>
                 <div style={{ fontSize: 11, color: '#94a3b8' }}>{img.url.split('/').pop()}</div>
@@ -2898,7 +2905,7 @@ function EventContent({ page, event, bookData }) {
                   overflow: 'hidden', borderRadius: 6, background: '#f1f5f9',
                   border: '1px solid #e5e7eb', boxSizing: 'border-box'
                 }}>
-                  <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block' }} />
+                  <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block' }} />
                 </div>
               );
             })}

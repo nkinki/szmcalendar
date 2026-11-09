@@ -358,7 +358,7 @@ export function EventContent({ event, bookData }) {
         }}>
           {imgs.map((img, i) => (
             <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 0 }}>
-            <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: grid.single ? 'contain' : 'cover', display: 'block' }} />
+            <img src={img.thumbnail || img.url} referrerPolicy="no-referrer" alt="" style={{ width: '100%', height: '100%', objectFit: grid.single ? 'contain' : 'cover', display: 'block' }} />
             </div>
           ))}
         </div>
@@ -456,7 +456,7 @@ function EditorPanel({ event, onUpdate, onClose }) {
                     cursor: 'pointer', border: `2.5px solid ${sel ? '#a855f7' : 'transparent'}`,
                     opacity: sel ? 1 : 0.35, transition: 'all 0.15s',
                   }}>
-                    <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <img src={img.thumbnail || img.url} referrerPolicy="no-referrer" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                     {sel && (
                       <div style={{ position: 'absolute', bottom: 3, right: 3, background: '#7c3aed', borderRadius: 4, width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#fff', fontWeight: 800 }}>
                         {ord + 1}
