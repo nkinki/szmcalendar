@@ -21,7 +21,7 @@ export async function loadBookDataFromDrive() {
 
 // Admin jelszó hash — kódba égetett, nem módosítható böngészőből
 // Ha jelszót szeretnél változtatni, generálj új hash-t és cseréld le itt
-const HARDCODED_ADMIN_HASH = '82e4c422d610598d0862d3020999bcd3f728d173f9ce410ff07ce478a6febcbe';
+const HARDCODED_ADMIN_HASH = 'efb93c9827841192e228b370fa7b10cf5e923f3cd88407f852116abce943a826';
 
 const ADMIN_SESSION_KEY = 'szmc_admin_session';
 
