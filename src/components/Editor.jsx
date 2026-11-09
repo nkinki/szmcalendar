@@ -522,7 +522,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
         flexShrink: 0,
         zIndex: 20,
         boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-        overflow: 'hidden',
+        overflow: 'visible',
       }}>
         {/* Brand / Left title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
