@@ -2,10 +2,10 @@
  * Editor.jsx — PowerPoint-szerű évkönyv szerkesztő
  * Görögkatolikus Általános Iskola stílussal & Interaktív Import Kezelővel
  */
-import React, { useState, useRef, useEffect } from 'react';
-import { Upload, Plus, X, Printer, Eye, Home, Trash2, Type, Image as ImageIcon, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
-import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY } from '../utils/media';
+import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages } from '../utils/media';
 
 // ── Byzantine Cross Icon (Görögkatolikus Kereszt) ───────────────────────────
 function ByzantineCross({ size = 24, color = '#f59e0b' }) {
@@ -410,7 +410,9 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     if (!selectedEvent) return;
     setBookData(prev => ({
       ...prev,
-      events: (prev.events || []).map(e => e.id === selectedEvent.id ? { ...e, text: localText } : e)
+      events: (prev.events || []).map(e => e.id === selectedEvent.id
+        ? { ...e, text: localText, fontSize: localTextFontSize, lineHeight: localTextLineHeight }
+        : e)
     }));
     setEditingText(false);
   };
@@ -1964,7 +1966,7 @@ function RightInspector({
         }}>
           <select
             value={localTextFontSize || 11}
-            onChange={e => { setLocalTextFontSize(Number(e.target.value)); setLocalText(prev => prev); }}
+            onChange={e => { const v = Number(e.target.value); setLocalTextFontSize(v); updateEventField('fontSize', v); }}
             style={{ ...inputStyle, padding: '6px 10px', width: 'auto', minWidth: 70 }}
             title="Betűméret"
           >
@@ -1975,7 +1977,7 @@ function RightInspector({
 
           <select
             value={localTextLineHeight || 1.7}
-            onChange={e => { setLocalTextLineHeight(Number(e.target.value)); }}
+            onChange={e => { const v = Number(e.target.value); setLocalTextLineHeight(v); updateEventField('lineHeight', v); }}
             style={{ ...inputStyle, padding: '6px 10px', width: 'auto', minWidth: 80 }}
             title="Sorköz"
           >
@@ -2001,54 +2003,6 @@ function RightInspector({
             title="Újravonás (Ctrl+Y)"
           >
             <RotateCcw size={14} style={{ transform: 'rotate(180deg)' }} />
-          </button>
-
-          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
-
-          <button
-            onClick={() => applyFormat('bold')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontWeight: 800 }}
-            title="Félkövér (Ctrl+B)"
-          >
-            B
-          </button>
-          <button
-            onClick={() => applyFormat('italic')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontStyle: 'italic' }}
-            title="Dőlt (Ctrl+I)"
-          >
-            I
-          </button>
-          <button
-            onClick={() => applyFormat('underline')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', textDecoration: 'underline' }}
-            title="Aláhúzás (Ctrl+U)"
-          >
-            U
-          </button>
-
-          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
-
-          <button
-            onClick={() => applyAlign('left')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px' }}
-            title="Balra igazítás"
-          >
-            <AlignLeft size={14} />
-          </button>
-          <button
-            onClick={() => applyAlign('center')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px' }}
-            title="Középre igazítás"
-          >
-            <AlignCenter size={14} />
-          </button>
-          <button
-            onClick={() => applyAlign('right')}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px' }}
-            title="Jobbra igazítás"
-          >
-            <AlignRight size={14} />
           </button>
         </div>
 
@@ -2838,8 +2792,7 @@ function DividerContent({ page, schoolYear, bookData }) {
 
 function EventContent({ page, event, bookData }) {
   if (!event) return <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: '8pt' }}>Esemény nem található</div>;
-  const allImages = normalizeEventImages(event.images || []);
-  const visibleImages = allImages.filter(img => img.enabled).slice(0, event.imageCount || 4);
+  const visibleImages = getVisibleEventImages(event);
   const { title, body } = splitEventTitle(event.text);
 
   const headerBox = getElemBox(page, 'header', bookData);
@@ -2930,7 +2883,7 @@ function EventContent({ page, event, bookData }) {
             flex: 1, minHeight: 0,
             background: 'linear-gradient(135deg,#fffcf5,#fef9c3)', borderLeft: '3px solid #d97706',
             borderRadius: '0 8px 8px 0', padding: '8px 10px',
-            fontSize: `${textBox.fontSize || 10.5}px`, lineHeight: 1.7, color: '#1e293b',
+            fontSize: event.fontSize ? `${event.fontSize}pt` : `${textBox.fontSize || 10.5}px`, lineHeight: event.lineHeight || 1.7, color: '#1e293b',
             whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowY: 'auto',
           }}>
             {body}

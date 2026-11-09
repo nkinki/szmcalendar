@@ -336,7 +336,13 @@ export function DividerContent({ schoolYear, bookData }) {
 export function EventContent({ event, bookData }) {
   if (!event) return <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: '8pt' }}>Esemény nem található</div>;
   const imgs = getVisibleEventImages(event);
-  const grid = getEventImageGrid(imgs.length);
+  // Fix 3: respect event.imageLayout
+  function getGridByLayout(layout, count) {
+    if (layout === 'hero') return { cols: 2, rows: 2, hero: true, single: false };
+    if (layout === 'rows') return { cols: 1, rows: count, hero: false, single: count === 1 };
+    return getEventImageGrid(count); // 'grid', 'auto', or unset
+  }
+  const grid = getGridByLayout(event.imageLayout, imgs.length);
   const { title, body } = splitEventTitle(event.text);
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', padding: '6%', gap: '4%', boxSizing: 'border-box' }}>
@@ -373,7 +379,9 @@ export function EventContent({ event, bookData }) {
         {body && (
           <div style={{
             background: 'linear-gradient(135deg,#fffcf5,#fef9c3)', borderLeft: '3px solid #d97706',
-            borderRadius: '0 8px 8px 0', padding: '5px 8px', fontSize: '6.5pt', lineHeight: 1.55,
+            borderRadius: '0 8px 8px 0', padding: '5px 8px',
+            fontSize: event.fontSize ? `${event.fontSize}pt` : '6.5pt',
+            lineHeight: event.lineHeight || 1.55,
             color: '#1e293b', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
           }}>
@@ -392,16 +400,20 @@ export function EventContent({ event, bookData }) {
 function EditorPanel({ event, onUpdate, onClose }) {
   const [localText, setLocalText] = useState('');
   const [localImages, setLocalImages] = useState([]);
+  const [localFontSize, setLocalFontSize] = useState(11);
+  const [localLineHeight, setLocalLineHeight] = useState(1.7);
 
   useEffect(() => {
     if (event) {
       setLocalText(event.text || '');
       setLocalImages(normalizeEventImages(event.images));
+      setLocalFontSize(event.fontSize || 11);
+      setLocalLineHeight(event.lineHeight || 1.7);
     }
   }, [event?.id]);
 
   const save = () => {
-    onUpdate({ ...event, text: localText, images: localImages });
+    onUpdate({ ...event, text: localText, images: localImages, fontSize: localFontSize, lineHeight: localLineHeight });
   };
 
   const toggleImage = (idx) => {
@@ -472,6 +484,32 @@ function EditorPanel({ event, onUpdate, onClose }) {
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: '#8c88a5', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>
             Szöveg
+          </div>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 10, color: '#8c88a5', marginBottom: 4 }}>Betűméret</div>
+              <select
+                value={localFontSize}
+                onChange={e => setLocalFontSize(Number(e.target.value))}
+                style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: '#e5e3f0', padding: '6px 8px', fontSize: 12 }}
+              >
+                {[9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22].map(s => (
+                  <option key={s} value={s}>{s} pt</option>
+                ))}
+              </select>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 10, color: '#8c88a5', marginBottom: 4 }}>Sorköz</div>
+              <select
+                value={localLineHeight}
+                onChange={e => setLocalLineHeight(Number(e.target.value))}
+                style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: '#e5e3f0', padding: '6px 8px', fontSize: 12 }}
+              >
+                {[1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 2.0].map(lh => (
+                  <option key={lh} value={lh}>{lh}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <textarea
             value={localText}
