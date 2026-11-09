@@ -137,8 +137,8 @@ function App() {
           ⏳ Adatok betöltése a Google Drive-ról...
         </div>
       )}
-      {driveError && !DRIVE_API_KEY && (
-        <div style={{ display: 'none' }} /> // szótlan fallback localStorage-ra
+      {driveError && (
+        <div style={{ display: 'none' }} />
       )}
 
       {/* Admin login modal */}

@@ -4,7 +4,11 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/book_events.json",
+      "destination": "/book_events.json"
+    },
+    {
+      "source": "/((?!.*\\.json$).*)",
       "destination": "/index.html"
     }
   ]
