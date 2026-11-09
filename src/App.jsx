@@ -5,7 +5,7 @@ import PrintBook from './components/PrintBook';
 import AlbumFlipbook from './components/AlbumFlipbook';
 import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
-import { isAdminLoggedIn, adminLogout, loadBookDataFromDrive, DRIVE_FOLDER_ID } from './utils/driveSync';
+import { isAdminLoggedIn, adminLogout } from './utils/driveSync';
 
 // ── Greek Catholic Primary School Default Data ─────────────────────────────
 export const DEFAULT_BOOK = {
@@ -61,7 +61,8 @@ function App() {
     return DEFAULT_BOOK;
   });
 
-  // Drive betöltés indításkor — mindig, API key nélkül
+  // Betöltés a saját szerverről (/book_events.json a public mappából)
+  // Ha nem sikerül, marad a localStorage
   useEffect(() => {
     loadFromDrive();
   }, []);
@@ -70,18 +71,20 @@ function App() {
     setDriveLoading(true);
     setDriveError('');
     try {
-      const data = await loadBookDataFromDrive(DRIVE_FOLDER_ID);
-      const repaired = repairBookData(data);
+      // Először próbáljuk a saját szerverről (public/book_events.json)
+      const res = await fetch('/book_events.json');
+      if (!res.ok) throw new Error(`Betöltési hiba: ${res.status}`);
+      const data = await res.json();
+      if (!Array.isArray(data) || data.length === 0) throw new Error('Üres adat');
+      const repaired = repairBookData({ events: data });
       setBookData(prev => ({
         ...DEFAULT_BOOK,
-        ...repaired,
-        teachers: repaired.teachers?.length ? repaired.teachers : DEFAULT_BOOK.teachers,
-        classes: repaired.classes?.length ? repaired.classes : DEFAULT_BOOK.classes,
-        graduationPages: repaired.graduationPages?.length ? repaired.graduationPages : DEFAULT_BOOK.graduationPages,
+        ...prev,
+        events: repaired.events,
       }));
     } catch (err) {
       setDriveError(err.message);
-      console.warn('Drive betöltés sikertelen, localStorage használat:', err.message);
+      console.warn('Betöltés sikertelen, localStorage használat:', err.message);
     } finally {
       setDriveLoading(false);
     }
