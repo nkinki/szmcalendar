@@ -600,33 +600,18 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
 
         {/* Jobb oldali nézetek */}
         <div style={{ display: 'flex', gap: 6, flexShrink: 0, position: 'relative' }}>
-          <button onClick={() => setIsMoreMenuOpen(open => !open)} style={btn('secondary', 'sm')} aria-expanded={isMoreMenuOpen} title="Továbbiak">
-            <MoreHorizontal size={15} /> Továbbiak
+          <button onClick={() => setViewMode('album')} style={btn('secondary', 'sm')} title="Album / Flipbook">
+            <BookOpen size={15} /> Album
           </button>
-          {isMoreMenuOpen && (
-            <>
-              {/* Kívül kattintásra bezár */}
-              <div
-                style={{ position: 'fixed', inset: 0, zIndex: 49 }}
-                onClick={() => setIsMoreMenuOpen(false)}
-              />
-              <div style={{
-                position: 'absolute', top: 44, right: 0, zIndex: 100, width: 250,
-                padding: 8, borderRadius: 12, background: '#151126', border: '1px solid #3a3157',
-                boxShadow: '0 18px 42px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: 3,
-              }}>
-              <MenuAction icon={<BookOpen size={16} />} label="Album / Flipbook" onClick={() => { setIsMoreMenuOpen(false); setViewMode('album'); }} />
-              <MenuAction icon={<FileCode size={16} />} label="Kész adatok böngészése" onClick={() => { setIsMoreMenuOpen(false); setIsImportModalOpen(true); }} />
-              <MenuAction icon={<Download size={16} />} label="Projekt mentése" onClick={() => { setIsMoreMenuOpen(false); exportProject(); }} />
-              <MenuAction icon={<FolderOpen size={16} />} label="Projekt megnyitása" onClick={() => { setIsMoreMenuOpen(false); projectInputRef.current?.click(); }} />
-              <MenuAction icon={<Plus size={16} />} label="Új ballagó év" onClick={() => { setIsMoreMenuOpen(false); addGradPage(); }} />
-              <div style={{ height: 1, background: '#2c2542', margin: '5px 4px' }} />
-              {onResetDefault && <MenuAction icon={<RotateCcw size={16} />} label="Minta visszaállítása" onClick={() => { setIsMoreMenuOpen(false); onResetDefault(); }} />}
-              <MenuAction icon={<RotateCcw size={16} />} label="Eredeti visszaállítása" onClick={() => { setIsMoreMenuOpen(false); handleRestoreOriginal(); }} />
-              {onResetEmpty && <MenuAction danger icon={<Trash2 size={16} />} label="Új üres projekt" onClick={() => { setIsMoreMenuOpen(false); onResetEmpty(); }} />}
-            </div>
-            </>
-          )}
+          <button onClick={() => exportProject()} style={btn('secondary', 'sm')} title="Projekt mentése fájlba">
+            <Download size={15} /> Export
+          </button>
+          <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Projekt megnyitása">
+            <FolderOpen size={15} /> Import
+          </button>
+          <button onClick={() => handleRestoreOriginal()} style={btn('secondary', 'sm')} title="Visszaállítás a szerverre mentett verzióra">
+            <RotateCcw size={15} /> Visszaállítás
+          </button>
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
           </button>
