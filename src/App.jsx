@@ -77,20 +77,32 @@ function App() {
       //    azt töltjük be (nem a /book_events.json-t), így a változtatások F5
       //    után is megmaradnak.
       const adminSaved = localStorage.getItem(ADMIN_STORAGE_KEY);
-      if (adminSaved) {
-        const parsed = repairBookData(JSON.parse(adminSaved));
-        setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
-        return;
-      }
-      // 2) Ha nincs admin mentés, a public/book_events.json-t töltjük be.
+
+      // 2) Mindig betöltjük a /book_events.json-t hogy ellenőrizzük
       const res = await fetch('/book_events.json?v=' + Date.now());
       const text = await res.text();
+      let serverEvents = [];
       if (text.trim().startsWith('[')) {
-        const data = JSON.parse(text);
-        if (Array.isArray(data) && data.length > 0) {
-          const repaired = repairBookData({ events: data });
-          setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, events: repaired.events }));
+        serverEvents = JSON.parse(text);
+      }
+
+      // Ha van admin mentés ÉS több eseménye van mint a szerveren → azt töltsük be
+      if (adminSaved) {
+        const parsed = repairBookData(JSON.parse(adminSaved));
+        const adminEvents = parsed.events || [];
+        if (adminEvents.length >= serverEvents.length) {
+          setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
+          return;
+        } else {
+          // A szerveren több van → töröljük az elavult admin mentést
+          localStorage.removeItem(ADMIN_STORAGE_KEY);
         }
+      }
+
+      // Szerver adatok betöltése
+      if (Array.isArray(serverEvents) && serverEvents.length > 0) {
+        const repaired = repairBookData({ events: serverEvents });
+        setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, events: repaired.events }));
       }
     } catch (err) {
       console.warn('JSON betöltés sikertelen:', err.message);
