@@ -503,6 +503,22 @@ export default function InteractiveCanvas({
                   >
                     <RefreshCcw size={11}/> Reset
                   </button>
+                  {/* Kép feltöltés gomb — photo és gradImage slotokhoz */}
+                  {(elemId === 'photo' || elemId === 'logo') && (
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        uploadTargetRef.current = elemId === 'logo' ? 'schoolLogo' :
+                          page?.type === 'graduation' ? 'gradImage' :
+                          page?.type === 'principal' ? 'principalPhoto' : 'gradImage';
+                        imageInputRef.current?.click();
+                      }}
+                      title="Kép feltöltése"
+                      style={floatBtn('#f59e0b')}
+                    >
+                      🖼 Kép
+                    </button>
+                  )}
                 </div>
               )}
               {isSelected && (<>
