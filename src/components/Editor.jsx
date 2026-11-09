@@ -604,11 +604,17 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
             <MoreHorizontal size={15} /> Továbbiak
           </button>
           {isMoreMenuOpen && (
-            <div style={{
-              position: 'absolute', top: 44, right: 0, zIndex: 50, width: 250,
-              padding: 8, borderRadius: 12, background: '#151126', border: '1px solid #3a3157',
-              boxShadow: '0 18px 42px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: 3,
-            }}>
+            <>
+              {/* Kívül kattintásra bezár */}
+              <div
+                style={{ position: 'fixed', inset: 0, zIndex: 49 }}
+                onClick={() => setIsMoreMenuOpen(false)}
+              />
+              <div style={{
+                position: 'absolute', top: 44, right: 0, zIndex: 100, width: 250,
+                padding: 8, borderRadius: 12, background: '#151126', border: '1px solid #3a3157',
+                boxShadow: '0 18px 42px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: 3,
+              }}>
               <MenuAction icon={<BookOpen size={16} />} label="Album / Flipbook" onClick={() => { setIsMoreMenuOpen(false); setViewMode('album'); }} />
               <MenuAction icon={<FileCode size={16} />} label="Kész adatok böngészése" onClick={() => { setIsMoreMenuOpen(false); setIsImportModalOpen(true); }} />
               <MenuAction icon={<Download size={16} />} label="Projekt mentése" onClick={() => { setIsMoreMenuOpen(false); exportProject(); }} />
@@ -619,6 +625,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               <MenuAction icon={<RotateCcw size={16} />} label="Eredeti visszaállítása" onClick={() => { setIsMoreMenuOpen(false); handleRestoreOriginal(); }} />
               {onResetEmpty && <MenuAction danger icon={<Trash2 size={16} />} label="Új üres projekt" onClick={() => { setIsMoreMenuOpen(false); onResetEmpty(); }} />}
             </div>
+            </>
           )}
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
