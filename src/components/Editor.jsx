@@ -2036,6 +2036,32 @@ function RightInspector({
           <option value="rows">Sorok (egymás alá)</option>
         </select>
 
+        {/* Szegély be/ki */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+          <input
+            type="checkbox"
+            id="imageBorder"
+            checked={selectedEvent?.imageBorder !== false}
+            onChange={e => updateEventField('imageBorder', e.target.checked)}
+            style={{ width: 16, height: 16, cursor: 'pointer', accentColor: '#d97706' }}
+          />
+          <label htmlFor="imageBorder" style={{ ...labelStyle, marginTop: 0, cursor: 'pointer', color: '#fbbf24' }}>
+            🖼 Narancssárga szegély a képeken
+          </label>
+        </div>
+
+        {/* Kép zoom */}
+        <label style={{ ...labelStyle, marginTop: 8 }}>
+          Kép nagyítás: {selectedEvent?.imageZoom || 100}%
+        </label>
+        <input
+          type="range" min="100" max="200" step="5"
+          value={selectedEvent?.imageZoom || 100}
+          onChange={e => updateEventField('imageZoom', Number(e.target.value))}
+          style={{ width: '100%' }}
+        />
+        <span style={{ fontSize: 11, color: '#94a3b8' }}>100% = normál, 150%+ = nagyított/vágott (szegély fix marad)</span>
+
         <label style={labelStyle}>Mutasd egyszerre</label>
         <select
           value={selectedEvent?.imageCount || Math.min((selectedEvent?.images || []).length, 4) || 1}
@@ -2886,9 +2912,17 @@ function EventContent({ page, event, bookData }) {
                   left: `${relativeLeft}%`, top: `${relativeTop}%`,
                   width: `${relativeWidth}%`, height: `${relativeHeight}%`,
                   overflow: 'hidden', borderRadius: 6, background: '#f1f5f9',
-                  border: '1px solid #e5e7eb', boxSizing: 'border-box'
+                  boxSizing: 'border-box', isolation: 'isolate',
                 }}>
-                  <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block' }} />
+                  <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    width: `${event.imageZoom || 100}%`, height: `${event.imageZoom || 100}%`,
+                    transform: 'translate(-50%,-50%)',
+                    objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block'
+                  }} />
+                  {event.imageBorder !== false && (
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: 6, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />
+                  )}
                 </div>
               );
             })}
