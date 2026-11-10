@@ -159,6 +159,7 @@ export default function InteractiveCanvas({
   const customElements    = currentPageLayout.customElements || [];
 
   // ── Layout updaters ─────────────────────────────────────────────────────────
+  const [showLabelMenu, setShowLabelMenu] = React.useState(false);
   const updateElementLayout = (elemId, newBox) => {
     setBookData(prev => {
       const layouts  = prev.pageLayouts || {};
@@ -197,6 +198,27 @@ export default function InteractiveCanvas({
           [pageId]: { ...current, customElements: [...(current.customElements || []), newElem] }
         }
       };
+    });
+    setSelectedElemId(newId);
+  };
+
+  // Stílusos felirat hozzáadása
+  const addStyledLabel = (style) => {
+    const newId = `custom_text_${Date.now()}`;
+    const presets = {
+      'cim': { text: 'ISKOLA NEVE', fontSize: 28, color: '#f59e0b', fontWeight: 900, textAlign: 'center', letterSpacing: '0.08em', textShadow: 'none', background: 'transparent', w: 80, h: 14 },
+      'alcim': { text: '2025 / 2026 TANÉV', fontSize: 13, color: '#fef3c7', fontWeight: 700, textAlign: 'center', letterSpacing: '0.12em', background: 'rgba(217,119,6,0.3)', padding: '3px 14px', borderRadius: '12px', border: '1px solid #d97706', w: 60, h: 10 },
+      'arany': { text: 'Felirat szövege', fontSize: 18, color: '#d97706', fontWeight: 800, textAlign: 'center', fontStyle: 'italic', w: 70, h: 12 },
+      'feher': { text: 'Felirat szövege', fontSize: 16, color: '#ffffff', fontWeight: 700, textAlign: 'center', textShadow: '0 2px 8px rgba(0,0,0,0.5)', w: 70, h: 11 },
+      'doboz': { text: 'Felirat szövege', fontSize: 14, color: '#1e1b4b', fontWeight: 700, textAlign: 'center', background: 'rgba(255,255,255,0.9)', padding: '6px 16px', borderRadius: '8px', border: '2px solid #d97706', w: 60, h: 12 },
+      'kereszt': { text: '✝ Felirat szövege', fontSize: 16, color: '#fbbf24', fontWeight: 700, textAlign: 'center', w: 70, h: 11 },
+    };
+    const p = presets[style] || presets['cim'];
+    const newElem = { id: newId, type: 'text', x: 10, y: 42, zIndex: 15, ...p };
+    setBookData(prev => {
+      const layouts = prev.pageLayouts || {};
+      const current = layouts[pageId] || {};
+      return { ...prev, pageLayouts: { ...layouts, [pageId]: { ...current, customElements: [...(current.customElements || []), newElem] } } };
     });
     setSelectedElemId(newId);
   };
@@ -445,6 +467,40 @@ export default function InteractiveCanvas({
           <Type size={13}/> + Szöveg
         </button>
 
+        {/* Stílusos feliratok */}
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            style={{ ...toolBtn, color: '#f59e0b', fontWeight: 700 }}
+            title="Stílusos felirat hozzáadása"
+            onClick={e => { e.stopPropagation(); setShowLabelMenu(v => !v); }}
+          >
+            ✦ Felirat
+          </button>
+          {showLabelMenu && (
+            <>
+              <div style={{ position: 'fixed', inset: 0, zIndex: 30 }} onClick={() => setShowLabelMenu(false)} />
+              <div style={{ position: 'absolute', top: '100%', left: 0, zIndex: 40, background: '#1a1830', border: '1px solid #3a3157', borderRadius: 10, padding: 6, minWidth: 180, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {[
+                  { key: 'cim',     icon: '🏷', label: 'Főcím (arany, nagy)' },
+                  { key: 'alcim',   icon: '📛', label: 'Alcím (doboz, keret)' },
+                  { key: 'arany',   icon: '✨', label: 'Arany dőlt felirat' },
+                  { key: 'feher',   icon: '⬜', label: 'Fehér árnyékos' },
+                  { key: 'doboz',   icon: '🔲', label: 'Fehér doboz kerettel' },
+                  { key: 'kereszt', icon: '✝', label: 'Keresztes felirat' },
+                ].map(({ key, icon, label }) => (
+                  <button key={key} onClick={() => { addStyledLabel(key); setShowLabelMenu(false); }}
+                    style={{ background: 'none', border: 'none', color: '#e2e8f0', fontSize: 12, fontWeight: 600, padding: '7px 10px', borderRadius: 7, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 8 }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'none'}
+                  >
+                    <span>{icon}</span> {label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
         <input
           type="file" accept="image/*" ref={imageInputRef}
           style={{ display: 'none' }} onChange={addCustomImage}
@@ -584,14 +640,22 @@ export default function InteractiveCanvas({
               )}
               {elem.type === 'text' && (
                 <div style={{
-                  fontSize:   elem.fontSize   || 14,
-                  color:      elem.color      || '#1f2937',
-                  fontFamily: elem.fontFamily || "'Inter', sans-serif",
-                  fontWeight: elem.bold   ? 700  : 400,
-                  fontStyle:  elem.italic ? 'italic' : 'normal',
+                  fontSize:      elem.fontSize      || 14,
+                  color:         elem.color         || '#1f2937',
+                  fontFamily:    elem.fontFamily     || "'Inter', sans-serif",
+                  fontWeight:    elem.fontWeight     || (elem.bold ? 700 : 400),
+                  fontStyle:     elem.fontStyle      || (elem.italic ? 'italic' : 'normal'),
+                  textAlign:     elem.textAlign      || 'left',
+                  letterSpacing: elem.letterSpacing  || 'normal',
+                  textShadow:    elem.textShadow     || 'none',
+                  background:    elem.background     || 'transparent',
+                  padding:       elem.padding        || 0,
+                  borderRadius:  elem.borderRadius   || 0,
+                  border:        elem.border         || 'none',
                   width: '100%', height: '100%',
                   whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                  lineHeight: 1.5,
+                  lineHeight: 1.5, display: 'flex', alignItems: 'center', justifyContent: elem.textAlign === 'center' ? 'center' : elem.textAlign === 'right' ? 'flex-end' : 'flex-start',
+                  boxSizing: 'border-box',
                 }}>{elem.text}</div>
               )}
               {/* Floating mini toolbar for custom elements */}
