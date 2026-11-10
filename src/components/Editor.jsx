@@ -1299,6 +1299,24 @@ function CenterEditor({
           <button onClick={handleResetLayout} style={btn('secondary', 'sm')} title="Pozíciók alaphelyzetbe">
             <RotateCcw size={14} /> Pozíciók Visszaállítása
           </button>
+          {selectedElemId?.startsWith('custom_') && (
+            <button
+              onClick={() => {
+                if (confirm('Törlöd ezt az elemet?')) {
+                  setBookData(prev => {
+                    const layouts = prev.pageLayouts || {};
+                    const current = layouts[page.id] || {};
+                    return { ...prev, pageLayouts: { ...layouts, [page.id]: { ...current, customElements: (current.customElements || []).filter(e => e.id !== selectedElemId) } } };
+                  });
+                  setSelectedElemId(null);
+                }
+              }}
+              style={{ ...btn('secondary', 'sm'), color: '#f87171', borderColor: '#7f1d1d' }}
+              title="Kiválasztott elem törlése"
+            >
+              <X size={14} /> Törlés
+            </button>
+          )}
         </div>
       </div>
 
