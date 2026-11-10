@@ -651,7 +651,7 @@ export default function InteractiveCanvas({
                 cursor: 'grab',
                 outline:    isSelected ? '2px dashed #7c3aed' : '1px dashed rgba(124,58,237,0.3)',
                 background: 'rgba(0,0,0,0.001)',
-                borderRadius: 4, boxSizing: 'border-box', overflow: 'hidden',
+                borderRadius: 4, boxSizing: 'border-box', overflow: 'visible',
                 display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start',
                 padding: elem.type === 'text' ? 4 : 0,
               }}
