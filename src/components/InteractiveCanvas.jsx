@@ -650,7 +650,7 @@ export default function InteractiveCanvas({
                 zIndex: (elem.zIndex || 10) + 20,
                 cursor: 'grab',
                 outline:    isSelected ? '2px dashed #7c3aed' : '1px dashed rgba(124,58,237,0.3)',
-                background: 'transparent',
+                background: 'rgba(0,0,0,0.001)',
                 borderRadius: 4, boxSizing: 'border-box', overflow: 'hidden',
                 display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start',
                 padding: elem.type === 'text' ? 4 : 0,
