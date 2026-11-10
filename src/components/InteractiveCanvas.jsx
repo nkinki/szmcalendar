@@ -160,6 +160,8 @@ export default function InteractiveCanvas({
 
   // ── Layout updaters ─────────────────────────────────────────────────────────
   const [showLabelMenu, setShowLabelMenu] = React.useState(false);
+  const [editingElemId, setEditingElemId] = React.useState(null);
+  const [editingText, setEditingText] = React.useState('');
   const updateElementLayout = (elemId, newBox) => {
     setBookData(prev => {
       const layouts  = prev.pageLayouts || {};
@@ -180,6 +182,28 @@ export default function InteractiveCanvas({
   };
 
   // ── Add custom text element ─────────────────────────────────────────────────
+  // Custom elem szöveg és tulajdonság frissítés
+  const updateCustomElem = (elemId, updates) => {
+    setBookData(prev => {
+      const layouts = prev.pageLayouts || {};
+      const current = layouts[pageId] || {};
+      const elems = (current.customElements || []).map(e => e.id === elemId ? { ...e, ...updates } : e);
+      return { ...prev, pageLayouts: { ...layouts, [pageId]: { ...current, customElements: elems } } };
+    });
+  };
+
+  const startEditing = (elem) => {
+    setEditingElemId(elem.id);
+    setEditingText(elem.text || '');
+  };
+
+  const finishEditing = () => {
+    if (editingElemId) {
+      updateCustomElem(editingElemId, { text: editingText });
+    }
+    setEditingElemId(null);
+  };
+
   const addCustomText = () => {
     const newId = `custom_text_${Date.now()}`;
     const newElem = {
@@ -206,12 +230,12 @@ export default function InteractiveCanvas({
   const addStyledLabel = (style) => {
     const newId = `custom_text_${Date.now()}`;
     const presets = {
-      'cim': { text: 'ISKOLA NEVE', fontSize: 28, color: '#f59e0b', fontWeight: 900, textAlign: 'center', letterSpacing: '0.08em', textShadow: 'none', background: 'transparent', w: 80, h: 14 },
-      'alcim': { text: '2025 / 2026 TANÉV', fontSize: 13, color: '#fef3c7', fontWeight: 700, textAlign: 'center', letterSpacing: '0.12em', background: 'rgba(217,119,6,0.3)', padding: '3px 14px', borderRadius: '12px', border: '1px solid #d97706', w: 60, h: 10 },
-      'arany': { text: 'Felirat szövege', fontSize: 18, color: '#d97706', fontWeight: 800, textAlign: 'center', fontStyle: 'italic', w: 70, h: 12 },
-      'feher': { text: 'Felirat szövege', fontSize: 16, color: '#ffffff', fontWeight: 700, textAlign: 'center', textShadow: '0 2px 8px rgba(0,0,0,0.5)', w: 70, h: 11 },
-      'doboz': { text: 'Felirat szövege', fontSize: 14, color: '#1e1b4b', fontWeight: 700, textAlign: 'center', background: 'rgba(255,255,255,0.9)', padding: '6px 16px', borderRadius: '8px', border: '2px solid #d97706', w: 60, h: 12 },
-      'kereszt': { text: '✝ Felirat szövege', fontSize: 16, color: '#fbbf24', fontWeight: 700, textAlign: 'center', w: 70, h: 11 },
+      'cim':    { text: 'ISKOLA NEVE', fontSize: 28, color: '#f59e0b', fontWeight: 900, textAlign: 'center', letterSpacing: '0.08em', background: 'transparent', w: 80, h: 14 },
+      'alcim':  { text: '2025 / 2026 TANÉV', fontSize: 13, color: '#fef3c7', fontWeight: 700, textAlign: 'center', letterSpacing: '0.12em', background: 'rgba(217,119,6,0.3)', padding: '3px 14px', borderRadius: '12px', border: '1px solid #d97706', w: 60, h: 10 },
+      'arany':  { text: 'Felirat szövege', fontSize: 18, color: '#d97706', fontWeight: 800, textAlign: 'center', fontStyle: 'italic', background: 'transparent', w: 70, h: 12 },
+      'feher':  { text: 'Felirat szövege', fontSize: 16, color: '#ffffff', fontWeight: 700, textAlign: 'center', textShadow: '0 2px 8px rgba(0,0,0,0.6)', background: 'transparent', w: 70, h: 11 },
+      'doboz':  { text: 'Felirat szövege', fontSize: 14, color: '#1e1b4b', fontWeight: 700, textAlign: 'center', background: 'rgba(255,255,255,0.88)', padding: '6px 16px', borderRadius: '8px', border: '2px solid #d97706', w: 60, h: 12 },
+      'kereszt':{ text: '✝ Felirat szövege', fontSize: 16, color: '#fbbf24', fontWeight: 700, textAlign: 'center', background: 'transparent', w: 70, h: 11 },
     };
     const p = presets[style] || presets['cim'];
     const newElem = { id: newId, type: 'text', x: 10, y: 42, zIndex: 15, ...p };
@@ -638,26 +662,50 @@ export default function InteractiveCanvas({
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
                 />
               )}
-              {elem.type === 'text' && (
-                <div style={{
-                  fontSize:      elem.fontSize      || 14,
-                  color:         elem.color         || '#1f2937',
-                  fontFamily:    elem.fontFamily     || "'Inter', sans-serif",
-                  fontWeight:    elem.fontWeight     || (elem.bold ? 700 : 400),
-                  fontStyle:     elem.fontStyle      || (elem.italic ? 'italic' : 'normal'),
-                  textAlign:     elem.textAlign      || 'left',
-                  letterSpacing: elem.letterSpacing  || 'normal',
-                  textShadow:    elem.textShadow     || 'none',
-                  background:    elem.background     || 'transparent',
-                  padding:       elem.padding        || 0,
-                  borderRadius:  elem.borderRadius   || 0,
-                  border:        elem.border         || 'none',
-                  width: '100%', height: '100%',
-                  whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                  lineHeight: 1.5, display: 'flex', alignItems: 'center', justifyContent: elem.textAlign === 'center' ? 'center' : elem.textAlign === 'right' ? 'flex-end' : 'flex-start',
-                  boxSizing: 'border-box',
-                }}>{elem.text}</div>
-              )}
+              {elem.type === 'text' && editingElemId === elem.id ? (
+                // Inline szerkesztés
+                <textarea
+                  autoFocus
+                  value={editingText}
+                  onChange={e => setEditingText(e.target.value)}
+                  onBlur={finishEditing}
+                  onKeyDown={e => { if (e.key === 'Escape') finishEditing(); e.stopPropagation(); }}
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    width: '100%', height: '100%', background: 'rgba(255,255,255,0.15)',
+                    border: '2px solid #f59e0b', borderRadius: 4, color: elem.color || '#1f2937',
+                    fontSize: elem.fontSize || 14, fontWeight: elem.fontWeight || 400,
+                    fontFamily: elem.fontFamily || "'Inter', sans-serif",
+                    textAlign: elem.textAlign || 'left', padding: 4, resize: 'none',
+                    outline: 'none', boxSizing: 'border-box', lineHeight: 1.5,
+                  }}
+                />
+              ) : elem.type === 'text' ? (
+                <div
+                  onDoubleClick={e => { e.stopPropagation(); startEditing(elem); }}
+                  title="Dupla kattintás a szerkesztéshez"
+                  style={{
+                    fontSize:      elem.fontSize      || 14,
+                    color:         elem.color         || '#1f2937',
+                    fontFamily:    elem.fontFamily     || "'Inter', sans-serif",
+                    fontWeight:    elem.fontWeight     || (elem.bold ? 700 : 400),
+                    fontStyle:     elem.fontStyle      || (elem.italic ? 'italic' : 'normal'),
+                    textAlign:     elem.textAlign      || 'left',
+                    letterSpacing: elem.letterSpacing  || 'normal',
+                    textShadow:    elem.textShadow     || 'none',
+                    background:    elem.background     || 'transparent',
+                    padding:       elem.padding        || 0,
+                    borderRadius:  elem.borderRadius   || 0,
+                    border:        elem.border         || 'none',
+                    width: '100%', height: '100%',
+                    whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                    lineHeight: 1.5, display: 'flex', alignItems: 'center',
+                    justifyContent: elem.textAlign === 'center' ? 'center' : elem.textAlign === 'right' ? 'flex-end' : 'flex-start',
+                    boxSizing: 'border-box', cursor: 'text',
+                  }}
+                >{elem.text}
+                </div>
+              ) : null}
               {/* Floating mini toolbar for custom elements */}
               {isSelected && (
                 <div
