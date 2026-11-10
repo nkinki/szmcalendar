@@ -233,6 +233,22 @@ export default function InteractiveCanvas({
           ...prev,
           graduationPages: (prev.graduationPages || []).map(g => g.id === gradId ? { ...g, image: url } : g)
         }));
+      } else if (target === 'coverPhoto') {
+        // Borítólap: az első (legújabb) ballagási oldalra menti
+        setBookData(prev => {
+          const pages = [...(prev.graduationPages || [])].sort((a, b) => b.year - a.year);
+          if (pages.length === 0) {
+            // Ha nincs ballagási oldal, csinálunk egyet
+            const newGrad = { id: 'grad_cover_' + Date.now(), year: prev.currentYear || 2026, image: url, caption: '' };
+            return { ...prev, graduationPages: [newGrad] };
+          }
+          return {
+            ...prev,
+            graduationPages: (prev.graduationPages || []).map(g =>
+              g.id === pages[0].id ? { ...g, image: url } : g
+            )
+          };
+        });
       }
       if (imageInputRef.current) imageInputRef.current.value = '';
       return;
@@ -503,14 +519,22 @@ export default function InteractiveCanvas({
                   >
                     <RefreshCcw size={11}/> Reset
                   </button>
-                  {/* Kép feltöltés gomb — photo és gradImage slotokhoz */}
+                  {/* Kép feltöltés gomb — photo és logo slotokhoz */}
                   {(elemId === 'photo' || elemId === 'logo') && (
                     <button
                       onClick={e => {
                         e.stopPropagation();
-                        uploadTargetRef.current = elemId === 'logo' ? 'schoolLogo' :
-                          page?.type === 'graduation' ? 'gradImage' :
-                          page?.type === 'principal' ? 'principalPhoto' : 'gradImage';
+                        if (elemId === 'logo') {
+                          uploadTargetRef.current = 'schoolLogo';
+                        } else if (page?.type === 'graduation') {
+                          uploadTargetRef.current = 'gradImage';
+                        } else if (page?.type === 'principal') {
+                          uploadTargetRef.current = 'principalPhoto';
+                        } else if (page?.type === 'cover') {
+                          uploadTargetRef.current = 'coverPhoto';
+                        } else {
+                          uploadTargetRef.current = 'gradImage';
+                        }
                         imageInputRef.current?.click();
                       }}
                       title="Kép feltöltése"
