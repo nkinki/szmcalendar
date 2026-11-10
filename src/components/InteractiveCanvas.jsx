@@ -592,6 +592,15 @@ export default function InteractiveCanvas({
                     {isHidden ? <Eye size={11}/> : <EyeOff size={11}/>}
                     {isHidden ? 'Mutat' : 'Elrejt'}
                   </button>
+                  {!isHidden && (
+                    <button
+                      onClick={e => { e.stopPropagation(); toggleHideElement(elemId); }}
+                      title="Elem elrejtése (visszaállítható)"
+                      style={floatBtn('#f87171')}
+                    >
+                      <Trash2 size={11}/> Törlés
+                    </button>
+                  )}
                   <button
                     onClick={e => { e.stopPropagation(); resetSingleElement(elemId); }}
                     title="Alaphelyzet visszaállítása"
