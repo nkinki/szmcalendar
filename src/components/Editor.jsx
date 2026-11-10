@@ -2041,7 +2041,7 @@ function RightInspector({
           <input
             type="checkbox"
             id="imageBorder"
-            checked={selectedEvent?.imageBorder !== false}
+            checked={selectedEvent?.imageBorder === true}
             onChange={e => updateEventField('imageBorder', e.target.checked)}
             style={{ width: 16, height: 16, cursor: 'pointer', accentColor: '#d97706' }}
           />
@@ -2920,9 +2920,9 @@ function EventContent({ page, event, bookData }) {
                     transform: 'translate(-50%,-50%)',
                     objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block'
                   }} />
-                  {event.imageBorder !== false && (
-                    <div style={{ position: 'absolute', inset: 0, borderRadius: 6, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />
-                  )}
+              {event.imageBorder === true && (
+                <div style={{ position: 'absolute', inset: 0, borderRadius: 6, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />
+              )}
                 </div>
               );
             })}

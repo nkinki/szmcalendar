@@ -370,7 +370,7 @@ export function EventContent({ event, bookData }) {
                 transform: 'translate(-50%,-50%)',
                 objectFit: grid.single ? 'contain' : 'cover', display: 'block'
               }} />
-              {event.imageBorder !== false && (
+              {event.imageBorder === true && (
                 <div style={{ position: 'absolute', inset: 0, border: '2px solid #d97706', borderRadius: 3, pointerEvents: 'none', zIndex: 2 }} />
               )}
             </div>
