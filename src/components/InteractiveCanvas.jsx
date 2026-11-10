@@ -706,21 +706,32 @@ export default function InteractiveCanvas({
                 >{elem.text}
                 </div>
               ) : null}
-              {/* Floating mini toolbar for custom elements */}
               {isSelected && (
                 <div
                   style={{
-                    position: 'absolute', bottom: '100%', left: 0,
+                    position: 'absolute',
+                    top: elem.y < 15 ? '100%' : 'auto',
+                    bottom: elem.y < 15 ? 'auto' : '100%',
+                    left: 0,
                     display: 'flex', alignItems: 'center', gap: 3,
-                    background: '#1e1b4b', borderRadius: '6px 6px 0 0',
-                    padding: '3px 5px', zIndex: 100, whiteSpace: 'nowrap',
-                    boxShadow: '0 -2px 8px rgba(0,0,0,0.2)',
+                    background: '#1e1b4b', borderRadius: 6,
+                    padding: '3px 5px', zIndex: 200, whiteSpace: 'nowrap',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
                   }}
                   onMouseDown={e => e.stopPropagation()}
                 >
                   <span style={{ fontSize: 9, color: '#a5b4fc', fontWeight: 700, marginRight: 2 }}>
-                    {elem.type === 'text' ? '✍️ Szöveg' : '🖼 Kép'}
+                    {elem.type === 'text' ? '✍ Szöveg' : '🖼 Kép'}
                   </span>
+                  {elem.type === 'text' && (
+                    <button
+                      onClick={e => { e.stopPropagation(); startEditing(elem); }}
+                      title="Szöveg szerkesztése"
+                      style={floatBtn('#a78bfa')}
+                    >
+                      ✏ Szerkeszt
+                    </button>
+                  )}
                   <button
                     onClick={e => { e.stopPropagation(); deleteCustomElement(elem.id); }}
                     title="Elem törlése (Delete)"
