@@ -407,19 +407,18 @@ export function EventContent({ event, bookData }) {
           gridTemplateColumns: grid.hero ? '1.6fr 1fr' : `repeat(${grid.cols}, 1fr)`,
           gridTemplateRows: `repeat(${grid.rows}, 1fr)`,
           gap: '2%',
-          maxHeight: '48%',
+          flex: '0 0 46%',
+          minHeight: 60,
           borderRadius: 4,
           overflow: 'hidden',
-          flexShrink: 1,
           background: grid.single ? '#f3f4f6' : 'transparent',
         }}>
           {imgs.map((img, i) => (
-            <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 0, position: 'relative', borderRadius: 3 }}>
+            <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 40, position: 'relative', borderRadius: 3 }}>
               <img src={img.thumbnail || img.url} referrerPolicy="no-referrer" alt="" style={{
-                position: 'absolute', left: '50%', top: '50%',
-                width: `${event.imageZoom || 100}%`, height: `${event.imageZoom || 100}%`,
-                transform: 'translate(-50%,-50%)',
-                objectFit: grid.single ? 'contain' : 'cover', display: 'block'
+                width: '100%', height: '100%',
+                objectFit: grid.single ? 'contain' : 'cover',
+                display: 'block', position: 'absolute', inset: 0,
               }} />
               {event.imageBorder === true && (
                 <div style={{ position: 'absolute', inset: 0, border: '2px solid #d97706', borderRadius: 3, pointerEvents: 'none', zIndex: 2 }} />
