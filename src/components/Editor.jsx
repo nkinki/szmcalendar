@@ -186,7 +186,8 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
       setUndoStack([]);
       setRedoStack([]);
     }
-  }, [selectedEvent?.id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPageId]);
 
   const handleManualSave = () => {
     try {

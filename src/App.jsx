@@ -88,14 +88,22 @@ function App() {
 
       // Ha van admin mentés ÉS több eseménye van mint a szerveren → azt töltsük be
       if (adminSaved) {
-        const parsed = repairBookData(JSON.parse(adminSaved));
-        const adminEvents = parsed.events || [];
-        if (adminEvents.length >= serverEvents.length) {
-          setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
-          return;
-        } else {
-          // A szerveren több van → töröljük az elavult admin mentést
+        let parsed;
+        try {
+          parsed = repairBookData(JSON.parse(adminSaved));
+        } catch (e) {
+          // Sérült JSON — töröljük
           localStorage.removeItem(ADMIN_STORAGE_KEY);
+          parsed = null;
+        }
+        if (parsed) {
+          const adminEvents = parsed.events || [];
+          if (adminEvents.length >= serverEvents.length) {
+            setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
+            return;
+          } else {
+            localStorage.removeItem(ADMIN_STORAGE_KEY);
+          }
         }
       }
 
