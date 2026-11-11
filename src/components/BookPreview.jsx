@@ -7,6 +7,57 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Printer } from 'lucide-react';
 import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle } from '../utils/media';
 
+// Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
+function isElemHiddenLocal(page, elemId, bookData) {
+  if (!page) return false;
+  return bookData?.pageLayouts?.[page.id]?.hidden?.[elemId] === true;
+}
+
+// ── Custom elemek overlay — feliratok, hozzáadott képek ──────────────────────
+export function CustomElementsOverlay({ page, bookData }) {
+  const elems = bookData?.pageLayouts?.[page?.id]?.customElements || [];
+  if (!elems.length) return null;
+  return (
+    <>
+      {elems.map(elem => (
+        <div key={elem.id} style={{
+          position: 'absolute',
+          left: `${elem.x}%`, top: `${elem.y}%`,
+          width: `${elem.w}%`, height: `${elem.h}%`,
+          zIndex: (elem.zIndex || 10) + 5,
+          pointerEvents: 'none',
+          boxSizing: 'border-box',
+          display: 'flex', alignItems: 'center',
+          justifyContent: elem.textAlign === 'center' ? 'center' : elem.textAlign === 'right' ? 'flex-end' : 'flex-start',
+        }}>
+          {elem.type === 'image' && elem.src && (
+            <img src={elem.src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          )}
+          {elem.type === 'text' && (
+            <div style={{
+              fontSize:      elem.fontSize      || 14,
+              color:         elem.color         || '#1f2937',
+              fontWeight:    elem.fontWeight     || 400,
+              fontStyle:     elem.fontStyle      || 'normal',
+              textAlign:     elem.textAlign      || 'left',
+              letterSpacing: elem.letterSpacing  || 'normal',
+              textShadow:    elem.textShadow     || 'none',
+              background:    elem.background     || 'transparent',
+              padding:       elem.padding        || 0,
+              borderRadius:  elem.borderRadius   || 0,
+              border:        elem.border         || 'none',
+              width: '100%',
+              whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+              lineHeight: 1.5,
+              boxSizing: 'border-box',
+            }}>{elem.text}</div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+}
+
 // ── Byzantine (görögkatolikus) kereszt — alapértelmezett jelképes logó ──────
 export function ByzantineCross({ size = 24, color = '#f59e0b' }) {
   return <span style={{ fontSize: size, color }}>✝</span>;
