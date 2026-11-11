@@ -2029,30 +2029,37 @@ function RightInspector({
 
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
-          {/* Formázó gombok */}
+          {/* Formázó gombok — onMouseDown+preventDefault megtartja a textarea kijelölést */}
           <button
-            onClick={() => {
+            onMouseDown={e => {
+              e.preventDefault(); // nem veszi el a textarea fókuszt
               const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
               if (!ta) return;
-              const s = ta.selectionStart, e = ta.selectionEnd;
-              const sel = localText.substring(s, e);
-              const newText = localText.substring(0, s) + `**${sel}**` + localText.substring(e);
+              const s = ta.selectionStart, end = ta.selectionEnd;
+              if (s === end) return; // nincs kijelölés
+              const sel = localText.substring(s, end);
+              const newText = localText.substring(0, s) + `**${sel}**` + localText.substring(end);
               handleTextChange(newText);
+              // Visszaállítja a kurzort a formázás után
+              setTimeout(() => { ta.focus(); ta.setSelectionRange(s, end + 4); }, 0);
             }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontWeight: 900 }}
-            title="Félkövér (**szöveg**)"
+            title="Félkövér (jelöld ki a szöveget, majd kattints)"
           >B</button>
           <button
-            onClick={() => {
+            onMouseDown={e => {
+              e.preventDefault();
               const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
               if (!ta) return;
-              const s = ta.selectionStart, e = ta.selectionEnd;
-              const sel = localText.substring(s, e);
-              const newText = localText.substring(0, s) + `_${sel}_` + localText.substring(e);
+              const s = ta.selectionStart, end = ta.selectionEnd;
+              if (s === end) return;
+              const sel = localText.substring(s, end);
+              const newText = localText.substring(0, s) + `_${sel}_` + localText.substring(end);
               handleTextChange(newText);
+              setTimeout(() => { ta.focus(); ta.setSelectionRange(s, end + 2); }, 0);
             }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontStyle: 'italic' }}
-            title="Dőlt (_szöveg_)"
+            title="Dőlt (jelöld ki a szöveget, majd kattints)"
           >I</button>
 
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
@@ -2077,7 +2084,7 @@ function RightInspector({
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
           <button
-            onClick={() => { handleTextChange(''); }}
+            onMouseDown={e => { e.preventDefault(); handleTextChange(''); }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', color: '#f87171' }}
             title="Szöveg törlése"
           >
