@@ -705,6 +705,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           applyFormat={applyFormat}
           applyAlign={applyAlign}
           handleTextKeyDown={handleTextKeyDown}
+          handleTextChange={handleTextChange}
         />
       </div>
 
@@ -1388,6 +1389,7 @@ function RightInspector({
   applyFormat,
   applyAlign,
   handleTextKeyDown,
+  handleTextChange,
 }) {
   const logoRef = useRef();
   const principalPhotoRef = useRef();
