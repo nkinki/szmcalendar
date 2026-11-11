@@ -179,6 +179,15 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     setLastSavedAt(new Date());
   }, [bookData]);
 
+  // Amikor esemény oldal kerül kiválasztásra, automatikusan betöltjük a szöveget
+  useEffect(() => {
+    if (selectedEvent) {
+      setLocalText(selectedEvent.text || '');
+      setUndoStack([]);
+      setRedoStack([]);
+    }
+  }, [selectedEvent?.id]);
+
   const handleManualSave = () => {
     try {
       // Csak manuális mentéskor kerül localStorage-ba
@@ -2017,6 +2026,34 @@ function RightInspector({
 
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
+          {/* Formázó gombok */}
+          <button
+            onClick={() => {
+              const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
+              if (!ta) return;
+              const s = ta.selectionStart, e = ta.selectionEnd;
+              const sel = localText.substring(s, e);
+              const newText = localText.substring(0, s) + `**${sel}**` + localText.substring(e);
+              handleTextChange(newText);
+            }}
+            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontWeight: 900 }}
+            title="Félkövér (**szöveg**)"
+          >B</button>
+          <button
+            onClick={() => {
+              const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
+              if (!ta) return;
+              const s = ta.selectionStart, e = ta.selectionEnd;
+              const sel = localText.substring(s, e);
+              const newText = localText.substring(0, s) + `_${sel}_` + localText.substring(e);
+              handleTextChange(newText);
+            }}
+            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontStyle: 'italic' }}
+            title="Dőlt (_szöveg_)"
+          >I</button>
+
+          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
+
           <button
             onClick={() => undoText()}
             disabled={undoStack.length === 0}
@@ -2033,12 +2070,33 @@ function RightInspector({
           >
             <RotateCcw size={14} style={{ transform: 'rotate(180deg)' }} />
           </button>
+
+          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
+
+          <button
+            onClick={() => { handleTextChange(''); }}
+            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', color: '#f87171' }}
+            title="Szöveg törlése"
+          >
+            <X size={12} /> Törlés
+          </button>
         </div>
 
         <textarea
           value={localText}
-          onChange={e => handleTextChange(e.target.value)}
-          style={{ ...inputStyle, minHeight: 140, resize: 'vertical', fontSize: localTextFontSize, lineHeight: localTextLineHeight, fontFamily: "'Inter', sans-serif" }}
+          onChange={e => {
+            handleTextChange(e.target.value);
+            // Azonnal menti az esemény szövegét
+            if (selectedEvent) {
+              setBookData(prev => ({
+                ...prev,
+                events: (prev.events || []).map(ev => ev.id === selectedEvent.id
+                  ? { ...ev, text: e.target.value }
+                  : ev)
+              }));
+            }
+          }}
+          style={{ ...inputStyle, minHeight: 160, resize: 'vertical', fontSize: localTextFontSize, lineHeight: localTextLineHeight, fontFamily: "'Inter', sans-serif" }}
           placeholder="Esemény leírása..."
           onKeyDown={handleTextKeyDown}
         />
