@@ -1503,8 +1503,21 @@ function RightInspector({
   if (selectedElemId?.includes('custom_text')) {
     const pageId = selectedPage?.id;
     const elem = bookData?.pageLayouts?.[pageId]?.customElements?.find(e => e.id === selectedElemId);
-    if (elem) {
-      const updateProp = (prop, val) => setBookData(prev => {
+    if (!elem) {
+      // Debug: elem nem található
+      return (
+        <div style={panelStyle}>
+          <div style={panelHeaderStyle}>✍ Szöveg</div>
+          <div style={{ fontSize: 12, color: '#f87171', padding: 8 }}>
+            Elem nem található<br/>
+            pageId: {pageId}<br/>
+            elemId: {selectedElemId}<br/>
+            customElems: {bookData?.pageLayouts?.[pageId]?.customElements?.length || 0}
+          </div>
+        </div>
+      );
+    }
+    const updateProp = (prop, val) => setBookData(prev => {
         const layouts = prev.pageLayouts || {};
         const cur = layouts[pageId] || {};
         return { ...prev, pageLayouts: { ...layouts, [pageId]: { ...cur,
@@ -1586,7 +1599,6 @@ function RightInspector({
           </button>
         </div>
       );
-    }
   }
 
   // COVER / GENERAL PAGE EDITING
