@@ -2032,15 +2032,15 @@ function RightInspector({
           {/* Formázó gombok — onMouseDown+preventDefault megtartja a textarea kijelölést */}
           <button
             onMouseDown={e => {
-              e.preventDefault(); // nem veszi el a textarea fókuszt
+              e.preventDefault();
               const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
               if (!ta) return;
               const s = ta.selectionStart, end = ta.selectionEnd;
-              if (s === end) return; // nincs kijelölés
+              if (s === end) return;
               const sel = localText.substring(s, end);
               const newText = localText.substring(0, s) + `**${sel}**` + localText.substring(end);
-              handleTextChange(newText);
-              // Visszaállítja a kurzort a formázás után
+              setLocalText(newText);
+              updateEventField('text', newText);
               setTimeout(() => { ta.focus(); ta.setSelectionRange(s, end + 4); }, 0);
             }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontWeight: 900 }}
@@ -2055,7 +2055,8 @@ function RightInspector({
               if (s === end) return;
               const sel = localText.substring(s, end);
               const newText = localText.substring(0, s) + `_${sel}_` + localText.substring(end);
-              handleTextChange(newText);
+              setLocalText(newText);
+              updateEventField('text', newText);
               setTimeout(() => { ta.focus(); ta.setSelectionRange(s, end + 2); }, 0);
             }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', fontStyle: 'italic' }}
@@ -2084,7 +2085,7 @@ function RightInspector({
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
           <button
-            onMouseDown={e => { e.preventDefault(); handleTextChange(''); }}
+            onMouseDown={e => { e.preventDefault(); setLocalText(''); updateEventField('text', ''); }}
             style={{ ...btn('secondary', 'sm'), padding: '6px 10px', color: '#f87171' }}
             title="Szöveg törlése"
           >
@@ -2095,16 +2096,10 @@ function RightInspector({
         <textarea
           value={localText}
           onChange={e => {
-            handleTextChange(e.target.value);
-            // Azonnal menti az esemény szövegét
-            if (selectedEvent) {
-              setBookData(prev => ({
-                ...prev,
-                events: (prev.events || []).map(ev => ev.id === selectedEvent.id
-                  ? { ...ev, text: e.target.value }
-                  : ev)
-              }));
-            }
+            const val = e.target.value;
+            setLocalText(val);
+            // Azonnal menti az esemény szövegét → canvas frissül
+            updateEventField('text', val);
           }}
           style={{ ...inputStyle, minHeight: 160, resize: 'vertical', fontSize: localTextFontSize, lineHeight: localTextLineHeight, fontFamily: "'Inter', sans-serif" }}
           placeholder="Esemény leírása..."
