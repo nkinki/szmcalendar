@@ -2441,6 +2441,7 @@ function CoverContent({ page, bookData }) {
       <div style={{ position: 'absolute', top: 16, left: 16, right: 16, bottom: 16, border: '1px solid rgba(245, 158, 11, 0.25)', pointerEvents: 'none' }} />
 
       {/* Header Logo & School Name */}
+      {!isElemHidden(page, 'logo', bookData) && (
       <div style={{
         position: 'absolute',
         left: `${logoBox.x}%`, top: `${logoBox.y}%`, width: `${logoBox.w}%`, height: `${logoBox.h}%`,
@@ -2455,8 +2456,7 @@ function CoverContent({ page, bookData }) {
           )}
         </div>
       </div>
-
-      {/* Main Cover Photo Slot */}
+      )}      {/* Main Cover Photo Slot */}
       <div style={{
         position: 'absolute',
         left: `${photoBox.x}%`, top: `${photoBox.y}%`, width: `${photoBox.w}%`, height: `${photoBox.h}%`,

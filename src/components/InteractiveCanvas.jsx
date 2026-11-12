@@ -608,8 +608,7 @@ export default function InteractiveCanvas({
                     >
                       <Trash2 size={11}/> Törlés
                     </button>
-                  )}
-                  <button
+                  )}                  <button
                     onClick={e => { e.stopPropagation(); resetSingleElement(elemId); }}
                     title="Alaphelyzet visszaállítása"
                     style={floatBtn('#60a5fa')}
