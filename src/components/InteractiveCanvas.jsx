@@ -560,6 +560,14 @@ export default function InteractiveCanvas({
               key={elemId}
               onMouseDown={e => handleMouseDown(e, elemId)}
               onClick={e => e.stopPropagation()}
+              onDoubleClick={e => {
+                e.stopPropagation();
+                // Ha text elem → fókuszáljuk a jobb panel textarea-ját
+                if (elemId === 'text') {
+                  const ta = document.querySelector('textarea[placeholder="Esemény leírása..."]');
+                  if (ta) { ta.focus(); ta.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                }
+              }}
               style={{
                 position: 'absolute',
                 left: `${box.x}%`, top: `${box.y}%`,
