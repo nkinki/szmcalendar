@@ -1499,6 +1499,96 @@ function RightInspector({
     });
   };
 
+  // Ha custom szöveg elem van kijelölve → megmutatjuk a tulajdonságait bármelyik oldaltípusnál
+  if (selectedElemId?.includes('custom_text')) {
+    const pageId = selectedPage?.id;
+    const elem = bookData?.pageLayouts?.[pageId]?.customElements?.find(e => e.id === selectedElemId);
+    if (elem) {
+      const updateProp = (prop, val) => setBookData(prev => {
+        const layouts = prev.pageLayouts || {};
+        const cur = layouts[pageId] || {};
+        return { ...prev, pageLayouts: { ...layouts, [pageId]: { ...cur,
+          customElements: (cur.customElements || []).map(e => e.id === selectedElemId ? { ...e, [prop]: val } : e)
+        }}};
+      });
+      return (
+        <div style={panelStyle}>
+          <div style={panelHeaderStyle}>✍ Szöveg tulajdonságok</div>
+
+          <label style={labelStyle}>Szöveg</label>
+          <textarea value={elem.text || ''} onChange={e => updateProp('text', e.target.value)}
+            style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div>
+              <label style={labelStyle}>Betűméret (px)</label>
+              <input type="number" min="6" max="120" value={elem.fontSize || 14}
+                onChange={e => updateProp('fontSize', Number(e.target.value))}
+                style={{ ...inputStyle, padding: '6px 8px' }} />
+            </div>
+            <div>
+              <label style={labelStyle}>Szín</label>
+              <input type="color" value={elem.color || '#ffffff'}
+                onChange={e => updateProp('color', e.target.value)}
+                style={{ width: '100%', height: 36, borderRadius: 6, border: '1px solid #2e2a45', background: '#0e0c1a', cursor: 'pointer' }} />
+            </div>
+          </div>
+
+          <label style={labelStyle}>Betűtípus</label>
+          <select value={elem.fontFamily || "'Inter', sans-serif"}
+            onChange={e => updateProp('fontFamily', e.target.value)}
+            style={{ ...inputStyle, padding: '6px 8px' }}>
+            <option value="'Inter', sans-serif">Inter (modern)</option>
+            <option value="'Georgia', serif">Georgia (talpas)</option>
+            <option value="'Times New Roman', serif">Times New Roman</option>
+            <option value="'Arial', sans-serif">Arial</option>
+            <option value="'Courier New', monospace">Courier New</option>
+            <option value="'Palatino', serif">Palatino (elegáns)</option>
+            <option value="'Trebuchet MS', sans-serif">Trebuchet</option>
+          </select>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div>
+              <label style={labelStyle}>Vastagság</label>
+              <select value={elem.fontWeight || 400} onChange={e => updateProp('fontWeight', Number(e.target.value))}
+                style={{ ...inputStyle, padding: '6px 8px' }}>
+                <option value={300}>Vékony</option>
+                <option value={400}>Normal</option>
+                <option value={600}>Félkövér</option>
+                <option value={700}>Kövér</option>
+                <option value={900}>Extra kövér</option>
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Igazítás</label>
+              <select value={elem.textAlign || 'left'} onChange={e => updateProp('textAlign', e.target.value)}
+                style={{ ...inputStyle, padding: '6px 8px' }}>
+                <option value="left">Bal</option>
+                <option value="center">Közép</option>
+                <option value="right">Jobb</option>
+              </select>
+            </div>
+          </div>
+
+          <label style={labelStyle}>Betűköz</label>
+          <select value={elem.letterSpacing || 'normal'} onChange={e => updateProp('letterSpacing', e.target.value)}
+            style={{ ...inputStyle, padding: '6px 8px' }}>
+            <option value="normal">Normal</option>
+            <option value="0.05em">Tág</option>
+            <option value="0.1em">Tágas</option>
+            <option value="0.15em">Nagyon tágas</option>
+            <option value="-0.02em">Szűk</option>
+          </select>
+
+          <button onClick={() => setSelectedElemId(null)}
+            style={{ ...btn('secondary', 'sm'), marginTop: 8 }}>
+            ← Vissza
+          </button>
+        </div>
+      );
+    }
+  }
+
   // COVER / GENERAL PAGE EDITING
   if (!selectedPage || selectedPage.type === 'cover' || selectedPage.type === 'divider') {
     const addClass = () => {
