@@ -90,3 +90,35 @@ export function getEventImageGrid(count) {
   if (n === 4) return { cols: 2, rows: 2, hero: false, single: false };
   return { cols: 3, rows: 2, hero: false, single: false }; // 5-6
 }
+
+// ── Inline markdown renderelés (**bold**, _italic_) ─────────────────────────
+import React from 'react';
+
+export function renderMarkdown(text) {
+  if (!text) return null;
+  const lines = text.split('\n');
+  return lines.map((line, li) => {
+    const parts = [];
+    let rest = line;
+    let key = 0;
+    while (rest.length > 0) {
+      const boldM = rest.match(/^(.*?)\*\*(.+?)\*\*/s);
+      const italicM = rest.match(/^(.*?)_(.+?)_/s);
+      const useBold = boldM && (!italicM || boldM[0].length <= italicM[0].length);
+      const useItalic = italicM && (!boldM || italicM[0].length < boldM[0].length);
+      if (useBold) {
+        if (boldM[1]) parts.push(React.createElement('span', { key: key++ }, boldM[1]));
+        parts.push(React.createElement('strong', { key: key++ }, boldM[2]));
+        rest = rest.slice(boldM[0].length);
+      } else if (useItalic) {
+        if (italicM[1]) parts.push(React.createElement('span', { key: key++ }, italicM[1]));
+        parts.push(React.createElement('em', { key: key++ }, italicM[2]));
+        rest = rest.slice(italicM[0].length);
+      } else {
+        parts.push(React.createElement('span', { key: key++ }, rest));
+        rest = '';
+      }
+    }
+    return React.createElement(React.Fragment, { key: li }, ...parts, li < lines.length - 1 ? '\n' : null);
+  });
+}

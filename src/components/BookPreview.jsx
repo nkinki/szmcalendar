@@ -5,7 +5,7 @@
  */
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Printer } from 'lucide-react';
-import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle } from '../utils/media';
+import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, renderMarkdown } from '../utils/media';
 
 // Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
 function isElemHiddenLocal(page, elemId, bookData) {
@@ -443,7 +443,7 @@ export function EventContent({ event, bookData }) {
             color: '#1e293b', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
           }}>
-            {body}
+            {renderMarkdown(body)}
           </div>
         )}
       </div>

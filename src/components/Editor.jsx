@@ -5,7 +5,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
-import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages } from '../utils/media';
+import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
 
 // ── Byzantine Cross Icon (Görögkatolikus Kereszt) ───────────────────────────
 function ByzantineCross({ size = 24, color = '#f59e0b' }) {
@@ -3033,7 +3033,7 @@ function EventContent({ page, event, bookData }) {
             fontSize: event.fontSize ? `${event.fontSize}pt` : `${textBox.fontSize || 10.5}px`, lineHeight: event.lineHeight || 1.7, color: '#1e293b',
             whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowY: 'auto',
           }}>
-            {body}
+            {renderMarkdown(body)}
           </div>
         )}
       </div>
