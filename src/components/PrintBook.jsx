@@ -23,77 +23,58 @@ function sortEventsDesc(events) {
 }
 
 export default function PrintBook({ bookData, setViewMode }) {
+  const doPrint = () => window.print();
+
   return (
-    <div className="min-h-screen bg-[#111019] text-white">
-      {/* Navbar - hidden on print */}
-      <div className="header-bar glass sticky top-0 z-50 print:hidden">
-        <button onClick={() => setViewMode('editor')} className="btn btn-secondary flex items-center gap-2">
+    <div style={{ minHeight: '100vh', background: '#111019', color: '#fff', fontFamily: "'Inter','Arial',sans-serif" }}>
+      {/* Print CSS */}
+      <style>{`
+        @media print {
+          body { margin: 0; padding: 0; }
+          .print-hide { display: none !important; }
+          .print-page {
+            width: 210mm !important;
+            min-height: 297mm !important;
+            page-break-after: always !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+          }
+          .print-page:last-child { page-break-after: avoid !important; }
+          @page { size: A4 portrait; margin: 0; }
+        }
+      `}</style>
+
+      {/* Navbar — nyomtatásban rejtett */}
+      <div className="print-hide" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 56, background: 'rgba(10,9,14,0.95)', borderBottom: '1px solid rgba(255,255,255,0.07)', position: 'sticky', top: 0, zIndex: 50 }}>
+        <button onClick={() => setViewMode('editor')} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 8, border: '1px solid #2e2a45', background: '#151126', color: '#e2e8f0', cursor: 'pointer', fontSize: 13 }}>
           <ArrowLeft size={16} /> Vissza
         </button>
-        <h1 className="text-lg font-bold">Nyomdai előnézet (PDF)</h1>
-        <button onClick={() => window.print()} className="btn btn-primary flex items-center gap-2">
-          <Printer size={16} /> Mentés PDF-ként
+        <span style={{ fontSize: 16, fontWeight: 700 }}>Nyomdai előnézet (PDF)</span>
+        <button onClick={doPrint} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 20px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
+          <Printer size={16} /> Mentés PDF-ként (Ctrl+P)
         </button>
       </div>
 
-      {/* Warning */}
-      <div className="max-w-4xl mx-auto mt-6 mx-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-start gap-3 print:hidden">
-        <AlertTriangle className="text-yellow-500 shrink-0 mt-0.5" size={18} />
-        <div>
-          <h4 className="text-sm font-bold text-yellow-400">Nyomtatási beállítások:</h4>
-          <ul className="text-xs text-gray-400 list-disc list-inside mt-1 flex flex-col gap-1">
-            <li>Tájolás: <strong>Álló (Portrait)</strong>, papír: <strong>A4</strong></li>
-            <li>Kapcsold be a <strong>Háttérgrafikák</strong> opciót</li>
-            <li>Margók: <strong>Nincs (None)</strong></li>
-          </ul>
-        </div>
+      {/* Figyelmeztetés */}
+      <div className="print-hide" style={{ maxWidth: 820, margin: '20px auto', padding: '12px 16px', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 10, fontSize: 13, color: '#fbbf24' }}>
+        ⚠️ Nyomtatási beállítások: <strong>Álló (Portrait)</strong>, papír: <strong>A4</strong>, margók: <strong>Nincs</strong>, kapcsold be a <strong>Háttérgrafikák</strong> opciót.
       </div>
 
-      {/* Print pages */}
-      <div className="flex flex-col items-center gap-8 py-10 px-4 print:p-0 print:gap-0">
-
-        {/* COVER */}
-        <PrintPage>
-          <CoverPagePrint bookData={bookData} />
-        </PrintPage>
-
-        {/* PRINCIPAL */}
-        <PrintPage>
-          <PrincipalPagePrint bookData={bookData} />
-        </PrintPage>
-
-        {/* TEACHERS */}
-        <PrintPage>
-          <TeachersContent bookData={bookData} />
-        </PrintPage>
-
-        {/* CLASSES */}
-        {(bookData.classes || []).map(cls => (
-          <PrintPage key={cls.id}>
-            <ClassContent classData={cls} bookData={bookData} />
-          </PrintPage>
-        ))}
-
-        {/* GRADUATION */}
-        {[...bookData.graduationPages].sort((a, b) => b.year - a.year).map(grad => (
-          <PrintPage key={grad.id}>
-            <GraduationPagePrint grad={grad} bookData={bookData} />
-          </PrintPage>
-        ))}
-
-        {/* EVENTS by school year */}
-        {getSchoolYears(bookData.events).map(sy => {
-          const syEvents = sortEventsDesc(bookData.events.filter(e => e.schoolYear === sy));
+      {/* Oldalak */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32, padding: '24px 16px' }}>
+        <PrintPage><CoverPagePrint bookData={bookData} /></PrintPage>
+        <PrintPage><PrincipalPagePrint bookData={bookData} /></PrintPage>
+        {(bookData.teachers || []).length > 0 && <PrintPage><TeachersContent bookData={bookData} /></PrintPage>}
+        {(bookData.classes || []).map(cls => <PrintPage key={cls.id}><ClassContent classData={cls} bookData={bookData} /></PrintPage>)}
+        {[...(bookData.graduationPages || [])].sort((a, b) => b.year - a.year).map(grad => <PrintPage key={grad.id}><GraduationPagePrint grad={grad} bookData={bookData} /></PrintPage>)}
+        {getSchoolYears(bookData.events || []).map(sy => {
+          const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
           return (
             <React.Fragment key={sy}>
-              <PrintPage>
-                <YearDividerPrint schoolYear={sy} bookData={bookData} />
-              </PrintPage>
-              {syEvents.map(evt => (
-                <PrintPage key={evt.id}>
-                  <EventPagePrint event={evt} bookData={bookData} />
-                </PrintPage>
-              ))}
+              <PrintPage><YearDividerPrint schoolYear={sy} bookData={bookData} /></PrintPage>
+              {syEvents.map(evt => <PrintPage key={evt.id}><EventPagePrint event={evt} bookData={bookData} /></PrintPage>)}
             </React.Fragment>
           );
         })}
@@ -104,8 +85,7 @@ export default function PrintBook({ bookData, setViewMode }) {
 
 function PrintPage({ children }) {
   return (
-    <div className="print-page bg-white text-black shadow-2xl rounded-lg overflow-hidden border border-gray-200 print:shadow-none print:border-none print:rounded-none"
-      style={{ width: '210mm', minHeight: '297mm' }}>
+    <div className="print-page" style={{ width: '210mm', minHeight: '297mm', background: 'white', boxShadow: '0 4px 24px rgba(0,0,0,0.3)', borderRadius: 8, overflow: 'hidden' }}>
       {children}
     </div>
   );
