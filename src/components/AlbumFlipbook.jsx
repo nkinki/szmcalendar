@@ -35,8 +35,7 @@ function PageFace({ page, bookData }) {
   }
 }
 
-export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {
-  const pages = buildPages(bookData);
+export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {  const pages = buildPages(bookData);
   const sheets = buildSheets(pages);
   const total = sheets.length;
   const [cur, setCur] = useState(0); // ennyi lap van átfordítva
@@ -49,7 +48,7 @@ export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {
   const prev = useCallback(() => setCur(i => Math.max(0, i - 1)), []);
 
   useEffect(() => {
-    const h = (e) => { if (e.key === 'ArrowRight') next(); if (e.key === 'ArrowLeft') prev(); };
+    const h = (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); } if (e.key === 'ArrowLeft') prev(); };
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
   }, [next, prev]);
@@ -63,6 +62,9 @@ export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
   }, []);
+
+  // ── PDF export — PrintBook nézetre vált (az tud nyomtatni/PDF-et)
+  const handlePdfExport = () => setViewMode('print');
 
   // ── Önálló HTML album generálása ────────────────────────────────────────────
   const handleExport = async () => {
@@ -176,7 +178,9 @@ export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {
         <button onClick={handleExport} disabled={exporting} style={{ ...topBtn(), opacity: exporting ? 0.6 : 1 }}>
           <Download size={15} /> {exporting ? `Készítés… ${exportProg}%` : 'Album letöltése (HTML)'}
         </button>
-      </div>
+        <button onClick={handlePdfExport} style={{ ...topBtn(), background: 'rgba(239,68,68,0.15)', borderColor: 'rgba(239,68,68,0.4)', color: '#fca5a5' }}>
+          🖨 PDF letöltése
+        </button>      </div>
 
       {/* Book — kattintás: nagyítás/kicsinyítés; lapozás: nyilak, gombok */}
       <div
@@ -219,17 +223,19 @@ export default function AlbumFlipbook({ bookData, setBookData, setViewMode }) {
           <button onClick={prev} disabled={cur === 0} style={{ ...navBtn, opacity: cur === 0 ? 0.3 : 1 }}>
             <ChevronLeft size={20} />
           </button>
-          <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, fontWeight: 600, minWidth: 90, textAlign: 'center' }}>{label}</span>
+          <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 700, minWidth: 110, textAlign: 'center', background: 'rgba(255,255,255,0.08)', padding: '4px 12px', borderRadius: 20 }}>
+            {cur === 0 ? 'Borító' : cur >= total ? 'Vége' : `${cur * 2 - 1}–${cur * 2}. oldal`} · {cur}/{total}
+          </span>
           <button onClick={next} disabled={cur >= total} style={{ ...navBtn, opacity: cur >= total ? 0.3 : 1 }}>
             <ChevronRight size={20} />
           </button>
           <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.12)' }} />
-          <button onClick={() => setZoom(z => Math.max(1, Math.round((z - 0.4) * 10) / 10))} disabled={zoom <= 1} style={{ ...navBtn, width: 36, height: 36, opacity: zoom <= 1 ? 0.3 : 1 }}>−</button>
-          <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, fontWeight: 600, minWidth: 46, textAlign: 'center' }}>{Math.round(zoom * 100)}%</span>
-          <button onClick={() => setZoom(z => Math.min(3, Math.round((z + 0.4) * 10) / 10))} disabled={zoom >= 3} style={{ ...navBtn, width: 36, height: 36, opacity: zoom >= 3 ? 0.3 : 1 }}>+</button>
+          <button onClick={() => setZoom(z => Math.max(1, Math.round((z - 0.3) * 10) / 10))} disabled={zoom <= 1} style={{ ...navBtn, width: 36, height: 36, opacity: zoom <= 1 ? 0.3 : 1 }} title="Kicsinyítés">−</button>
+          <button onClick={() => setZoom(1)} style={{ ...navBtn, fontSize: 11, padding: '0 8px', minWidth: 46 }} title="Eredeti méret">{Math.round(zoom * 100)}%</button>
+          <button onClick={() => setZoom(z => Math.min(3, Math.round((z + 0.3) * 10) / 10))} disabled={zoom >= 3} style={{ ...navBtn, width: 36, height: 36, opacity: zoom >= 3 ? 0.3 : 1 }} title="Nagyítás">+</button>
         </div>
         <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>
-          Lapozás: nyilak vagy gombok · Nagyítás: kattintás a könyvre, +/− gombok · ← →
+          Lapozás: ← → nyilak vagy gombok · Zoom: +/− · Szóköz: következő lap
         </span>
       </div>
     </div>
