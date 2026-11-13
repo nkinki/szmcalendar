@@ -246,19 +246,30 @@ function PageSlot({ page, bookData, isEditing, onClick }) {
 export function CoverContent({ bookData }) {
   const g = [...bookData.graduationPages].sort((a, b) => b.year - a.year)[0];
   return (
-    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#1a1830,#0e0c1a)', color: '#fff', display: 'flex', flexDirection: 'column', padding: '8%', boxSizing: 'border-box' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'auto' }}>
+    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(145deg, #090d16 0%, #17153a 45%, #2a1147 100%)', color: '#fff', display: 'flex', flexDirection: 'column', padding: '8%', boxSizing: 'border-box', position: 'relative', overflow: 'hidden' }}>
+      {/* Byzantine Filigree Gold Border Frame */}
+      <div style={{ position: 'absolute', top: 12, left: 12, right: 12, bottom: 12, border: '2px solid rgba(245, 158, 11, 0.4)', borderRadius: 4, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: 16, left: 16, right: 16, bottom: 16, border: '1px solid rgba(245, 158, 11, 0.25)', pointerEvents: 'none' }} />
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'auto', position: 'relative', zIndex: 1 }}>
         {bookData.schoolLogo
           ? <img src={bookData.schoolLogo} alt="" style={{ height: 20, objectFit: 'contain' }} />
           : <ByzantineCross size={20} color="#fbbf24" />}
-        <span style={{ fontSize: '7pt', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', opacity: 0.7 }}>{bookData.schoolName}</span>
+        <span style={{ fontSize: '7pt', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff' }}>{bookData.schoolName}</span>
       </div>
-      <div style={{ flex: 1, margin: '6% 0', borderRadius: 6, overflow: 'hidden', maxHeight: '55%', position: 'relative' }}>
-        {g?.image ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', background: 'rgba(255,255,255,0.04)', border: '1px dashed rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ opacity: 0.3, fontSize: '7pt' }}>Ballagási fotó</span></div>}
+      <div style={{ flex: 1, margin: '6% 0', borderRadius: 8, overflow: 'hidden', maxHeight: '55%', position: 'relative', zIndex: 1 }}>
+        {/* Gold border overlay on photo */}
+        <div style={{ position: 'absolute', inset: 0, borderRadius: 8, border: '2px solid #d97706', boxShadow: 'inset 0 0 0 1px rgba(245,158,11,0.3), 0 8px 24px rgba(0,0,0,0.5)', pointerEvents: 'none', zIndex: 10 }} />
+        {g?.image
+          ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(124, 58, 237, 0.15))', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <ByzantineCross size={42} color="#fbbf24" />
+              <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 700 }}>Iskolai Évkönyv</span>
+            </div>}
       </div>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '28pt', fontWeight: 900, color: '#a855f7', lineHeight: 1 }}>ÉVKÖNYV</div>
-        <div style={{ fontSize: '9pt', opacity: 0.5, marginTop: 4 }}>{bookData.currentYear - 1}/{bookData.currentYear}</div>
+      <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
+        <div style={{ fontSize: '30pt', fontWeight: 900, background: 'linear-gradient(135deg, #fef08a, #f59e0b, #d97706)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '0.08em', lineHeight: 1 }}>ÉVKÖNYV</div>
+        <div style={{ fontSize: '9pt', fontWeight: 700, color: '#fef3c7', background: 'rgba(217, 119, 6, 0.3)', padding: '3px 14px', borderRadius: 12, border: '1px solid #d97706', marginTop: 6, letterSpacing: '0.1em', display: 'inline-block' }}>{bookData.currentYear - 1} / {bookData.currentYear} TANÉV</div>
       </div>
     </div>
   );
@@ -267,18 +278,18 @@ export function CoverContent({ bookData }) {
 export function PrincipalContent({ bookData }) {
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-      <div style={{ background: '#7c3aed', padding: '8% 8% 6%', flexShrink: 0 }}>
-        <div style={{ fontSize: '6pt', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 4 }}>{bookData.schoolName}</div>
+      <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '8% 8% 6%', flexShrink: 0, borderBottom: '3px solid #f59e0b' }}>
+        <div style={{ fontSize: '6pt', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24', marginBottom: 4 }}>{bookData.schoolName}</div>
         <div style={{ fontSize: '16pt', fontWeight: 900, color: '#fff', lineHeight: 1.1 }}>Igazgatói<br />köszöntő</div>
       </div>
       <div style={{ flex: 1, padding: '6% 8%', display: 'flex', gap: '5%', overflow: 'hidden' }}>
-        {bookData.principalPhoto && <img src={bookData.principalPhoto} alt="" style={{ width: 50, height: 65, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />}
+        {bookData.principalPhoto && <img src={bookData.principalPhoto} alt="" style={{ width: 50, height: 65, objectFit: 'cover', borderRadius: 4, flexShrink: 0, border: '2px solid #d97706', background: '#fef3c7' }} />}
         <div style={{ flex: 1, overflow: 'hidden' }}>
-          <div style={{ fontSize: '7pt', lineHeight: 1.8, color: '#374151', borderLeft: '2px solid #7c3aed', paddingLeft: 6, fontStyle: 'italic', overflow: 'hidden' }}>{bookData.principalQuote || <span style={{ opacity: 0.3 }}>Üzenet...</span>}</div>
-          {bookData.principalName && <div style={{ fontSize: '6pt', fontWeight: 700, color: '#7c3aed', marginTop: 6 }}>— {bookData.principalName}</div>}
+          <div style={{ fontSize: '7pt', lineHeight: 1.8, color: '#1e293b', borderLeft: '4px solid #d97706', paddingLeft: 6, fontStyle: 'italic', overflow: 'hidden', background: 'linear-gradient(135deg, #fffcf5 0%, #fef9c3 100%)', border: '1px solid #fef08a', borderLeftWidth: 4, borderRadius: '0 8px 8px 0', padding: '5px 8px' }}>{bookData.principalQuote || <span style={{ opacity: 0.3 }}>Üzenet...</span>}</div>
+          {bookData.principalName && <div style={{ fontSize: '6pt', fontWeight: 800, color: '#b45309', marginTop: 6 }}>— {bookData.principalName}</div>}
         </div>
       </div>
-      <div style={{ padding: '2% 6%', borderTop: '1px solid #f3f4f6', fontSize: '6pt', color: '#d1d5db' }}>{bookData.schoolName}</div>
+      <div style={{ padding: '2% 6%', borderTop: '1px solid #f1f5f9', fontSize: '6pt', color: '#64748b' }}>{bookData.schoolName}</div>
     </div>
   );
 }
@@ -287,22 +298,22 @@ export function TeachersContent({ bookData }) {
   const teachers = bookData.teachers || [];
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-      <div style={{ background: '#7c3aed', padding: '8% 8% 6%', flexShrink: 0 }}>
-        <div style={{ fontSize: '6pt', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 4 }}>{bookData.schoolName}</div>
+      <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '8% 8% 6%', flexShrink: 0, borderBottom: '3px solid #f59e0b' }}>
+        <div style={{ fontSize: '6pt', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24', marginBottom: 4 }}>{bookData.schoolName}</div>
         <div style={{ fontSize: '16pt', fontWeight: 900, color: '#fff', lineHeight: 1.1 }}>Tanári Kar</div>
       </div>
-      <div style={{ flex: 1, padding: '6% 8%', overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4%', alignContent: 'start' }}>
+      <div style={{ flex: 1, padding: '6% 8%', overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4%', alignContent: 'start' }}>
         {teachers.map(t => (
-          <div key={t.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <div style={{ width: '45px', height: '60px', borderRadius: '4px', background: '#f3f4f6', overflow: 'hidden', border: '1px solid #e5e7eb', marginBottom: '4px', flexShrink: 0 }}>
-              {t.photo ? <img src={t.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '5px', color: '#9ca3af' }}>Fotó</div>}
+          <div key={t.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', border: '1px solid #fef08a', borderRadius: 8, padding: 6, background: 'linear-gradient(135deg, #fffcf5, #fefce8)', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+            <div style={{ width: '48px', height: '62px', borderRadius: '6px', background: '#fef3c7', overflow: 'hidden', border: '1.5px solid #d97706', marginBottom: '4px', flexShrink: 0 }}>
+              {t.photo ? <img src={t.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ByzantineCross size={18} color="#d97706" /></div>}
             </div>
-            <div style={{ fontSize: '7px', fontWeight: 700, color: '#1f2937', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{t.name || 'Név...'}</div>
-            <div style={{ fontSize: '6px', color: '#6b7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{t.subject || 'Szak...'}</div>
+            <div style={{ fontSize: '7px', fontWeight: 800, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{t.name || 'Név...'}</div>
+            <div style={{ fontSize: '6px', color: '#b45309', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{t.subject || 'Szak...'}</div>
           </div>
         ))}
       </div>
-      <div style={{ padding: '2% 6%', borderTop: '1px solid #f3f4f6', fontSize: '6pt', color: '#d1d5db' }}>{bookData.schoolName}</div>
+      <div style={{ padding: '2% 6%', borderTop: '1px solid #f1f5f9', fontSize: '6pt', color: '#64748b' }}>{bookData.schoolName}</div>
     </div>
   );
 }
@@ -312,8 +323,8 @@ export function ClassContent({ classData, bookData }) {
   const students = classData.students || [];
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-      <div style={{ background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', padding: '6% 8% 5%', flexShrink: 0 }}>
-        <div style={{ fontSize: '5.5pt', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 2 }}>{bookData.schoolName} • Osztálytabló</div>
+      <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '6% 8% 5%', flexShrink: 0, borderBottom: '3px solid #f59e0b' }}>
+        <div style={{ fontSize: '5.5pt', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24', marginBottom: 2 }}>{bookData.schoolName} • Osztálytabló</div>
         <div style={{ fontSize: '14pt', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{classData.className} Osztály</div>
       </div>
 
@@ -321,36 +332,36 @@ export function ClassContent({ classData, bookData }) {
         {/* Top: Class teacher & Group Photo */}
         <div style={{ display: 'flex', gap: '4%', height: '35%', flexShrink: 0 }}>
           {/* Teacher */}
-          <div style={{ width: '32%', display: 'flex', gap: '8px', border: '1px solid #f3f4f6', borderRadius: '6px', padding: '6px', background: '#faf9fe', alignItems: 'center' }}>
-            <div style={{ width: '32px', height: '42px', borderRadius: '4px', background: '#e5e7eb', overflow: 'hidden', flexShrink: 0 }}>
-              {classData.classTeacherPhoto ? <img src={classData.classTeacherPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '5px', color: '#9ca3af' }}>Fotó</div>}
+          <div style={{ width: '32%', display: 'flex', gap: '8px', border: '1.5px solid #f59e0b', borderRadius: '8px', padding: '6px', background: 'linear-gradient(135deg, #fffcf5, #fefce8)', alignItems: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+            <div style={{ width: '36px', height: '48px', borderRadius: '5px', background: '#fef3c7', overflow: 'hidden', border: '1px solid #d97706', flexShrink: 0 }}>
+              {classData.classTeacherPhoto ? <img src={classData.classTeacherPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ByzantineCross size={14} color="#d97706" /></div>}
             </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: '4.5px', fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase' }}>Osztályfőnök</div>
-              <div style={{ fontSize: '6.5px', fontWeight: 700, color: '#1f2937', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{classData.classTeacherName || 'Név...'}</div>
+              <div style={{ fontSize: '4.5px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase' }}>Osztályfőnök</div>
+              <div style={{ fontSize: '6.5px', fontWeight: 800, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{classData.classTeacherName || 'Név...'}</div>
             </div>
           </div>
 
           {/* Group Photo */}
-          <div style={{ flex: 1, borderRadius: '6px', background: '#f3f4f6', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
-            {classData.groupPhoto ? <img src={classData.groupPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '7px', color: '#9ca3af' }}>Közös osztálykép helye</div>}
+          <div style={{ flex: 1, borderRadius: '8px', background: '#fefce8', overflow: 'hidden', border: '1.5px solid #d97706' }}>
+            {classData.groupPhoto ? <img src={classData.groupPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '7px', color: '#b45309' }}>Közös osztálykép helye</div>}
           </div>
         </div>
 
         {/* Bottom: Students Grid */}
-        <div style={{ flex: 1, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '3%', alignContent: 'start' }}>
+        <div style={{ flex: 1, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3%', alignContent: 'start' }}>
           {students.map(s => (
-            <div key={s.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-              <div style={{ width: '32px', height: '40px', borderRadius: '3px', background: '#f3f4f6', overflow: 'hidden', border: '1px solid #e5e7eb', marginBottom: '3px' }}>
-                {s.photo ? <img src={s.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '5px', color: '#9ca3af' }}>Portré</div>}
+            <div key={s.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', border: '1px solid #fef08a', borderRadius: 6, padding: 4, background: '#fffcf5' }}>
+              <div style={{ width: '36px', height: '44px', borderRadius: '4px', background: '#fef3c7', overflow: 'hidden', border: '1px solid #f59e0b', marginBottom: '3px' }}>
+                {s.photo ? <img src={s.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ByzantineCross size={12} color="#f59e0b" /></div>}
               </div>
-              <div style={{ fontSize: '6px', fontWeight: 600, color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{s.name || 'Tanuló...'}</div>
+              <div style={{ fontSize: '6px', fontWeight: 700, color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>{s.name || 'Tanuló...'}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ padding: '2% 6%', borderTop: '1px solid #f3f4f6', fontSize: '6pt', color: '#d1d5db' }}>{bookData.schoolName}</div>
+      <div style={{ padding: '2% 6%', borderTop: '1px solid #f1f5f9', fontSize: '6pt', color: '#64748b' }}>{bookData.schoolName}</div>
     </div>
   );
 }
@@ -358,28 +369,38 @@ export function ClassContent({ classData, bookData }) {
 export function GradContent({ grad, bookData }) {
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-      <div style={{ background: 'linear-gradient(135deg,#1a1830,#2d1b4e)', padding: '6% 8% 5%', flexShrink: 0 }}>
-        <div style={{ fontSize: '6pt', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 3 }}>{bookData.schoolName} • Ballagás</div>
-        <div style={{ fontSize: '16pt', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{grad.caption}</div>
+      <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '6% 8% 5%', flexShrink: 0, borderBottom: '3px solid #f59e0b', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ fontSize: '6pt', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24', marginBottom: 3 }}>{bookData.schoolName} • Ballagás</div>
+          <div style={{ fontSize: '16pt', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{grad.caption}</div>
+        </div>
+        <span style={{ fontSize: 12, fontWeight: 900, color: '#000', background: 'linear-gradient(135deg, #fbbf24, #f59e0b)', padding: '3px 10px', borderRadius: 6, letterSpacing: '0.05em' }}>
+          {grad.year}
+        </span>
       </div>
-      <div style={{ flex: 1, margin: '4% 8%', borderRadius: 4, overflow: 'hidden', minHeight: 0 }}>
-        {grad.image ? <img src={grad.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', background: '#f5f3ff', border: '2px dashed #c4b5fd', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: '#a78bfa', fontSize: '7pt' }}>Tabló kép helye</span></div>}
+      <div style={{ flex: 1, margin: '4% 8%', borderRadius: 8, overflow: 'hidden', minHeight: 0, border: '2.5px solid #d97706', background: '#fefce8' }}>
+        {grad.image
+          ? <img src={grad.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <div style={{ width: '100%', height: '100%', border: '2px dashed #f59e0b', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#fffdf5' }}>
+              <ByzantineCross size={40} color="#f59e0b" />
+              <span style={{ color: '#b45309', fontSize: '7pt', fontWeight: 800 }}>Tabló kép helye</span>
+            </div>}
       </div>
-      <div style={{ padding: '2% 6%', borderTop: '1px solid #f3f4f6', fontSize: '6pt', color: '#d1d5db' }}>{bookData.schoolName}</div>
+      <div style={{ padding: '2% 6%', borderTop: '1px solid #f1f5f9', fontSize: '6pt', color: '#64748b' }}>{bookData.schoolName}</div>
     </div>
   );
 }
 
 export function DividerContent({ schoolYear, bookData }) {
   return (
-    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#1a1830,#0e0c1a)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(145deg, #090d16 0%, #17153a 45%, #2a1147 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, boxSizing: 'border-box' }}>
       {bookData.schoolLogo
         ? <img src={bookData.schoolLogo} alt="" style={{ height: 32, objectFit: 'contain', opacity: 0.7, marginBottom: 10 }} />
         : <ByzantineCross size={34} color="#fbbf24" />}
-      <div style={{ fontSize: '7pt', letterSpacing: '0.3em', textTransform: 'uppercase', opacity: 0.4, color: '#fff' }}>Tanév</div>
-      <div style={{ fontSize: '32pt', fontWeight: 900, color: '#a855f7', lineHeight: 1 }}>{schoolYear}</div>
-      <div style={{ width: 36, height: 2, background: 'linear-gradient(90deg,#7c3aed,#ec4899)', borderRadius: 2, marginTop: 6 }} />
-      <div style={{ fontSize: '7pt', opacity: 0.3, color: '#fff', marginTop: 4 }}>{bookData.schoolName}</div>
+      <div style={{ fontSize: '9pt', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#fbbf24', fontWeight: 800 }}>Tanév Eseményei</div>
+      <div style={{ fontSize: '32pt', fontWeight: 900, color: '#f59e0b', lineHeight: 1 }}>{schoolYear}</div>
+      <div style={{ width: 36, height: 2, background: 'linear-gradient(90deg, #f59e0b, #ec4899)', borderRadius: 2, marginTop: 6 }} />
+      <div style={{ fontSize: '7pt', opacity: 0.7, color: '#fef08a', marginTop: 4 }}>{bookData.schoolName}</div>
     </div>
   );
 }
@@ -397,9 +418,9 @@ export function EventContent({ event, bookData }) {
   const { title, body } = splitEventTitle(event.text);
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', padding: '6%', gap: '4%', boxSizing: 'border-box' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', paddingBottom: '3%', flexShrink: 0 }}>
-        <span style={{ fontSize: '6pt', fontWeight: 700, color: '#7c3aed', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{bookData.schoolName}</span>
-        <span style={{ fontSize: '6pt', color: '#6b7280', fontWeight: 600 }}>{event.date}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', paddingBottom: '3%', flexShrink: 0, background: '#fffcf5', padding: '0 2% 3%' }}>
+        <span style={{ fontSize: '6pt', fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{bookData.schoolName}</span>
+        <span style={{ fontSize: '6pt', color: '#b45309', fontWeight: 700 }}>{event.date}</span>
       </div>
       {imgs.length > 0 && (
         <div style={{
@@ -411,7 +432,8 @@ export function EventContent({ event, bookData }) {
           minHeight: 60,
           borderRadius: 4,
           overflow: 'hidden',
-          background: grid.single ? '#f3f4f6' : 'transparent',
+          background: grid.single ? '#f8fafc' : '#f8fafc',
+          border: '1px solid #fef08a',
         }}>
           {imgs.map((img, i) => (
             <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 40, position: 'relative', borderRadius: 3 }}>
@@ -447,7 +469,7 @@ export function EventContent({ event, bookData }) {
           </div>
         )}
       </div>
-      <div style={{ fontSize: '5.5pt', color: '#d1d5db', borderTop: '1px solid #f3f4f6', paddingTop: '2%', textAlign: 'center', flexShrink: 0 }}>
+      <div style={{ fontSize: '5.5pt', color: '#64748b', borderTop: '1px solid #f1f5f9', paddingTop: '2%', textAlign: 'center', flexShrink: 0 }}>
         {bookData.schoolName} • {event.schoolYear} tanév
       </div>
     </div>
