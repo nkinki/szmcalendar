@@ -760,9 +760,6 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Projekt megnyitása">
             <FolderOpen size={15} /> Import
           </button>
-          <button onClick={() => handleRestoreOriginal()} style={btn('secondary', 'sm')} title="Visszaállítás a szerverre mentett verzióra">
-            <RotateCcw size={15} /> Visszaállítás
-          </button>
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
           </button>
