@@ -23,6 +23,7 @@ export const DEFAULT_BOOK = {
   principalName: 'Ft. Szabó Péter parókus, igazgató',
   principalQuote: 'Kedves Diákjaink, Nevelőink és Tisztelt Szülők!\n\nIsten bőséges áldásával zártuk ezt a tanévet. Iskolánk falai között nemcsak a tudás fája terebélyesedik ki, hanem a hit, a szeretet és az összetartó keresztény közösség gyökerei is mélyre nyúlnak.\n\n„Mindenre van erőm abban, aki engem megerősít.” (Fil 4,13)\n\nKívánom, hogy az itt megszerzett tudás és lelki útravaló kísérje növendékeinket egész életük során!',
   principalPhoto: '',
+  showPrincipalCross: false,
 
   // Nevelőtestület (Tanári kar) — az oldal csak akkor jelenik meg, ha van pedagógus
   teachers: [],
@@ -176,6 +177,7 @@ function App() {
         principalName: bookData.principalName,
         principalQuote: bookData.principalQuote,
         principalPhoto: bookData.principalPhoto,
+        showPrincipalCross: bookData.showPrincipalCross || false,
         teachers: bookData.teachers,
         classes: bookData.classes,
         graduationPages: bookData.graduationPages,

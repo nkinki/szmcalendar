@@ -1929,6 +1929,14 @@ function RightInspector({
           style={inputStyle}
           placeholder="Név..."
         />
+        <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#94a3b8', marginTop: 6, cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={bookData.showPrincipalCross || false}
+            onChange={e => setBookData(prev => ({ ...prev, showPrincipalCross: e.target.checked }))}
+          />
+          Kereszt és vonal (—) megjelenítése a név előtt
+        </label>
 
         <label style={labelStyle}>Lelki Útravaló & Köszöntő</label>
         <textarea
@@ -2770,7 +2778,9 @@ function PrincipalContent({ page, bookData }) {
         </div>
         {bookData.principalName && (
           <div style={{ fontSize: 9.5, fontWeight: 800, color: '#b45309', marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
-            <ByzantineCross size={12} color="#b45309" /> — {bookData.principalName}
+            {bookData.showPrincipalCross && <ByzantineCross size={12} color="#b45309" />}
+            {bookData.showPrincipalCross && ' — '}
+            {bookData.principalName}
           </div>
         )}
       </div>

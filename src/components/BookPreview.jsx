@@ -286,7 +286,13 @@ export function PrincipalContent({ bookData }) {
         {bookData.principalPhoto && <img src={bookData.principalPhoto} alt="" style={{ width: 50, height: 65, objectFit: 'cover', borderRadius: 4, flexShrink: 0, border: '2px solid #d97706', background: '#fef3c7' }} />}
         <div style={{ flex: 1, overflow: 'hidden' }}>
           <div style={{ fontSize: '7pt', lineHeight: 1.8, color: '#1e293b', borderLeft: '4px solid #d97706', paddingLeft: 6, fontStyle: 'italic', overflow: 'hidden', background: 'linear-gradient(135deg, #fffcf5 0%, #fef9c3 100%)', border: '1px solid #fef08a', borderLeftWidth: 4, borderRadius: '0 8px 8px 0', padding: '5px 8px' }}>{bookData.principalQuote || <span style={{ opacity: 0.3 }}>Üzenet...</span>}</div>
-          {bookData.principalName && <div style={{ fontSize: '6pt', fontWeight: 800, color: '#b45309', marginTop: 6 }}>— {bookData.principalName}</div>}
+          {bookData.principalName && (
+            <div style={{ fontSize: '6pt', fontWeight: 800, color: '#b45309', marginTop: 6, display: 'flex', alignItems: 'center', gap: 3 }}>
+              {bookData.showPrincipalCross && <ByzantineCross size={8} color="#b45309" />}
+              {bookData.showPrincipalCross && ' — '}
+              {bookData.principalName}
+            </div>
+          )}
         </div>
       </div>
       <div style={{ padding: '2% 6%', borderTop: '1px solid #f1f5f9', fontSize: '6pt', color: '#64748b' }}>{bookData.schoolName}</div>

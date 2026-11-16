@@ -138,7 +138,9 @@ function PrincipalPagePrint({ bookData }) {
             {bookData.principalQuote || ''}
           </div>
           {bookData.principalName && (
-            <div style={{ marginTop: '8mm', fontSize: '10pt', fontWeight: 700, color: '#7c3aed' }}>— {bookData.principalName}</div>
+            <div style={{ marginTop: '8mm', fontSize: '10pt', fontWeight: 700, color: '#7c3aed' }}>
+              {bookData.showPrincipalCross ? `— ${bookData.principalName}` : bookData.principalName}
+            </div>
           )}
         </div>
       </div>
