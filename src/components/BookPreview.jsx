@@ -237,9 +237,13 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
 // ── Page slot: renders one side of the spread ─────────────────────────────────
 function PageSlot({ page, bookData, isEditing, onClick }) {
   const isEmpty = !page;
+  const [hovered, setHovered] = React.useState(false);
+
   return (
     <div
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         flex: 1, background: isEmpty ? '#1a1830' : '#fff', position: 'relative',
         cursor: page?.type === 'event' ? 'pointer' : 'default',
@@ -248,6 +252,10 @@ function PageSlot({ page, bookData, isEditing, onClick }) {
         minWidth: 0, overflow: 'hidden',
         aspectRatio: '210/297',
         maxWidth: 490,
+        transform: hovered && !isEmpty ? 'scale(1.025)' : 'scale(1)',
+        transition: 'transform 0.22s cubic-bezier(0.34,1.56,0.64,1)',
+        zIndex: hovered && !isEmpty ? 2 : 1,
+        boxShadow: hovered && !isEmpty ? '0 8px 40px rgba(168,85,247,0.25)' : 'none',
       }}
     >
       {isEmpty && <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: 'rgba(255,255,255,0.05)', fontSize: 13 }}>—</span></div>}
