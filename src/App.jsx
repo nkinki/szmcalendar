@@ -6,6 +6,7 @@ import AlbumFlipbook from './components/AlbumFlipbook';
 import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
 import { isAdminLoggedIn, adminLogout } from './utils/driveSync';
+import { compressBookDataImages } from './utils/imageCompressor';
 
 // Admin által szerkesztett adat tartós mentése — külön kulcs a per-session
 // STORAGE_KEY-től, hogy F5/reload után is a szerkesztett adat töltődjön be,
@@ -169,36 +170,51 @@ function App() {
     const pw = prompt('Admin jelszó a közzétételhez:');
     if (!pw) return;
     try {
+      // 1. Képek intelligens előtömörítése (megelőzi a 413 Payload Too Large / Request Entity hibát)
+      const compressedBook = await compressBookDataImages(bookData);
+      setBookData(compressedBook);
+
       const bookConfig = {
-        schoolName: bookData.schoolName,
-        schoolMotto: bookData.schoolMotto,
-        schoolLogo: bookData.schoolLogo,
-        currentYear: bookData.currentYear,
-        principalName: bookData.principalName,
-        principalQuote: bookData.principalQuote,
-        principalPhoto: bookData.principalPhoto,
-        showPrincipalCross: bookData.showPrincipalCross || false,
-        teachers: bookData.teachers,
-        classes: bookData.classes,
-        graduationPages: bookData.graduationPages,
-        pageLayouts: bookData.pageLayouts,
+        schoolName: compressedBook.schoolName,
+        schoolMotto: compressedBook.schoolMotto,
+        schoolLogo: compressedBook.schoolLogo,
+        currentYear: compressedBook.currentYear,
+        principalName: compressedBook.principalName,
+        principalQuote: compressedBook.principalQuote,
+        principalPhoto: compressedBook.principalPhoto,
+        showPrincipalCross: compressedBook.showPrincipalCross || false,
+        teachers: compressedBook.teachers,
+        classes: compressedBook.classes,
+        graduationPages: compressedBook.graduationPages,
+        pageLayouts: compressedBook.pageLayouts,
       };
 
       const res = await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          events: bookData.events,
+          events: compressedBook.events,
           bookConfig,
           adminPassword: pw
         }),
       });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        if (res.status === 413 || errText.includes('Request Entity Too Large') || errText.includes('FUNCTION_PAYLOAD_TOO_LARGE')) {
+          throw new Error('A közzéteendő adat túl nagy (a csatolt képek mérete meghaladta a szerver limitjét). Kérlek ellenőrizd a képeket!');
+        }
+        let parsed;
+        try { parsed = JSON.parse(errText); } catch {}
+        throw new Error(parsed?.error || `Szerver hiba (${res.status}): ${errText.slice(0, 120)}`);
+      }
+
       const data = await res.json();
       if (data.success) {
         // Helyi mentés frissítése azonnal
         try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
-          localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(bookData));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(compressedBook));
+          localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(compressedBook));
         } catch {}
         alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~1-2 percen belül frissül mindenkinél.`);
       } else {
@@ -241,7 +257,6 @@ function App() {
           bookData={bookData}
           onAdminLogin={() => setShowAdminLogin(true)}
           onPreview={() => setViewMode('preview')}
-          onAlbum={() => setViewMode('album')}
           onPrint={() => setViewMode('print')}
           driveLoading={driveLoading}
         />
@@ -261,14 +276,11 @@ function App() {
         />
       )}
 
-      {viewMode === 'preview' && (
+      {(viewMode === 'preview' || viewMode === 'album') && (
         <BookPreview bookData={bookData} setBookData={isAdmin ? setBookData : undefined} setViewMode={setViewMode} />
       )}
       {viewMode === 'print' && (
         <PrintBook bookData={bookData} setViewMode={setViewMode} />
-      )}
-      {viewMode === 'album' && (
-        <AlbumFlipbook bookData={bookData} setBookData={isAdmin ? setBookData : undefined} setViewMode={setViewMode} />
       )}
     </>
   );
@@ -277,7 +289,7 @@ function App() {
 export default App;
 
 // ── Nézői mód (nem admin) ──────────────────────────────────────────────────
-function ViewerMode({ bookData, onAdminLogin, onPreview, onAlbum, onPrint, driveLoading }) {
+function ViewerMode({ bookData, onAdminLogin, onPreview, onPrint, driveLoading }) {
   return (
     <div style={{
       minHeight: '100vh', background: '#090810',
@@ -303,7 +315,6 @@ function ViewerMode({ bookData, onAdminLogin, onPreview, onAlbum, onPrint, drive
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={onAlbum} style={viewerBtn('secondary')}>📖 Album</button>
           <button onClick={onPreview} style={viewerBtn('secondary')}>👁 Előnézet</button>
           <button onClick={onPrint} style={viewerBtn('secondary')}>🖨 Nyomtatás</button>
           <button onClick={onAdminLogin} style={viewerBtn('admin')}>🔐 Admin</button>
@@ -333,8 +344,7 @@ function ViewerMode({ bookData, onAdminLogin, onPreview, onAlbum, onPrint, drive
             </div>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <BigBtn icon="📖" label="Lapozható Album" onClick={onAlbum} primary />
-              <BigBtn icon="👁" label="Előnézet" onClick={onPreview} />
+              <BigBtn icon="👁" label="Könyv Előnézete" onClick={onPreview} primary />
               <BigBtn icon="🖨" label="Nyomtatás / PDF" onClick={onPrint} />
             </div>
 

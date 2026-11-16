@@ -2,6 +2,15 @@
 // Admin mentés: book_config.json és book_events.json feltöltése GitHub-ra
 // POST /api/save { events: [...], bookConfig: {...}, adminPassword: '...' }
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+  maxDuration: 60,
+};
+
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_OWNER = 'nkinki';
 const GITHUB_REPO = 'szmcalendar';

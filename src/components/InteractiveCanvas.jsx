@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { RotateCcw, Type, Image as ImageIcon, Trash2, EyeOff, Eye, RefreshCcw } from 'lucide-react';
+import { fileToCompressedDataUrl } from '../utils/imageCompressor';
 
 // ── Default layout boxes for standard elements (% of 500x706 A4 canvas) ────────
 export const DEFAULT_LAYOUTS = {
@@ -127,20 +128,6 @@ export function isElemHidden(page, elemId, bookData) {
   return bookData?.pageLayouts?.[page.id]?.hidden?.[elemId] === true;
 }
 
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// INTERACTIVE CANVAS
-// Drag/resize only. All content editing is done in the left panel (BlockEditor).
-// selectedElemId / setSelectedElemId are lifted up to Editor.
-// ══════════════════════════════════════════════════════════════════════════════
 export default function InteractiveCanvas({
   page,
   bookData,
@@ -148,6 +135,7 @@ export default function InteractiveCanvas({
   renderContent,
   selectedElemId,
   setSelectedElemId,
+  recordSnapshot,
 }) {
   const canvasRef = useRef(null);
   const imageInputRef = useRef(null);
@@ -162,7 +150,7 @@ export default function InteractiveCanvas({
   const [showLabelMenu, setShowLabelMenu] = React.useState(false);
   const [editingElemId, setEditingElemId] = React.useState(null);
   const [editingText, setEditingText] = React.useState('');
-  const updateElementLayout = (elemId, newBox) => {
+  const updateElementLayout = (elemId, newBox, options = {}) => {
     setBookData(prev => {
       const layouts  = prev.pageLayouts || {};
       const current  = layouts[pageId]  || {};
@@ -178,7 +166,7 @@ export default function InteractiveCanvas({
           }
         }
       };
-    });
+    }, options);
   };
 
   // ── Add custom text element ─────────────────────────────────────────────────
@@ -251,7 +239,7 @@ export default function InteractiveCanvas({
   const addCustomImage = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = await fileToDataUrl(file);
+    const url = await fileToCompressedDataUrl(file);
 
     // If targeting a standard image slot
     if (uploadTargetRef.current) {
@@ -400,6 +388,9 @@ export default function InteractiveCanvas({
     const startMouseX = e.clientX;
     const startMouseY = e.clientY;
 
+    const startSnapshot = JSON.parse(JSON.stringify(bookData));
+    let hasMoved = false;
+
     const isCustom   = elemId.startsWith('custom_');
     const customElem = isCustom ? customElements.find(c => c.id === elemId) : null;
     const startBox   = isCustom
@@ -407,6 +398,7 @@ export default function InteractiveCanvas({
       : getElemBox(page, elemId, bookData);
 
     const onMouseMove = (mv) => {
+      hasMoved = true;
       const dx = ((mv.clientX - startMouseX) / rect.width)  * 100;
       const dy = ((mv.clientY - startMouseY) / rect.height) * 100;
       let next = { ...startBox };
@@ -443,21 +435,16 @@ export default function InteractiveCanvas({
               }
             }
           };
-        });
+        }, { skipHistory: true });
       } else {
-        updateElementLayout(elemId, next);
+        updateElementLayout(elemId, next, { skipHistory: true });
 
         // ── Event oldal: ha a 'text' elemet méretezni, az 'images' elem is alkalmazkodjon ───────
         if (pageType === 'event' && elemId === 'text' && handle) {
-          const headerBox = getElemBox(page, 'header', bookData);
-          const logoBox   = getElemBox(page, 'logo', bookData);
           const imagesBox = getElemBox(page, 'images', bookData);
-          const footerBox = getElemBox(page, 'footer', bookData);
-
-          // imagesBox bottom = textBox top - small gap
           const newImagesH = Math.max(10, next.y - imagesBox.y - 2);
           if (newImagesH > 10) {
-            updateElementLayout('images', { h: newImagesH });
+            updateElementLayout('images', { h: newImagesH }, { skipHistory: true });
           }
         }
       }
@@ -466,6 +453,9 @@ export default function InteractiveCanvas({
     const onMouseUp = () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup',   onMouseUp);
+      if (hasMoved && recordSnapshot) {
+        recordSnapshot(startSnapshot);
+      }
     };
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup',   onMouseUp);

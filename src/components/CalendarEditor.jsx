@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { fileToCompressedDataUrl } from '../utils/imageCompressor';
 import { 
   Calendar as CalendarIcon, 
   Image as ImageIcon, 
@@ -59,13 +60,8 @@ export default function CalendarEditor({ calendarData, setCalendarData, setViewM
     try { localStorage.setItem(MEDIA_LIBRARY_KEY, JSON.stringify(lib)); } catch {}
   };
 
-  // Convert file to base64 dataURL
-  const fileToDataUrl = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => resolve(e.target.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+  // Convert file to base64 dataURL (automatikusan tömörítve)
+  const fileToDataUrl = fileToCompressedDataUrl;
 
   // Handle image files dropped or selected for new entry
   const handleEntryImages = async (files) => {

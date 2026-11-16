@@ -2,25 +2,19 @@
  * Editor.jsx — PowerPoint-szerű évkönyv szerkesztő
  * Görögkatolikus Általános Iskola stílussal & Interaktív Import Kezelővel
  */
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
 import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
+import { fileToCompressedDataUrl } from '../utils/imageCompressor';
 
 // ── Byzantine Cross Icon (Görögkatolikus Kereszt) ───────────────────────────
 function ByzantineCross({ size = 24, color = '#f59e0b' }) {
   return <span style={{ fontSize: size, color }}>✝</span>;
 }
 
-// ── Helper: file to dataURL ──────────────────────────────────────────────────
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+// ── Helper: automatikusan tömörített képolvasás ──────────────────────────────
+const fileToDataUrl = fileToCompressedDataUrl;
 
 function normalizeEventImages(images = []) {
   return images.map(img => typeof img === 'string' ? { url: img, enabled: true } : ({ enabled: true, ...img }));
@@ -80,8 +74,42 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const [localTextFontSize, setLocalTextFontSize] = useState(11);
   const [localTextLineHeight, setLocalTextLineHeight] = useState(1.7);
-  const [undoStack, setUndoStack] = useState([]);
-  const [redoStack, setRedoStack] = useState([]);
+  
+  // ── Project-level Undo / Redo Stacks ────────────────────────────────────────
+  const undoStackRef = useRef([]);
+  const redoStackRef = useRef([]);
+  const [, setHistoryTick] = useState(0);
+  const bookDataRef = useRef(bookData);
+
+  useEffect(() => {
+    bookDataRef.current = bookData;
+  }, [bookData]);
+
+  const canUndo = undoStackRef.current.length > 0;
+  const canRedo = redoStackRef.current.length > 0;
+
+  const triggerHistoryUpdate = () => {
+    setHistoryTick(t => t + 1);
+  };
+
+  const recordSnapshot = useCallback((customSnapshot) => {
+    const snap = customSnapshot || bookDataRef.current;
+    if (!snap) return;
+
+    const stack = undoStackRef.current;
+    const last = stack[stack.length - 1];
+
+    if (last && JSON.stringify(last) === JSON.stringify(snap)) {
+      return;
+    }
+
+    stack.push(JSON.parse(JSON.stringify(snap)));
+    if (stack.length > 50) stack.shift();
+
+    redoStackRef.current = [];
+    triggerHistoryUpdate();
+  }, []);
+
   const originalBookDataRef = useRef(bookData);
   const fbFolderInputRef = useRef(null);
   const projectInputRef = useRef(null);
@@ -161,12 +189,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     return month >= 9 ? `${year}/${year + 1}` : `${year - 1}/${year}`;
   };
 
-  const readFileAsDataUrl = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+  const readFileAsDataUrl = fileToCompressedDataUrl;
 
   const [fbImportBusy, setFbImportBusy] = useState(false);
 
@@ -183,8 +206,6 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
   useEffect(() => {
     if (selectedEvent) {
       setLocalText(selectedEvent.text || '');
-      setUndoStack([]);
-      setRedoStack([]);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPageId]);
@@ -445,43 +466,117 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     }));
   };
 
-  // ── Text Editor Handlers ──────────────────────────────────────────────────────
-  const pushUndo = (text) => {
-    setUndoStack(prev => [...prev.slice(-49), text]);
-    setRedoStack([]);
-  };
+  // ── Project-level Undo / Redo Handlers ─────────────────────────────────────
+  const handleUndo = useCallback(() => {
+    if (undoStackRef.current.length === 0) return;
+    const previous = undoStackRef.current.pop();
+
+    redoStackRef.current.push(JSON.parse(JSON.stringify(bookDataRef.current)));
+    if (redoStackRef.current.length > 50) redoStackRef.current.shift();
+
+    setBookData(previous);
+    bookDataRef.current = previous;
+
+    if (selectedEvent) {
+      const ev = (previous.events || []).find(e => e.id === selectedEvent.id);
+      if (ev) {
+        setLocalText(ev.text || '');
+        setLocalTextFontSize(ev.fontSize || 11);
+        setLocalTextLineHeight(ev.lineHeight || 1.7);
+      }
+    }
+
+    triggerHistoryUpdate();
+  }, [setBookData, selectedEvent]);
+
+  const handleRedo = useCallback(() => {
+    if (redoStackRef.current.length === 0) return;
+    const next = redoStackRef.current.pop();
+
+    undoStackRef.current.push(JSON.parse(JSON.stringify(bookDataRef.current)));
+    if (undoStackRef.current.length > 50) undoStackRef.current.shift();
+
+    setBookData(next);
+    bookDataRef.current = next;
+
+    if (selectedEvent) {
+      const ev = (next.events || []).find(e => e.id === selectedEvent.id);
+      if (ev) {
+        setLocalText(ev.text || '');
+        setLocalTextFontSize(ev.fontSize || 11);
+        setLocalTextLineHeight(ev.lineHeight || 1.7);
+      }
+    }
+
+    triggerHistoryUpdate();
+  }, [setBookData, selectedEvent]);
+
+  // Wrapper: automatikusan pillanatképet készít minden módosítás előtt
+  const setBookDataWithHistory = useCallback((updater, options = {}) => {
+    if (!options.skipHistory) {
+      recordSnapshot(bookDataRef.current);
+    }
+    setBookData(prev => {
+      const next = typeof updater === 'function' ? updater(prev) : updater;
+      bookDataRef.current = next;
+      return next;
+    });
+  }, [recordSnapshot, setBookData]);
+
+  // Globális billentyűparancsok (Ctrl+Z: Visszavonás, Ctrl+Y / Ctrl+Shift+Z: Újra)
+  useEffect(() => {
+    const onGlobalKeyDown = (e) => {
+      const isInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        handleUndo();
+      } else if (
+        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'z')
+      ) {
+        e.preventDefault();
+        handleRedo();
+      }
+    };
+    window.addEventListener('keydown', onGlobalKeyDown);
+    return () => window.removeEventListener('keydown', onGlobalKeyDown);
+  }, [handleUndo, handleRedo]);
+
+  // ── Text Editor Handlers (intelligens csoportosított gépelés) ───────────────
+  const typingTimerRef = useRef(null);
+  const isTypingRef = useRef(false);
 
   const handleTextChange = (text) => {
-    pushUndo(localText);
+    if (!isTypingRef.current) {
+      recordSnapshot(bookDataRef.current);
+      isTypingRef.current = true;
+    }
     setLocalText(text);
+    setBookData(prev => {
+      const next = {
+        ...prev,
+        events: (prev.events || []).map(e => e.id === selectedEvent?.id ? { ...e, text } : e)
+      };
+      bookDataRef.current = next;
+      return next;
+    });
+
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => {
+      isTypingRef.current = false;
+    }, 700);
   };
 
   const handleTextKeyDown = (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
       e.preventDefault();
-      if (e.shiftKey) redoText();
-      else undoText();
+      if (e.shiftKey) handleRedo();
+      else handleUndo();
     }
     if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
       e.preventDefault();
-      redoText();
+      handleRedo();
     }
-  };
-
-  const undoText = () => {
-    if (undoStack.length === 0) return;
-    const prevText = undoStack[undoStack.length - 1];
-    setRedoStack(prev => [...prev, localText]);
-    setUndoStack(prev => prev.slice(0, -1));
-    setLocalText(prevText);
-  };
-
-  const redoText = () => {
-    if (redoStack.length === 0) return;
-    const nextText = redoStack[redoStack.length - 1];
-    setUndoStack(prev => [...prev, localText]);
-    setRedoStack(prev => prev.slice(0, -1));
-    setLocalText(nextText);
   };
 
   const applyFormat = (format) => {
@@ -495,8 +590,12 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
     else if (format === 'italic') formatted = `*${selected}*`;
     else if (format === 'underline') formatted = `__${selected}__`;
     const newText = localText.substring(0, start) + formatted + localText.substring(end);
-    pushUndo(localText);
+    recordSnapshot(bookDataRef.current);
     setLocalText(newText);
+    setBookDataWithHistory(prev => ({
+      ...prev,
+      events: (prev.events || []).map(e => e.id === selectedEvent?.id ? { ...e, text: newText } : e)
+    }), { skipHistory: true });
     setTimeout(() => textarea.focus(), 0);
   };
 
@@ -512,8 +611,12 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
       if (align === 'right') return `>> ${line}`;
       return line;
     }).join('\n');
-    pushUndo(localText);
+    recordSnapshot(bookDataRef.current);
     setLocalText(aligned);
+    setBookDataWithHistory(prev => ({
+      ...prev,
+      events: (prev.events || []).map(e => e.id === selectedEvent?.id ? { ...e, text: aligned } : e)
+    }), { skipHistory: true });
     setTimeout(() => textarea.focus(), 0);
   };
 
@@ -576,6 +679,38 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           </button>
 
           <button
+            onClick={handleUndo}
+            disabled={!canUndo}
+            style={{
+              ...btn('secondary', 'sm'),
+              opacity: canUndo ? 1 : 0.4,
+              cursor: canUndo ? 'pointer' : 'not-allowed',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+            }}
+            title="Visszavonás (Ctrl+Z)"
+          >
+            <RotateCcw size={14} /> Visszavonás
+          </button>
+
+          <button
+            onClick={handleRedo}
+            disabled={!canRedo}
+            style={{
+              ...btn('secondary', 'sm'),
+              opacity: canRedo ? 1 : 0.4,
+              cursor: canRedo ? 'pointer' : 'not-allowed',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+            }}
+            title="Újra (Ctrl+Y vagy Ctrl+Shift+Z)"
+          >
+            <RotateCcw size={14} style={{ transform: 'scaleX(-1)' }} /> Újra
+          </button>
+
+          <button
             onClick={handleManualSave}
             style={btn(saveFeedback ? 'primary' : 'secondary', 'sm')}
             title={lastSavedAt ? `Utoljára mentve: ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })} • Ctrl+S` : 'Mentés (Ctrl+S)'}
@@ -610,9 +745,6 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
 
         {/* Jobb oldali nézetek */}
         <div style={{ display: 'flex', gap: 6, flexShrink: 0, position: 'relative' }}>
-          <button onClick={() => setViewMode('album')} style={btn('secondary', 'sm')} title="Album / Flipbook">
-            <BookOpen size={15} /> Album
-          </button>
           <button onClick={() => exportProject()} style={btn('secondary', 'sm')} title="Projekt mentése fájlba">
             <Download size={15} /> Export
           </button>
@@ -659,7 +791,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           <CenterEditor
             page={selectedPage}
             bookData={bookData}
-            setBookData={setBookData}
+            setBookData={setBookDataWithHistory}
             selectedEvent={selectedEvent}
             editingText={editingText}
             localText={localText}
@@ -667,8 +799,6 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
             setEditingText={(v) => {
               if (v && selectedEvent) {
                 setLocalText(selectedEvent.text || '');
-                setUndoStack([]);
-                setRedoStack([]);
               }
               setEditingText(v);
             }}
@@ -676,13 +806,18 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
             toggleEventImage={toggleEventImage}
             selectedElemId={selectedElemId}
             setSelectedElemId={setSelectedElemId}
+            canUndo={canUndo}
+            canRedo={canRedo}
+            handleUndo={handleUndo}
+            handleRedo={handleRedo}
+            recordSnapshot={recordSnapshot}
           />
         </div>
 
         {/* RIGHT COLUMN: PROPERTIES INSPECTOR (TULAJDONSÁGOK) */}
         <RightInspector
           bookData={bookData}
-          setBookData={setBookData}
+          setBookData={setBookDataWithHistory}
           selectedPage={selectedPage}
           selectedEvent={selectedEvent}
           onOpenImport={() => setIsImportModalOpen(true)}
@@ -695,13 +830,12 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           setLocalTextFontSize={setLocalTextFontSize}
           localTextLineHeight={localTextLineHeight}
           setLocalTextLineHeight={setLocalTextLineHeight}
-          undoStack={undoStack}
-          redoStack={redoStack}
+          canUndo={canUndo}
+          canRedo={canRedo}
           localText={localText}
           setLocalText={setLocalText}
-          pushUndo={pushUndo}
-          undoText={undoText}
-          redoText={redoText}
+          handleUndo={handleUndo}
+          handleRedo={handleRedo}
           applyFormat={applyFormat}
           applyAlign={applyAlign}
           handleTextKeyDown={handleTextKeyDown}
@@ -1272,6 +1406,11 @@ function CenterEditor({
   toggleEventImage,
   selectedElemId,
   setSelectedElemId,
+  canUndo,
+  canRedo,
+  handleUndo,
+  handleRedo,
+  recordSnapshot,
 }) {
   if (!page) return null;
 
@@ -1306,9 +1445,41 @@ function CenterEditor({
           {pageTypeLabel(page, bookData)}
         </div>
 
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button
+            onClick={handleUndo}
+            disabled={!canUndo}
+            style={{
+              ...btn('secondary', 'sm'),
+              opacity: canUndo ? 1 : 0.4,
+              cursor: canUndo ? 'pointer' : 'not-allowed',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+            }}
+            title="Visszavonás (Ctrl+Z)"
+          >
+            <RotateCcw size={13} /> Visszavonás
+          </button>
+
+          <button
+            onClick={handleRedo}
+            disabled={!canRedo}
+            style={{
+              ...btn('secondary', 'sm'),
+              opacity: canRedo ? 1 : 0.4,
+              cursor: canRedo ? 'pointer' : 'not-allowed',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+            }}
+            title="Újra (Ctrl+Y vagy Ctrl+Shift+Z)"
+          >
+            <RotateCcw size={13} style={{ transform: 'scaleX(-1)' }} /> Újra
+          </button>
+
           <button onClick={handleResetLayout} style={btn('secondary', 'sm')} title="Pozíciók alaphelyzetbe">
-            <RotateCcw size={14} /> Pozíciók Visszaállítása
+            <RotateCcw size={13} /> Pozíciók Visszaállítása
           </button>
           {selectedElemId && (
             <span style={{ fontSize: 10, color: '#64748b', marginLeft: 4 }}>
@@ -1355,6 +1526,7 @@ function CenterEditor({
           toggleEventImage={toggleEventImage}
           selectedElemId={selectedElemId}
           setSelectedElemId={setSelectedElemId}
+          recordSnapshot={recordSnapshot}
         />
       </div>
     </div>
@@ -1379,13 +1551,12 @@ function RightInspector({
   setLocalTextFontSize,
   localTextLineHeight,
   setLocalTextLineHeight,
-  undoStack,
-  redoStack,
+  canUndo,
+  canRedo,
   localText,
   setLocalText,
-  pushUndo,
-  undoText,
-  redoText,
+  handleUndo,
+  handleRedo,
   applyFormat,
   applyAlign,
   handleTextKeyDown,
@@ -2260,17 +2431,17 @@ function RightInspector({
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
           <button
-            onClick={() => undoText()}
-            disabled={undoStack.length === 0}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', opacity: undoStack.length === 0 ? 0.4 : 1 }}
+            onClick={() => handleUndo?.()}
+            disabled={!canUndo}
+            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', opacity: canUndo ? 1 : 0.4 }}
             title="Visszavonás (Ctrl+Z)"
           >
             <RotateCcw size={14} />
           </button>
           <button
-            onClick={() => redoText()}
-            disabled={redoStack.length === 0}
-            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', opacity: redoStack.length === 0 ? 0.4 : 1 }}
+            onClick={() => handleRedo?.()}
+            disabled={!canRedo}
+            style={{ ...btn('secondary', 'sm'), padding: '6px 10px', opacity: canRedo ? 1 : 0.4 }}
             title="Újravonás (Ctrl+Y)"
           >
             <RotateCcw size={14} style={{ transform: 'rotate(180deg)' }} />
@@ -2291,9 +2462,8 @@ function RightInspector({
           value={localText}
           onChange={e => {
             const val = e.target.value;
-            setLocalText(val);
-            // Azonnal menti az esemény szövegét → canvas frissül
-            updateEventField('text', val);
+            if (handleTextChange) handleTextChange(val);
+            else { setLocalText(val); updateEventField('text', val); }
           }}
           style={{ ...inputStyle, minHeight: 160, resize: 'vertical', fontSize: localTextFontSize, lineHeight: localTextLineHeight, fontFamily: "'Inter', sans-serif" }}
           placeholder="Esemény leírása..."
