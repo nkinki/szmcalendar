@@ -129,6 +129,27 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
     return () => window.removeEventListener('keydown', h);
   }, [goNext, goPrev]);
 
+  // Egér görgetés (scroll) lapozás
+  const lastScrollTimeRef = React.useRef(0);
+  const handleWheel = useCallback((e) => {
+    // Ha az eseményszerkesztő panelen belül vagy inputban görget, ne lapozzon
+    if (e.target.closest('textarea') || e.target.closest('input') || e.target.closest('.preview-editor-panel')) {
+      return;
+    }
+
+    const now = Date.now();
+    // 250ms debounce a sima és pontos lapozáshoz (trackpad és normál egér esetén is)
+    if (now - lastScrollTimeRef.current < 250) return;
+
+    if (e.deltaY > 20 || e.deltaX > 20) {
+      lastScrollTimeRef.current = now;
+      goNext();
+    } else if (e.deltaY < -20 || e.deltaX < -20) {
+      lastScrollTimeRef.current = now;
+      goPrev();
+    }
+  }, [goNext, goPrev]);
+
   const [left, right] = spreads[spreadIdx];
 
   const getEvent = id => (bookData.events || []).find(e => e.id === id);
@@ -150,7 +171,10 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0f0e17', overflow: 'hidden', fontFamily: "'Inter',sans-serif" }}>
+    <div
+      onWheel={handleWheel}
+      style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0f0e17', overflow: 'hidden', fontFamily: "'Inter',sans-serif" }}
+    >
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', height: 56, background: 'rgba(15,14,23,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0, zIndex: 10 }}>
@@ -202,7 +226,9 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
         </div>
 
         {/* Editor panel */}
-        <EditorPanel event={editingEvent} onUpdate={updateEvent} onClose={() => setEditingId(null)} />
+        <div className="preview-editor-panel" style={{ display: 'flex' }}>
+          <EditorPanel event={editingEvent} onUpdate={updateEvent} onClose={() => setEditingId(null)} />
+        </div>
       </div>
     </div>
   );
