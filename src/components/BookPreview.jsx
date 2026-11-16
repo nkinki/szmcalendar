@@ -5,6 +5,7 @@
  */
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Printer, ZoomIn, ZoomOut, Search } from 'lucide-react';
+import { PageContent } from './Editor';
 import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, renderMarkdown } from '../utils/media';
 
 // Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
@@ -24,7 +25,7 @@ export function CustomElementsOverlay({ page, bookData }) {
           position: 'absolute',
           left: `${elem.x}%`, top: `${elem.y}%`,
           width: `${elem.w}%`, height: `${elem.h}%`,
-          zIndex: (elem.zIndex || 10) + 5,
+          zIndex: (elem.zIndex || 10) + 50,
           pointerEvents: 'none',
           boxSizing: 'border-box',
           display: 'flex', alignItems: 'center',
@@ -35,10 +36,11 @@ export function CustomElementsOverlay({ page, bookData }) {
           )}
           {elem.type === 'text' && (
             <div style={{
-              fontSize:      elem.fontSize      || 14,
+              fontSize:      elem.fontSize ? `${elem.fontSize}px` : '14px',
               color:         elem.color         || '#1f2937',
-              fontWeight:    elem.fontWeight     || 400,
-              fontStyle:     elem.fontStyle      || 'normal',
+              fontFamily:    elem.fontFamily     || "'Inter', sans-serif",
+              fontWeight:    elem.fontWeight     || (elem.bold ? 700 : 400),
+              fontStyle:     elem.fontStyle      || (elem.italic ? 'italic' : 'normal'),
               textAlign:     elem.textAlign      || 'left',
               letterSpacing: elem.letterSpacing  || 'normal',
               textShadow:    elem.textShadow     || 'none',
@@ -46,9 +48,11 @@ export function CustomElementsOverlay({ page, bookData }) {
               padding:       elem.padding        || 0,
               borderRadius:  elem.borderRadius   || 0,
               border:        elem.border         || 'none',
-              width: '100%',
+              width: '100%', height: '100%',
               whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-              lineHeight: 1.5,
+              lineHeight: 1.4,
+              display: 'flex', alignItems: 'center',
+              justifyContent: elem.textAlign === 'center' ? 'center' : elem.textAlign === 'right' ? 'flex-end' : 'flex-start',
               boxSizing: 'border-box',
             }}>{elem.text}</div>
           )}
@@ -300,18 +304,12 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
   );
 }
 
-// ── Page inner content helper ───────────────────────────────────────────────
+// ── Page inner content helper — teljes összhang a Szerkesztővel ──────────────
 function renderPageInner(page, bookData) {
   if (!page) return null;
   return (
     <>
-      {page.type === 'cover'      && <CoverContent bookData={bookData} />}
-      {page.type === 'principal'  && <PrincipalContent bookData={bookData} />}
-      {page.type === 'teachers'   && <TeachersContent bookData={bookData} />}
-      {page.type === 'class'      && <ClassContent classData={bookData.classes?.find(c => c.id === page.classId)} bookData={bookData} />}
-      {page.type === 'graduation' && <GradContent grad={page.data} bookData={bookData} />}
-      {page.type === 'divider'    && <DividerContent schoolYear={page.schoolYear} bookData={bookData} />}
-      {page.type === 'event'      && <EventContent event={(bookData.events || []).find(e => e.id === page.eventId)} bookData={bookData} />}
+      <PageContent page={page} bookData={bookData} />
       <CustomElementsOverlay page={page} bookData={bookData} />
     </>
   );

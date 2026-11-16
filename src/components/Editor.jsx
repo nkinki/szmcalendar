@@ -2757,7 +2757,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 // ══════════════════════════════════════════════════════════════════════════════
 // PAGE CONTENT RENDERERS (GÖRÖGKATOLIKUS ISKOLA DESIGN)
 // ══════════════════════════════════════════════════════════════════════════════
-function PageContent({ page, bookData }) {
+export function PageContent({ page, bookData }) {
   if (!page) return null;
   if (page.type === 'cover')      return <CoverContent page={page} bookData={bookData} />;
   if (page.type === 'principal')  return <PrincipalContent page={page} bookData={bookData} />;

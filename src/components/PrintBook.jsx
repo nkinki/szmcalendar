@@ -1,16 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Printer } from 'lucide-react';
-import {
-  buildPages,
-  CoverContent,
-  PrincipalContent,
-  TeachersContent,
-  ClassContent,
-  GradContent,
-  DividerContent,
-  EventContent,
-  CustomElementsOverlay,
-} from './BookPreview';
+import { buildPages, CustomElementsOverlay } from './BookPreview';
+import { PageContent } from './Editor';
 
 export default function PrintBook({ bookData, setViewMode }) {
   const doPrint = () => window.print();
@@ -117,17 +108,9 @@ function PrintPage({ page, bookData, pageNumber }) {
         flexDirection: 'column',
       }}
     >
-      {/* Oldaltartalom — 100%-ban megegyezik a szerkesztő és előnézet kinézetével */}
+      {/* Oldaltartalom — 100%-ban megegyezik a szerkesztővel (beleértve az elmozgatott elemeket és egyedi feliratokat) */}
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-        {page.type === 'cover'      && <CoverContent bookData={bookData} />}
-        {page.type === 'principal'  && <PrincipalContent bookData={bookData} />}
-        {page.type === 'teachers'   && <TeachersContent bookData={bookData} />}
-        {page.type === 'class'      && <ClassContent classData={bookData.classes?.find(c => c.id === page.classId)} bookData={bookData} />}
-        {page.type === 'graduation' && <GradContent grad={page.data} bookData={bookData} />}
-        {page.type === 'divider'    && <DividerContent schoolYear={page.schoolYear} bookData={bookData} />}
-        {page.type === 'event'      && <EventContent event={(bookData.events || []).find(e => e.id === page.eventId)} bookData={bookData} />}
-
-        {/* Egyedi hozzáadott feliratok, matricák, plusz képek overlay */}
+        <PageContent page={page} bookData={bookData} />
         <CustomElementsOverlay page={page} bookData={bookData} />
       </div>
     </div>
