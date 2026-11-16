@@ -1,0 +1,19 @@
+{
+  "schoolName": "Szent Mihály Görögkatolikus Óvoda és Általános Iskola",
+  "schoolMotto": "„Hit, Szeretet, Tudás” — Krisztus köztünk! Van és lesz!  •  4254 Nyíradony, Árpád tér 10.  •  www.szentmihalyaltisk.hu",
+  "schoolLogo": "",
+  "currentYear": 2026,
+  "principalName": "Ft. Szabó Péter parókus, igazgató",
+  "principalQuote": "Kedves Diákjaink, Nevelőink és Tisztelt Szülők!\n\nIsten bőséges áldásával zártuk ezt a tanévet. Iskolánk falai között nemcsak a tudás fája terebélyesedik ki, hanem a hit, a szeretet és az összetartó keresztény közösség gyökerei is mélyre nyúlnak.\n\n„Mindenre van erőm abban, aki engem megerősít.” (Fil 4,13)\n\nKívánom, hogy az itt megszerzett tudás és lelki útravaló kísérje növendékeinket egész életük során!",
+  "principalPhoto": "",
+  "teachers": [],
+  "classes": [],
+  "graduationPages": [
+    { "id": "grad_2026", "year": 2026, "image": "", "caption": "2025/2026 ballagó 8. osztályosok tablós képe" },
+    { "id": "grad_2025", "year": 2025, "image": "", "caption": "2024/2025 ballagó 8. osztályosok tablós képe" },
+    { "id": "grad_2024", "year": 2024, "image": "", "caption": "2023/2024 ballagó 8. osztályosok tablós képe" },
+    { "id": "grad_2023", "year": 2023, "image": "", "caption": "2022/2023 ballagó 8. osztályosok tablós képe" },
+    { "id": "grad_2022", "year": 2022, "image": "", "caption": "2021/2022 ballagó 8. osztályosok tablós képe" }
+  ],
+  "pageLayouts": {}
+}

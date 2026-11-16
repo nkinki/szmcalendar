@@ -73,12 +73,21 @@ function App() {
   const loadFromDrive = async () => {
     setDriveLoading(true);
     try {
-      // 1) Admin mentés prioritása: ha az admin már szerkesztett és elmentette,
-      //    azt töltjük be (nem a /book_events.json-t), így a változtatások F5
-      //    után is megmaradnak.
-      const adminSaved = localStorage.getItem(ADMIN_STORAGE_KEY);
+      // 1) Mindig lekérjük a legfrissebb book_config.json-t (igazgató neve, idézet, tanárok, osztályok)
+      let serverConfig = null;
+      try {
+        const cfgRes = await fetch('/book_config.json?v=' + Date.now());
+        if (cfgRes.ok) {
+          const cfgText = await cfgRes.text();
+          if (cfgText.trim().startsWith('{')) {
+            serverConfig = JSON.parse(cfgText);
+          }
+        }
+      } catch (e) {
+        console.warn('book_config.json betöltés kihagyva:', e);
+      }
 
-      // 2) Mindig betöltjük a /book_events.json-t hogy ellenőrizzük
+      // 2) Mindig betöltjük a /book_events.json-t
       const res = await fetch('/book_events.json?v=' + Date.now());
       const text = await res.text();
       let serverEvents = [];
@@ -86,20 +95,27 @@ function App() {
         serverEvents = JSON.parse(text);
       }
 
-      // Ha van admin mentés ÉS több eseménye van mint a szerveren → azt töltsük be
+      // Alap szerver állapot összefésülése
+      const baseMerged = {
+        ...DEFAULT_BOOK,
+        ...(serverConfig || {}),
+        events: Array.isArray(serverEvents) && serverEvents.length > 0 ? serverEvents : DEFAULT_BOOK.events,
+      };
+
+      // 3) Admin mentés prioritása (ha van helyi frissebb admin mentés localStorage-ban)
+      const adminSaved = localStorage.getItem(ADMIN_STORAGE_KEY);
       if (adminSaved) {
         let parsed;
         try {
           parsed = repairBookData(JSON.parse(adminSaved));
         } catch (e) {
-          // Sérült JSON — töröljük
           localStorage.removeItem(ADMIN_STORAGE_KEY);
           parsed = null;
         }
         if (parsed) {
           const adminEvents = parsed.events || [];
           if (adminEvents.length >= serverEvents.length) {
-            setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, ...parsed }));
+            setBookData(prev => ({ ...baseMerged, ...prev, ...parsed }));
             return;
           } else {
             localStorage.removeItem(ADMIN_STORAGE_KEY);
@@ -108,10 +124,8 @@ function App() {
       }
 
       // Szerver adatok betöltése
-      if (Array.isArray(serverEvents) && serverEvents.length > 0) {
-        const repaired = repairBookData({ events: serverEvents });
-        setBookData(prev => ({ ...DEFAULT_BOOK, ...prev, events: repaired.events }));
-      }
+      const repaired = repairBookData(baseMerged);
+      setBookData(repaired);
     } catch (err) {
       console.warn('JSON betöltés sikertelen:', err.message);
     } finally {
@@ -154,14 +168,37 @@ function App() {
     const pw = prompt('Admin jelszó a közzétételhez:');
     if (!pw) return;
     try {
+      const bookConfig = {
+        schoolName: bookData.schoolName,
+        schoolMotto: bookData.schoolMotto,
+        schoolLogo: bookData.schoolLogo,
+        currentYear: bookData.currentYear,
+        principalName: bookData.principalName,
+        principalQuote: bookData.principalQuote,
+        principalPhoto: bookData.principalPhoto,
+        teachers: bookData.teachers,
+        classes: bookData.classes,
+        graduationPages: bookData.graduationPages,
+        pageLayouts: bookData.pageLayouts,
+      };
+
       const res = await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ events: bookData.events, adminPassword: pw }),
+        body: JSON.stringify({
+          events: bookData.events,
+          bookConfig,
+          adminPassword: pw
+        }),
       });
       const data = await res.json();
       if (data.success) {
-        alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~2 percen belül frissül mindenkinél.`);
+        // Helyi mentés frissítése azonnal
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
+          localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(bookData));
+        } catch {}
+        alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~1-2 percen belül frissül mindenkinél.`);
       } else {
         alert('❌ Hiba: ' + data.error);
       }
@@ -169,6 +206,7 @@ function App() {
       alert('❌ Hiba: ' + err.message);
     }
   };
+
 
   return (
     <>

@@ -4,16 +4,16 @@
   "framework": "vite",
   "headers": [
     {
-      "source": "/book_events.json",
+      "source": "/(book_events|book_config)\\.json",
       "headers": [
         { "key": "Content-Type", "value": "application/json" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!book_events\\.json).*)",
+      "source": "/((?!book_events\\.json|book_config\\.json).*)",
       "destination": "/index.html"
     }
   ]
