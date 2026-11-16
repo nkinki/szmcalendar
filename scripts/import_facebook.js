@@ -189,62 +189,120 @@ async function run() {
     }
   }
 
-  // ── Merge with previously imported data (don't lose older exports) ──────────
+  // ── Smart Merge meglévő adatokkal (régebbi és újabb évekre egyaránt) ─────
+  // Cél: Bármilyen új vagy régebbi Facebook exportból CSAK az új eseményeket
+  // adjuk hozzá, a már meglévő (és esetleg szerkesztett) posztokat érintetlenül hagyjuk!
+  
   const outPath = path.join(publicDir, 'scraped_data.json');
-  if (fs.existsSync(outPath)) {
-    try {
-      const prev = JSON.parse(fs.readFileSync(outPath, 'utf8'));
-      if (Array.isArray(prev)) {
-        const knownIds = new Set(allPosts.map(p => p.id));
-        const kept = prev.filter(p => p && p.id && !knownIds.has(p.id));
-        if (kept.length > 0) {
-          console.log(`\n🔗 Meglévő adatlap megőrizve: ${kept.length} korábbi poszt`);
-          allPosts.push(...kept);
-        }
-      }
-    } catch {
-      console.warn('⚠ Korábbi scraped_data.json nem olvasható, felülíródik.');
+  const bookDataPath = path.join(publicDir, 'book_events.json');
+
+  // 1. Meglévő események betöltése (prioritás: book_events.json -> scraped_data.json)
+  const existingEventsMap = new Map(); // key: timestamp/id, value: event object
+  const existingTimestamps = new Set();
+
+  function registerExistingEvent(evt) {
+    if (!evt || !evt.id) return;
+    existingEventsMap.set(evt.id, evt);
+    
+    // Timestamp kinyerése fb_123456789 vagy fb_123456789_12 formátumból
+    const match = evt.id.match(/^fb_(\d+)/);
+    if (match) {
+      existingTimestamps.add(match[1]);
     }
   }
 
-  // Sort by date descending
-  allPosts.sort((a, b) => b.dateSort.localeCompare(a.dateSort));
+  if (fs.existsSync(bookDataPath)) {
+    try {
+      const currentBookEvents = JSON.parse(fs.readFileSync(bookDataPath, 'utf8'));
+      if (Array.isArray(currentBookEvents)) {
+        currentBookEvents.forEach(registerExistingEvent);
+        console.log(`\n📚 Jelenlegi könyvből betöltve: ${existingEventsMap.size} esemény`);
+      }
+    } catch {
+      console.warn('⚠ book_events.json nem olvasható.');
+    }
+  }
 
-  console.log(`\n\n✅ Feldolgozott posztok: ${allPosts.length}`);
+  if (fs.existsSync(outPath)) {
+    try {
+      const prevScraped = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+      if (Array.isArray(prevScraped)) {
+        prevScraped.forEach(evt => {
+          if (!existingEventsMap.has(evt.id)) {
+            registerExistingEvent(evt);
+          }
+        });
+      }
+    } catch {
+      console.warn('⚠ scraped_data.json nem olvasható.');
+    }
+  }
+
+  // 2. Szűrés: Melyek a valóban ÚJ posztok az exportból (akár régebbi múltbeli, akár újabb dátumú)
+  const brandNewPosts = [];
+  let skippedExistingCount = 0;
+
+  for (const post of allPosts) {
+    const match = post.id.match(/^fb_(\d+)/);
+    const tsStr = match ? match[1] : null;
+
+    if (existingEventsMap.has(post.id) || (tsStr && existingTimestamps.has(tsStr))) {
+      // Már szerepelt korábban -> nem írjuk felül, megvédjük a szerkesztett változatot!
+      skippedExistingCount++;
+    } else {
+      brandNewPosts.push(post);
+      existingEventsMap.set(post.id, post);
+      if (tsStr) existingTimestamps.add(tsStr);
+    }
+  }
+
+  // 3. Egyesített lista: Meglévő védett események + Újonnan bejött események
+  const mergedPosts = Array.from(existingEventsMap.values());
+
+  // Sort by date descending
+  mergedPosts.sort((a, b) => (b.dateSort || '').localeCompare(a.dateSort || ''));
+
+  console.log('\n====================================================');
+  console.log('   SMART MERGE EREDMÉNY                              ');
+  console.log('====================================================');
+  console.log(`🛡️  Meglévő védett posztok (érintetlen maradt): ${skippedExistingCount}`);
+  console.log(`✨ Újonnan hozzáadott posztok (régi/új tanévekből): ${brandNewPosts.length}`);
+  console.log(`📖 Összes esemény a könyvben mostantól: ${mergedPosts.length}`);
   
   // Count images
-  const totalImages = allPosts.reduce((sum, p) => sum + p.images.length, 0);
-  console.log(`🖼  Másolt képek: ${totalImages}`);
+  const totalImages = mergedPosts.reduce((sum, p) => sum + (p.images ? p.images.length : 0), 0);
+  console.log(`🖼  Összes kép: ${totalImages}`);
 
   // Show school years breakdown
   const syMap = {};
-  allPosts.forEach(p => { syMap[p.schoolYear] = (syMap[p.schoolYear] || 0) + 1; });
-  console.log('\n📅 Tanévek:');
+  mergedPosts.forEach(p => { 
+    const sy = p.schoolYear || 'Ismeretlen';
+    syMap[sy] = (syMap[sy] || 0) + 1; 
+  });
+  console.log('\n📅 Tanévek megoszlása a könyvben:');
   Object.entries(syMap).sort((a,b) => b[0].localeCompare(a[0])).forEach(([sy, count]) => {
     console.log(`   ${sy}: ${count} poszt`);
   });
 
   // Save to public/scraped_data.json
-  fs.writeFileSync(outPath, JSON.stringify(allPosts, null, 2), 'utf-8');
+  fs.writeFileSync(outPath, JSON.stringify(mergedPosts, null, 2), 'utf-8');
   console.log(`\n💾 Mentve: ${outPath}`);
 
-  // Also save the book-ready format for direct localStorage import
   // Generate the bookData events array
-  const bookEvents = allPosts.map(p => ({
+  const bookEvents = mergedPosts.map(p => ({
     id: p.id,
     schoolYear: p.schoolYear,
     date: p.date,
     dateSort: p.dateSort,
-    text: p.text,
-    images: p.images,
+    text: p.text || '',
+    images: p.images || [],
   }));
 
-  const bookDataPath = path.join(publicDir, 'book_events.json');
   fs.writeFileSync(bookDataPath, JSON.stringify(bookEvents, null, 2), 'utf-8');
-  console.log(`💾 Könyv adatok: ${bookDataPath}`);
+  console.log(`💾 Könyv adatok frissítve: ${bookDataPath}`);
 
   console.log('\n====================================================');
-  console.log('  IMPORT KÉSZ! Nyisd meg az appot és töltsd be.    ');
+  console.log('  IMPORT KÉSZ! A szerkesztések biztonságban vannak. ');
   console.log('====================================================\n');
 }
 
