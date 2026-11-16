@@ -24,7 +24,7 @@ function sortEventsDesc(events) {
 
 function getSchoolYears(events) {
   const years = [...new Set(events.map(e => e.schoolYear).filter(Boolean))];
-  return years.sort((a, b) => b.localeCompare(a));
+  return years.sort((a, b) => a.localeCompare(b));
 }
 
 // Find which page slot contains this event

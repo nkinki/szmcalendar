@@ -6,7 +6,8 @@ import { TeachersContent, ClassContent, ByzantineCross } from './BookPreview';
 
 function getSchoolYears(events) {
   const years = [...new Set(events.map(e => e.schoolYear))];
-  return years.sort((a, b) => b.localeCompare(a));
+  // Időrendi sorrend: régebbi tanévek elöl (pl. 2024/2025 -> 2025/2026)
+  return years.sort((a, b) => a.localeCompare(b));
 }
 
 const monthOrder = [6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7];
