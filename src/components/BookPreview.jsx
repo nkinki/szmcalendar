@@ -4,7 +4,7 @@
  * Jobb oldali panel: szöveg szerkesztés, képválasztás, 2. cikk opció.
  */
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Printer } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Printer, ZoomIn, ZoomOut, Search } from 'lucide-react';
 import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, renderMarkdown } from '../utils/media';
 
 // Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
@@ -120,36 +120,62 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
   const spreads = buildSpreads(pages);
   const [spreadIdx, setSpreadIdx] = useState(0);
   const [editingId, setEditingId] = useState(null); // event id being edited
+  const [zoom, setZoom] = useState(1);
+  const [lensEnabled, setLensEnabled] = useState(true);
 
   const goNext = useCallback(() => setSpreadIdx(i => Math.min(spreads.length - 1, i + 1)), [spreads.length]);
   const goPrev = useCallback(() => setSpreadIdx(i => Math.max(0, i - 1)), []);
+  const zoomIn = useCallback(() => setZoom(z => Math.min(3, Math.round((z + 0.25) * 100) / 100)), []);
+  const zoomOut = useCallback(() => setZoom(z => Math.max(0.5, Math.round((z - 0.25) * 100) / 100)), []);
+  const zoomReset = useCallback(() => setZoom(1), []);
   
   useEffect(() => {
-    const h = (e) => { if (e.key === 'ArrowRight') goNext(); if (e.key === 'ArrowLeft') goPrev(); };
+    const h = (e) => {
+      if (e.key === 'ArrowRight') goNext();
+      if (e.key === 'ArrowLeft') goPrev();
+      if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) { e.preventDefault(); zoomIn(); }
+      if ((e.ctrlKey || e.metaKey) && e.key === '-') { e.preventDefault(); zoomOut(); }
+      if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); zoomReset(); }
+    };
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
-  }, [goNext, goPrev]);
+  }, [goNext, goPrev, zoomIn, zoomOut, zoomReset]);
 
-  // Egér görgetés (scroll) lapozás
+  // Egér görgetés: lapozás; Ctrl/Cmd+görgő: zoom (nem-passzív, hogy a böngésző zoomját lehessen tiltani)
   const lastScrollTimeRef = React.useRef(0);
-  const handleWheel = useCallback((e) => {
-    // Ha az eseményszerkesztő panelen belül vagy inputban görget, ne lapozzon
-    if (e.target.closest('textarea') || e.target.closest('input') || e.target.closest('.preview-editor-panel')) {
-      return;
-    }
+  const rootRef = React.useRef(null);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const handleWheel = (e) => {
+      if (e.target.closest('textarea') || e.target.closest('input') || e.target.closest('.preview-editor-panel')) {
+        return;
+      }
 
-    const now = Date.now();
-    // 250ms debounce a sima és pontos lapozáshoz (trackpad és normál egér esetén is)
-    if (now - lastScrollTimeRef.current < 250) return;
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        if (e.deltaY < 0) zoomIn();
+        else if (e.deltaY > 0) zoomOut();
+        return;
+      }
 
-    if (e.deltaY > 20 || e.deltaX > 20) {
-      lastScrollTimeRef.current = now;
-      goNext();
-    } else if (e.deltaY < -20 || e.deltaX < -20) {
-      lastScrollTimeRef.current = now;
-      goPrev();
-    }
-  }, [goNext, goPrev]);
+      // Zoomolt nézetben engedjük a belső scrollt, ne lapozzon
+      if (zoom > 1) return;
+
+      const now = Date.now();
+      if (now - lastScrollTimeRef.current < 250) return;
+
+      if (e.deltaY > 20 || e.deltaX > 20) {
+        lastScrollTimeRef.current = now;
+        goNext();
+      } else if (e.deltaY < -20 || e.deltaX < -20) {
+        lastScrollTimeRef.current = now;
+        goPrev();
+      }
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [goNext, goPrev, zoom, zoomIn, zoomOut]);
 
   const [left, right] = spreads[spreadIdx];
 
@@ -173,7 +199,7 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
 
   return (
     <div
-      onWheel={handleWheel}
+      ref={rootRef}
       style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0f0e17', overflow: 'hidden', fontFamily: "'Inter',sans-serif" }}
     >
 
@@ -196,13 +222,24 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
         {/* Book area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px 60px', position: 'relative', overflow: 'hidden', gap: 12 }}>
+        <div style={{
+          flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+          justifyContent: zoom > 1 ? 'flex-start' : 'center',
+          padding: '16px 60px', position: 'relative',
+          overflow: zoom !== 1 ? 'auto' : 'hidden',
+          gap: 12,
+        }}>
 
           {/* Spread */}
-          <div style={{ display: 'flex', alignItems: 'stretch', boxShadow: '0 20px 60px rgba(0,0,0,0.8)', borderRadius: 3, overflow: 'hidden', maxHeight: 'calc(100vh - 130px)', width: '100%', maxWidth: 980 }}>
-            <PageSlot page={left} bookData={bookData} isEditing={editingId === left?.eventId} onClick={() => handlePageClick(left)} />
+          <div style={{
+            display: 'flex', alignItems: 'stretch', boxShadow: '0 20px 60px rgba(0,0,0,0.8)', borderRadius: 3, overflow: 'hidden',
+            maxHeight: zoom === 1 ? 'calc(100vh - 130px)' : 'none',
+            width: '100%', maxWidth: 980, flexShrink: 0,
+            zoom,
+          }}>
+            <PageSlot page={left} bookData={bookData} isEditing={editingId === left?.eventId} onClick={() => handlePageClick(left)} lensEnabled={lensEnabled} />
             <div style={{ width: 6, background: 'linear-gradient(to right,#0a0914,#1a1830,#0a0914)', flexShrink: 0 }} />
-            <PageSlot page={right} bookData={bookData} isEditing={editingId === right?.eventId} onClick={() => handlePageClick(right)} />
+            <PageSlot page={right} bookData={bookData} isEditing={editingId === right?.eventId} onClick={() => handlePageClick(right)} lensEnabled={lensEnabled} />
           </div>
 
           {/* Nav arrows */}
@@ -213,16 +250,44 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
             <ChevronRight size={22} />
           </button>
 
-          {/* Progress */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          {/* Progress + Zoom */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, position: 'sticky', bottom: 0, paddingBottom: 4, zIndex: 5 }}>
             <div style={{ display: 'flex', gap: 3 }}>
               {spreads.map((_, i) => (
                 <button key={i} onClick={() => setSpreadIdx(i)} style={{ width: i === spreadIdx ? 18 : 6, height: 6, borderRadius: 3, border: 'none', cursor: 'pointer', transition: 'all 0.2s', background: i === spreadIdx ? '#a855f7' : 'rgba(255,255,255,0.15)', padding: 0 }} />
               ))}
             </div>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>
-              {spreadIdx + 1} / {spreads.length} · ← →
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>
+                {spreadIdx + 1} / {spreads.length} · ← →
+              </span>
+              <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.12)' }} />
+              <button
+                onClick={() => setLensEnabled(v => !v)}
+                style={{
+                  ...zoomBtn,
+                  padding: '0 9px',
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  background: lensEnabled ? '#7c3aed' : 'rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  borderColor: lensEnabled ? '#a855f7' : 'rgba(255,255,255,0.12)',
+                }}
+                title="Nagyító lencse ki/be kapcsolása"
+              >
+                <Search size={13} />
+                <span style={{ fontSize: 11, fontWeight: 600 }}>Nagyító {lensEnabled ? 'BE' : 'KI'}</span>
+              </button>
+              <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.12)' }} />
+              <button onClick={zoomOut} disabled={zoom <= 0.5} style={{ ...zoomBtn, opacity: zoom <= 0.5 ? 0.35 : 1 }} title="Kicsinyítés (Ctrl+−)">
+                <ZoomOut size={14} />
+              </button>
+              <button onClick={zoomReset} style={{ ...zoomBtn, minWidth: 48, fontSize: 11, fontWeight: 700 }} title="Eredeti méret (Ctrl+0)">
+                {Math.round(zoom * 100)}%
+              </button>
+              <button onClick={zoomIn} disabled={zoom >= 3} style={{ ...zoomBtn, opacity: zoom >= 3 ? 0.35 : 1 }} title="Nagyítás (Ctrl++)">
+                <ZoomIn size={14} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -235,16 +300,54 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
   );
 }
 
-// ── Page slot: renders one side of the spread ─────────────────────────────────
-function PageSlot({ page, bookData, isEditing, onClick }) {
+// ── Page inner content helper ───────────────────────────────────────────────
+function renderPageInner(page, bookData) {
+  if (!page) return null;
+  return (
+    <>
+      {page.type === 'cover'      && <CoverContent bookData={bookData} />}
+      {page.type === 'principal'  && <PrincipalContent bookData={bookData} />}
+      {page.type === 'teachers'   && <TeachersContent bookData={bookData} />}
+      {page.type === 'class'      && <ClassContent classData={bookData.classes?.find(c => c.id === page.classId)} bookData={bookData} />}
+      {page.type === 'graduation' && <GradContent grad={page.data} bookData={bookData} />}
+      {page.type === 'divider'    && <DividerContent schoolYear={page.schoolYear} bookData={bookData} />}
+      {page.type === 'event'      && <EventContent event={(bookData.events || []).find(e => e.id === page.eventId)} bookData={bookData} />}
+      <CustomElementsOverlay page={page} bookData={bookData} />
+    </>
+  );
+}
+
+// ── Page slot: renders one side of the spread with optional Magnifier Lens ────
+function PageSlot({ page, bookData, isEditing, onClick, lensEnabled = true }) {
   const isEmpty = !page;
-  const [hovered, setHovered] = React.useState(false);
+  const containerRef = React.useRef(null);
+  const [lensPos, setLensPos] = React.useState(null); // { x, y, width, height }
+
+  const handleMouseMove = (e) => {
+    if (!lensEnabled || isEmpty || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+      setLensPos({ x, y, width: rect.width, height: rect.height });
+    } else {
+      setLensPos(null);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setLensPos(null);
+  };
+
+  const lensSize = 180; // lencse átmérője px-ben
+  const zoomFactor = 2.2; // nagyítás mértéke
 
   return (
     <div
+      ref={containerRef}
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         flex: 1, background: isEmpty ? '#1a1830' : '#fff', position: 'relative',
         cursor: page?.type === 'event' ? 'pointer' : 'default',
@@ -253,24 +356,67 @@ function PageSlot({ page, bookData, isEditing, onClick }) {
         minWidth: 0, overflow: 'hidden',
         aspectRatio: '210/297',
         maxWidth: 490,
-        transform: hovered && !isEmpty ? 'scale(1.025)' : 'scale(1)',
-        transition: 'transform 0.22s cubic-bezier(0.34,1.56,0.64,1)',
-        zIndex: hovered && !isEmpty ? 2 : 1,
-        boxShadow: hovered && !isEmpty ? '0 8px 40px rgba(168,85,247,0.25)' : 'none',
+        zIndex: 1,
       }}
     >
-      {isEmpty && <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: 'rgba(255,255,255,0.05)', fontSize: 13 }}>—</span></div>}
-      {page?.type === 'cover'      && <CoverContent bookData={bookData} />}
-      {page?.type === 'principal'  && <PrincipalContent bookData={bookData} />}
-      {page?.type === 'teachers'   && <TeachersContent bookData={bookData} />}
-      {page?.type === 'class'      && <ClassContent classData={bookData.classes.find(c => c.id === page.classId)} bookData={bookData} />}
-      {page?.type === 'graduation' && <GradContent grad={page.data} bookData={bookData} />}
-      {page?.type === 'divider'    && <DividerContent schoolYear={page.schoolYear} bookData={bookData} />}
-      {page?.type === 'event'      && <EventContent event={(bookData.events || []).find(e => e.id === page.eventId)} bookData={bookData} />}
+      {isEmpty && (
+        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ color: 'rgba(255,255,255,0.05)', fontSize: 13 }}>—</span>
+        </div>
+      )}
+
+      {renderPageInner(page, bookData)}
 
       {page?.type === 'event' && (
-        <div style={{ position: 'absolute', bottom: 6, right: 8, background: isEditing ? '#7c3aed' : 'rgba(124,58,237,0.75)', color: '#fff', fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4, pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', bottom: 6, right: 8, background: isEditing ? '#7c3aed' : 'rgba(124,58,237,0.75)', color: '#fff', fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4, pointerEvents: 'none', zIndex: 10 }}>
           {isEditing ? 'SZERKESZTÉS' : '✏ Katt a szerkesztéshez'}
+        </div>
+      )}
+
+      {/* Magnifier Lens — interaktív nagyító lencse */}
+      {lensEnabled && lensPos && !isEmpty && (
+        <div
+          style={{
+            position: 'absolute',
+            left: lensPos.x - lensSize / 2,
+            top: lensPos.y - lensSize / 2,
+            width: lensSize,
+            height: lensSize,
+            borderRadius: '50%',
+            border: '3px solid rgba(255,255,255,0.95)',
+            boxShadow: '0 10px 32px rgba(0,0,0,0.75), inset 0 0 20px rgba(0,0,0,0.15)',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            zIndex: 100,
+            background: '#fff',
+          }}
+        >
+          {/* Kinagyított belső tartalom pont az egér fókuszában */}
+          <div
+            style={{
+              position: 'absolute',
+              width: lensPos.width,
+              height: lensPos.height,
+              left: -(lensPos.x - lensSize / 2),
+              top: -(lensPos.y - lensSize / 2),
+              transform: `scale(${zoomFactor})`,
+              transformOrigin: `${lensPos.x}px ${lensPos.y}px`,
+              pointerEvents: 'none',
+            }}
+          >
+            {renderPageInner(page, bookData)}
+          </div>
+          {/* Lencse tükröződés és optikai keret hatás */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 45%, rgba(0,0,0,0.12) 100%)',
+              pointerEvents: 'none',
+              boxShadow: 'inset 0 0 10px rgba(124,58,237,0.25)',
+            }}
+          />
         </div>
       )}
     </div>
@@ -292,11 +438,18 @@ export function CoverContent({ bookData }) {
           : <ByzantineCross size={20} color="#fbbf24" />}
         <span style={{ fontSize: '7pt', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff' }}>{bookData.schoolName}</span>
       </div>
-      <div style={{ flex: 1, margin: '6% 0', borderRadius: 8, overflow: 'hidden', maxHeight: '55%', position: 'relative', zIndex: 1 }}>
+      <div style={{ flex: 1, margin: '6% 0', borderRadius: 8, overflow: 'hidden', maxHeight: '55%', position: 'relative', zIndex: 1, isolation: 'isolate' }}>
         {/* Gold border overlay on photo */}
         <div style={{ position: 'absolute', inset: 0, borderRadius: 8, border: '2px solid #d97706', boxShadow: 'inset 0 0 0 1px rgba(245,158,11,0.3), 0 8px 24px rgba(0,0,0,0.5)', pointerEvents: 'none', zIndex: 10 }} />
         {g?.image
-          ? <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ? <img src={g.image} alt="" style={{
+              position: 'absolute', inset: 0,
+              width: `${bookData.coverPhotoZoom || 100}%`,
+              height: `${bookData.coverPhotoZoom || 100}%`,
+              objectFit: 'cover', objectPosition: 'center',
+              left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
+              display: 'block',
+            }} />
           : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(124, 58, 237, 0.15))', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
               <ByzantineCross size={42} color="#fbbf24" />
               <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 700 }}>Iskolai Évkönyv</span>
@@ -477,11 +630,13 @@ export function EventContent({ event, bookData }) {
           border: '1px solid #fef08a',
         }}>
           {imgs.map((img, i) => (
-            <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 40, position: 'relative', borderRadius: 3 }}>
+            <div key={i} style={{ gridRow: grid.hero && i === 0 ? 'span 2' : 'auto', overflow: 'hidden', background: '#f3f4f6', minHeight: 40, position: 'relative', borderRadius: 3, isolation: 'isolate' }}>
               <img src={img.thumbnail || img.url} referrerPolicy="no-referrer" alt="" style={{
-                width: '100%', height: '100%',
+                position: 'absolute', left: '50%', top: '50%',
+                width: `${event.imageZoom || 100}%`, height: `${event.imageZoom || 100}%`,
+                transform: 'translate(-50%, -50%)',
                 objectFit: grid.single ? 'contain' : 'cover',
-                display: 'block', position: 'absolute', inset: 0,
+                display: 'block',
               }} />
               {event.imageBorder === true && (
                 <div style={{ position: 'absolute', inset: 0, border: '2px solid #d97706', borderRadius: 3, pointerEvents: 'none', zIndex: 2 }} />
@@ -675,4 +830,10 @@ const navArrow = {
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   cursor: 'pointer', backdropFilter: 'blur(8px)', zIndex: 10,
   transition: 'all 0.15s',
+};
+const zoomBtn = {
+  background: 'rgba(124,58,237,0.25)', border: '1px solid rgba(168,85,247,0.4)',
+  color: '#a855f7', borderRadius: 8, height: 32, minWidth: 32, padding: '0 8px',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+  cursor: 'pointer', backdropFilter: 'blur(8px)',
 };
