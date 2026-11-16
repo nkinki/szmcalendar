@@ -22,8 +22,8 @@ function normalizeEventImages(images = []) {
 
 // ── Build pages (same order as PrintBook) ────────────────────────────────────
 function getSchoolYears(events) {
-  // Időrendi sorrend: régebbi tanévek elöl (pl. 2024/2025 -> 2025/2026)
-  return [...new Set((events || []).map(e => e.schoolYear).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  // Legfrissebb tanév elöl (pl. 2025/2026 -> 2024/2025)
+  return [...new Set((events || []).map(e => e.schoolYear).filter(Boolean))].sort((a, b) => b.localeCompare(a));
 }
 const monthOrder = [6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7];
 function sortEventsDesc(events) {
@@ -396,7 +396,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
   const addEventPage = () => {
     const newId = 'evt_' + Date.now();
     const years = getSchoolYears(bookData.events);
-    const sy = years[years.length - 1] || `${bookData.currentYear - 1}/${bookData.currentYear}`;
+    const sy = years[0] || `${bookData.currentYear - 1}/${bookData.currentYear}`;
     const newEvent = {
       id: newId, schoolYear: sy, date: 'Új Esemény', dateSort: new Date().toISOString().split('T')[0], month: 1, text: '', images: []
     };

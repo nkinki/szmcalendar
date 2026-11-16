@@ -73,8 +73,8 @@ function sortEventsDesc(events) {
   });
 }
 function getSchoolYears(events) {
-  // Időrendi sorrend: régebbi tanévek elöl (pl. 2024/2025 -> 2025/2026)
-  return [...new Set(events.map(e => e.schoolYear).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  // Legfrissebb tanév elöl (pl. 2025/2026 -> 2024/2025)
+  return [...new Set(events.map(e => e.schoolYear).filter(Boolean))].sort((a, b) => b.localeCompare(a));
 }
 
 // Build flat ordered page list — same order as PrintBook
