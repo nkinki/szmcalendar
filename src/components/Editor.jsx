@@ -35,7 +35,14 @@ function sortEventsDesc(events) {
   });
 }
 
-function buildPages(bookData) {
+export function isShortEvent(evt) {
+  if (!evt) return false;
+  const len = (evt.text || '').length;
+  const imgs = (evt.images || []).length;
+  return len <= 280 && imgs <= 2;
+}
+
+export function buildPages(bookData) {
   const pages = [];
   pages.push({ id: 'cover', type: 'cover' });
   pages.push({ id: 'principal', type: 'principal' });
@@ -55,9 +62,35 @@ function buildPages(bookData) {
 
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
-    sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy)).forEach(evt =>
-      pages.push({ id: evt.id, type: 'event', eventId: evt.id })
-    );
+    const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
+
+    if (bookData.compactEvents) {
+      let i = 0;
+      while (i < syEvents.length) {
+        const cur = syEvents[i];
+        const next = syEvents[i + 1];
+
+        if (isShortEvent(cur) && next && isShortEvent(next)) {
+          // Két rövid esemény összevonása egy oldalra (helytakarékos)
+          pages.push({
+            id: `dual_${cur.id}_${next.id}`,
+            type: 'dual_event',
+            eventIds: [cur.id, next.id],
+            event1: cur,
+            event2: next,
+            schoolYear: sy,
+          });
+          i += 2;
+        } else {
+          pages.push({ id: cur.id, type: 'event', eventId: cur.id });
+          i += 1;
+        }
+      }
+    } else {
+      syEvents.forEach(evt => {
+        pages.push({ id: evt.id, type: 'event', eventId: evt.id });
+      });
+    }
   });
   return pages;
 }
@@ -761,6 +794,21 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Projekt megnyitása">
             <FolderOpen size={15} /> Import
           </button>
+          <button
+            onClick={() => setBookData(prev => ({ ...prev, compactEvents: !prev.compactEvents }))}
+            style={{
+              ...btn('secondary', 'sm'),
+              background: bookData.compactEvents ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : '#1e1b4b',
+              color: '#fff',
+              border: bookData.compactEvents ? '1px solid #c084fc' : '1px solid #2e2a45',
+              fontWeight: 700,
+              flexShrink: 0,
+            }}
+            title="Rövid posztok összevonása 2 cikk / lap formátumba a helytakarékosságért"
+          >
+            ⚡ 2 cikk / lap {bookData.compactEvents ? '(BE)' : '(KI)'}
+          </button>
+
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
           </button>
@@ -2757,7 +2805,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 // ══════════════════════════════════════════════════════════════════════════════
 // PAGE CONTENT RENDERERS (GÖRÖGKATOLIKUS ISKOLA DESIGN)
 // ══════════════════════════════════════════════════════════════════════════════
-export function PageContent({ page, bookData }) {
+export function PageContent({ page, bookData, onSelectEvent, selectedEventId }) {
   if (!page) return null;
   if (page.type === 'cover')      return <CoverContent page={page} bookData={bookData} />;
   if (page.type === 'principal')  return <PrincipalContent page={page} bookData={bookData} />;
@@ -2771,6 +2819,9 @@ export function PageContent({ page, bookData }) {
   if (page.type === 'event') {
     const event = (bookData.events || []).find(e => e.id === page.eventId);
     return <EventContent page={page} event={event} bookData={bookData} />;
+  }
+  if (page.type === 'dual_event') {
+    return <DualEventContent page={page} bookData={bookData} onSelectEvent={onSelectEvent} selectedEventId={selectedEventId} />;
   }
   return <div style={{ width: '100%', height: '100%', background: '#fff' }} />;
 }
@@ -2787,6 +2838,11 @@ function pageTypeLabel(page, bookData) {
   }
   if (page.type === 'graduation') return `Tabló ${page.data?.year || ''}`;
   if (page.type === 'divider')    return `Tanév: ${page.schoolYear}`;
+  if (page.type === 'dual_event') {
+    const ev1 = page.event1 || (bookData?.events || []).find(e => e.id === page.eventIds?.[0]);
+    const ev2 = page.event2 || (bookData?.events || []).find(e => e.id === page.eventIds?.[1]);
+    return `⚡ 2 cikk: ${ev1?.date || ''} & ${ev2?.date || ''}`;
+  }
   if (page.type === 'event') {
     const ev = (bookData?.events || []).find(e => e.id === page.eventId);
     if (!ev) return 'Esemény';
@@ -3418,6 +3474,153 @@ function EventContent({ page, event, bookData }) {
         fontSize: `${footerBox.fontSize || 8}px`, color: '#64748b', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
         {bookData.schoolName} • {event.schoolYear} tanév
+      </div>
+    </div>
+  );
+}
+
+// ── 8. KÉT RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2 CIKK / LAP) ─────────────
+function HalfEventCard({ event, bookData, onSelect, isSelected }) {
+  if (!event) return null;
+  const imgs = getVisibleEventImages(event);
+  const { title, body } = splitEventTitle(event.text);
+
+  return (
+    <div
+      onClick={onSelect}
+      style={{
+        flex: 1, minHeight: 0,
+        display: 'flex', flexDirection: 'column',
+        background: '#fff',
+        borderRadius: 6,
+        padding: '3% 4%',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        position: 'relative',
+        cursor: onSelect ? 'pointer' : 'default',
+        outline: isSelected ? '2px solid #a855f7' : 'none',
+        outlineOffset: -1,
+      }}
+    >
+      {/* Fejléc dátummal */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2%', borderBottom: '1px solid #fef08a', paddingBottom: '1%' }}>
+        <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '75%' }}>
+          {title || event.date}
+        </span>
+        <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, background: '#fef3c7', padding: '1px 6px', borderRadius: 4, flexShrink: 0 }}>
+          {event.date}
+        </span>
+      </div>
+
+      {/* Törzs: Kép + Szöveg egymás mellett */}
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '3%', overflow: 'hidden' }}>
+        {imgs.length > 0 && (
+          <div style={{
+            width: imgs.length === 1 ? '38%' : '44%',
+            flexShrink: 0,
+            borderRadius: 5,
+            overflow: 'hidden',
+            border: '1px solid #fef08a',
+            background: '#f8fafc',
+            display: 'flex',
+            gap: 2,
+            position: 'relative',
+          }}>
+            {imgs.slice(0, 2).map((img, i) => (
+              <div key={i} style={{ flex: 1, height: '100%', position: 'relative', overflow: 'hidden' }}>
+                <img
+                  src={img.thumbnail || img.url}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  style={{
+                    width: '100%', height: '100%',
+                    objectFit: imgs.length === 1 ? 'contain' : 'cover',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div style={{
+          flex: 1, minHeight: 0,
+          background: 'linear-gradient(135deg,#fffcf5,#fef9c3)',
+          borderLeft: '3px solid #d97706',
+          borderRadius: '0 6px 6px 0',
+          padding: '4px 8px',
+          fontSize: event.fontSize ? `${Math.max(6, event.fontSize - 1)}pt` : '7pt',
+          lineHeight: event.lineHeight ? Math.min(1.5, event.lineHeight) : 1.4,
+          color: '#1e293b',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+          overflowY: 'auto',
+          boxSizing: 'border-box',
+        }}>
+          {renderMarkdown(body || event.text)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function DualEventContent({ page, bookData, onSelectEvent, selectedEventId }) {
+  const ev1 = page.event1 || (bookData.events || []).find(e => e.id === page.eventIds?.[0]);
+  const ev2 = page.event2 || (bookData.events || []).find(e => e.id === page.eventIds?.[1]);
+
+  return (
+    <div style={{
+      width: '100%', height: '100%',
+      background: '#fff',
+      display: 'flex', flexDirection: 'column',
+      padding: '4% 5%',
+      boxSizing: 'border-box',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Fő fejléc */}
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        borderBottom: '2px solid #f59e0b', paddingBottom: '1.5%', marginBottom: '2%',
+        flexShrink: 0, background: '#fffcf5', padding: '0 2% 1.5%'
+      }}>
+        <span style={{ fontSize: '6pt', fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          {bookData.schoolName}
+        </span>
+        <span style={{ fontSize: '6pt', color: '#b45309', fontWeight: 700 }}>
+          {page.schoolYear || ev1?.schoolYear} tanév
+        </span>
+      </div>
+
+      {/* Felső esemény */}
+      <HalfEventCard
+        event={ev1}
+        bookData={bookData}
+        onSelect={() => onSelectEvent && onSelectEvent(ev1?.id)}
+        isSelected={selectedEventId === ev1?.id}
+      />
+
+      {/* Középső dekoratív arany elválasztó */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '2% 0', flexShrink: 0 }}>
+        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
+        <ByzantineCross size={13} color="#f59e0b" />
+        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
+      </div>
+
+      {/* Alsó esemény */}
+      <HalfEventCard
+        event={ev2}
+        bookData={bookData}
+        onSelect={() => onSelectEvent && onSelectEvent(ev2?.id)}
+        isSelected={selectedEventId === ev2?.id}
+      />
+
+      {/* Lábléc */}
+      <div style={{
+        fontSize: '5.5pt', color: '#64748b', borderTop: '1px solid #f1f5f9',
+        paddingTop: '1.5%', marginTop: '2%', textAlign: 'center', flexShrink: 0
+      }}>
+        {bookData.schoolName} • Helytakarékos nézet (2 cikk / lap)
       </div>
     </div>
   );

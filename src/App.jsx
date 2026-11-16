@@ -280,7 +280,7 @@ function App() {
         <BookPreview bookData={bookData} setBookData={isAdmin ? setBookData : undefined} setViewMode={setViewMode} />
       )}
       {viewMode === 'print' && (
-        <PrintBook bookData={bookData} setViewMode={setViewMode} />
+        <PrintBook bookData={bookData} setBookData={setBookData} setViewMode={setViewMode} />
       )}
     </>
   );

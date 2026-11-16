@@ -81,6 +81,13 @@ function getSchoolYears(events) {
   return [...new Set(events.map(e => e.schoolYear).filter(Boolean))].sort((a, b) => b.localeCompare(a));
 }
 
+export function isShortEvent(evt) {
+  if (!evt) return false;
+  const len = (evt.text || '').length;
+  const imgs = (evt.images || []).length;
+  return len <= 280 && imgs <= 2;
+}
+
 // Build flat ordered page list — same order as PrintBook
 export function buildPages(bookData) {
   const pages = [];
@@ -98,11 +105,38 @@ export function buildPages(bookData) {
   [...bookData.graduationPages].sort((a, b) => b.year - a.year).forEach(g =>
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
+
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
-    sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy)).forEach(evt =>
-      pages.push({ id: evt.id, type: 'event', eventId: evt.id })
-    );
+    const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
+
+    if (bookData.compactEvents) {
+      let i = 0;
+      while (i < syEvents.length) {
+        const cur = syEvents[i];
+        const next = syEvents[i + 1];
+
+        if (isShortEvent(cur) && next && isShortEvent(next)) {
+          // Két rövid esemény összevonása egy oldalra (helytakarékos)
+          pages.push({
+            id: `dual_${cur.id}_${next.id}`,
+            type: 'dual_event',
+            eventIds: [cur.id, next.id],
+            event1: cur,
+            event2: next,
+            schoolYear: sy,
+          });
+          i += 2;
+        } else {
+          pages.push({ id: cur.id, type: 'event', eventId: cur.id });
+          i += 1;
+        }
+      }
+    } else {
+      syEvents.forEach(evt => {
+        pages.push({ id: evt.id, type: 'event', eventId: evt.id });
+      });
+    }
   });
   return pages;
 }
@@ -196,6 +230,8 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
   const handlePageClick = (page) => {
     if (page?.type === 'event') {
       setEditingId(editingId === page.eventId ? null : page.eventId);
+    } else if (page?.type === 'dual_event') {
+      setEditingId(editingId === page.eventIds?.[0] ? page.eventIds?.[1] : page.eventIds?.[0]);
     } else {
       setEditingId(null);
     }
@@ -215,7 +251,20 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
         <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>
           {bookData.schoolName} — Évkönyv előnézet
         </span>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <button
+            onClick={() => setBookData(prev => ({ ...prev, compactEvents: !prev.compactEvents }))}
+            style={{
+              ...topBtn('ghost'),
+              background: bookData.compactEvents ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : 'rgba(255,255,255,0.08)',
+              color: '#fff',
+              border: bookData.compactEvents ? '1px solid #c084fc' : '1px solid rgba(255,255,255,0.15)',
+              fontWeight: 700,
+            }}
+            title="Rövid posztok összevonása 2 cikk / lap formátumba"
+          >
+            ⚡ 2 cikk / lap {bookData.compactEvents ? '(BE)' : '(KI)'}
+          </button>
           <button onClick={() => setViewMode('print')} style={topBtn('ghost')}>
             <Printer size={14} /> Nyomtatás
           </button>
