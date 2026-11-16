@@ -658,7 +658,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
         <div style={{ width: 1, height: 28, background: '#2e2a45', flexShrink: 0, marginLeft: 4, marginRight: 4 }} />
 
         {/* Középső műveletek */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, overflowX: 'auto', overflowY: 'hidden', paddingBottom: 2 }}>
           <input
             type="file"
             id="toolbar-facebook-folder-import"
@@ -670,12 +670,29 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           />
           <input type="file" accept="application/json,.json" ref={projectInputRef} style={{ display: 'none' }} onChange={importProject} />
 
-          <button onClick={() => fbFolderInputRef.current?.click()} style={btn('accent', 'sm')} title="Facebook export mappa importálása" disabled={fbImportBusy}>
-            <Upload size={14} /> {fbImportBusy ? 'Import…' : 'Adatok Importálása'}
-          </button>
+          {onPublish && (
+            <button
+              onClick={onPublish}
+              style={{
+                ...btn('accent', 'sm'),
+                background: 'linear-gradient(135deg,#16a34a,#22c55e)',
+                color: '#fff',
+                fontWeight: 700,
+                boxShadow: '0 2px 8px rgba(34,197,94,0.35)',
+                flexShrink: 0,
+              }}
+              title="Mentés és közzététel a szerverre (jelszóval védve)"
+            >
+              🚀 Közzététel
+            </button>
+          )}
 
-          <button onClick={addEventPage} style={btn('primary', 'sm')} title="Új esemény dia hozzáadása">
-            <Plus size={14} /> Új Dia
+          <button
+            onClick={handleManualSave}
+            style={{ ...btn(saveFeedback ? 'primary' : 'secondary', 'sm'), flexShrink: 0 }}
+            title={lastSavedAt ? `Utoljára mentve: ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })} • Ctrl+S` : 'Helyi mentés (Ctrl+S)'}
+          >
+            <Save size={14} /> {saveFeedback ? 'Mentve!' : 'Mentés'}
           </button>
 
           <button
@@ -688,6 +705,7 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               display: 'flex',
               alignItems: 'center',
               gap: 5,
+              flexShrink: 0,
             }}
             title="Visszavonás (Ctrl+Z)"
           >
@@ -704,37 +722,28 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               display: 'flex',
               alignItems: 'center',
               gap: 5,
+              flexShrink: 0,
             }}
             title="Újra (Ctrl+Y vagy Ctrl+Shift+Z)"
           >
             <RotateCcw size={14} style={{ transform: 'scaleX(-1)' }} /> Újra
           </button>
 
-          <button
-            onClick={handleManualSave}
-            style={btn(saveFeedback ? 'primary' : 'secondary', 'sm')}
-            title={lastSavedAt ? `Utoljára mentve: ${lastSavedAt.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })} • Ctrl+S` : 'Mentés (Ctrl+S)'}
-          >
-            <Save size={14} /> {saveFeedback ? 'Mentve!' : 'Mentés'}
+          <button onClick={addEventPage} style={{ ...btn('primary', 'sm'), flexShrink: 0 }} title="Új esemény dia hozzáadása">
+            <Plus size={14} /> Új Dia
+          </button>
+
+          <button onClick={() => fbFolderInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), flexShrink: 0 }} title="Facebook export mappa importálása" disabled={fbImportBusy}>
+            <Upload size={14} /> {fbImportBusy ? 'Import…' : 'FB Import'}
           </button>
 
           <button
             onClick={exportBookEvents}
-            style={btn('secondary', 'sm')}
+            style={{ ...btn('secondary', 'sm'), flexShrink: 0 }}
             title="Események exportálása JSON fájlként (feltölthető a Drive-ra / public mappába)"
           >
             <Download size={14} /> Export JSON
           </button>
-
-          {onAdminLogout && onPublish && (
-            <button
-              onClick={onPublish}
-              style={{ ...btn('accent', 'sm'), background: 'linear-gradient(135deg,#16a34a,#22c55e)' }}
-              title="Mentés és közzététel — mindenkinél frissül (~2 perc)"
-            >
-              🚀 Közzététel
-            </button>
-          )}
 
           {lastSavedAt && (
             <span style={{ fontSize: 10, color: '#475569', whiteSpace: 'nowrap', display: 'none' }}>
