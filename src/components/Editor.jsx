@@ -13,62 +13,26 @@ function ByzantineCross({ size = 24, color = '#f59e0b' }) {
   return <span style={{ fontSize: size, color }}>✝</span>;
 }
 
-// ── Helper: Iskolai Logó & Címer intelligens renderelése (beolvadás elleni védelemmel) ──
+// ── Helper: Iskolai Logó & Címer eredeti megjelenítése (transzparens beolvadás a háttérbe) ──
 export function renderSchoolLogo(bookData, extraStyle = {}, sizeFallback = 24) {
   if (!bookData?.schoolLogo) {
     return <ByzantineCross size={sizeFallback} color="#f59e0b" />;
   }
 
-  const styleMode = bookData.logoStyle || 'badge';
-  let effectStyle = {};
-
-  if (styleMode === 'badge') {
-    effectStyle = {
-      background: '#ffffff',
-      border: '2px solid #d97706',
-      boxShadow: '0 3px 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(245,158,11,0.3)',
-    };
-  } else if (styleMode === 'glow') {
-    effectStyle = {
-      filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6))',
-    };
-  } else if (styleMode === 'shadow') {
-    effectStyle = {
-      filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.5))',
-    };
-  }
-
   return (
-    <div
+    <img
+      src={bookData.schoolLogo}
+      alt="Iskola Címer"
       style={{
-        width: '100%',
-        height: '100%',
         maxWidth: '100%',
         maxHeight: '100%',
-        aspectRatio: '1 / 1',
-        borderRadius: '50%',
-        overflow: 'hidden',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-        ...effectStyle,
+        width: 'auto',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block',
         ...extraStyle,
       }}
-    >
-      <img
-        src={bookData.schoolLogo}
-        alt="Iskola Címer"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          transform: 'scale(1.05)', // Kiszűri az esetleges fekete doboz-szegélyt külső maszkolással
-          display: 'block',
-          borderRadius: '50%',
-        }}
-      />
-    </div>
+    />
   );
 }
 
@@ -1651,7 +1615,6 @@ function RightInspector({
     setBookData(prev => ({
       ...prev,
       [field]: url,
-      ...(field === 'schoolLogo' ? { logoStyle: prev.logoStyle || 'badge' } : {})
     }));
   };
 
@@ -2028,33 +1991,12 @@ function RightInspector({
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: '#f59e0b' }}>Aktív Iskolai Címer</div>
-                <div style={{ fontSize: 10, color: '#94a3b8' }}>Stílus: {bookData.logoStyle === 'badge' ? 'Fehér körlap (arany szegély)' : bookData.logoStyle === 'glow' ? 'Fehér fényudvar' : bookData.logoStyle === 'shadow' ? '3D árnyék' : 'Eredeti'}</div>
+                <div style={{ fontSize: 10, color: '#94a3b8' }}>Átlátszó háttérrel beolvad a felületbe</div>
               </div>
             </div>
           ) : (
             <div style={{ padding: 12, borderRadius: 8, border: '1px dashed #2e2a45', textAlign: 'center', fontSize: 11, color: '#94a3b8' }}>Nincs egyedi logó feltöltve</div>
           )}
-
-          {/* Logó Kiemelés (Beolvadás elleni védelem) */}
-          <label style={{ ...labelStyle, marginTop: 4, color: '#fbbf24' }}>🛡️ Logó Kiemelés (Ne olvadjon be a fotóba!)</label>
-          <select
-            value={bookData.logoStyle || 'badge'}
-            onChange={e => setBookData(prev => ({ ...prev, logoStyle: e.target.value }))}
-            style={{ ...inputStyle, padding: '8px 10px', borderColor: '#f59e0b' }}
-          >
-            <option value="badge">⚪ Fehér körlap arany szegéllyel (Ajánlott — nem olvad be)</option>
-            <option value="glow">✨ Fehér fényudvar / glória (Kiemelés fotókon)</option>
-            <option value="shadow">🌑 3D finom árnyék</option>
-            <option value="none">◻️ Eredeti (effekt nélkül)</option>
-          </select>
-
-          <button
-            onClick={() => setBookData(prev => ({ ...prev, schoolLogo: '/school_logo.png', logoStyle: 'badge' }))}
-            style={{ ...btn('secondary', 'sm'), justifyContent: 'center', width: '100%', borderColor: '#f59e0b', color: '#f59e0b' }}
-            title="A feltöltött kerek Szent Mihály címer használata tiszta körbevágással és arany szegéllyel"
-          >
-            ✨ Levágott Szent Mihály Címer Beállítása
-          </button>
 
           <div style={{ display: 'grid', gridTemplateColumns: bookData.schoolLogo ? '1fr 1fr' : '1fr', gap: 8 }}>
             <input type="file" accept="image/*" ref={logoRef} style={{ display: 'none' }} onChange={e => handleFileUpload(e, 'schoolLogo')} />
@@ -3094,7 +3036,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
     const file = e.target.files?.[0];
     if (!file) return;
     const url = await fileToLogoDataUrl(file);
-    if (setBookData) setBookData(prev => ({ ...prev, schoolLogo: url, logoStyle: prev.logoStyle || 'badge' }));
+    if (setBookData) setBookData(prev => ({ ...prev, schoolLogo: url }));
   };
 
   const isLogo   = elemId === 'logo';
@@ -3127,7 +3069,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
     <div style={{ background: '#161228', border: '1.5px solid #f59e0b', borderRadius: 10, padding: 12, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Sliders size={14} /> {isLogo ? '🖼 Fejléc Logó Szerkesztése' : isHeader ? '✍️ Fejléc Szöveg & Dátum' : `Elem Méretezése (${elemId})`}
+          <Sliders size={14} /> {isLogo ? '🖼 Iskolai Logó Szerkesztése' : isHeader ? '✍️ Fejléc Szöveg & Dátum' : `Elem Méretezése (${elemId})`}
         </span>
         <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: 2 }}>
           <X size={14} />
@@ -3136,30 +3078,10 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 
       {isLogo && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 6, borderBottom: '1px dashed #2e2a45' }}>
-          <label style={{ fontSize: 11, color: '#fbbf24', fontWeight: 600 }}>🛡️ Logó Kiemelés (Ne olvadjon be a fotóba!)</label>
-          <select
-            value={bookData?.logoStyle || 'badge'}
-            onChange={e => setBookData && setBookData(prev => ({ ...prev, logoStyle: e.target.value }))}
-            style={{ ...inputStyle, padding: '6px 8px', fontSize: 11, borderColor: '#f59e0b' }}
-          >
-            <option value="badge">⚪ Fehér körlap arany szegéllyel (Ajánlott)</option>
-            <option value="glow">✨ Fehér fényudvar / glória</option>
-            <option value="shadow">🌑 3D finom árnyék</option>
-            <option value="none">◻️ Eredeti (effekt nélkül)</option>
-          </select>
-
-          <button
-            onClick={() => setBookData && setBookData(prev => ({ ...prev, schoolLogo: '/school_logo.png', logoStyle: 'badge' }))}
-            style={{ ...btn('secondary', 'sm'), justifyContent: 'center', width: '100%', borderColor: '#f59e0b', color: '#f59e0b' }}
-            title="A feltöltött kerek Szent Mihály címer használata tiszta körbevágással és arany szegéllyel"
-          >
-            ✨ Levágott Szent Mihály Címer
-          </button>
-
           <input type="file" accept="image/*" ref={logoInputRef} style={{ display: 'none' }} onChange={handleLogoUpload} />
           <div style={{ display: 'grid', gridTemplateColumns: bookData?.schoolLogo ? '1fr 1fr' : '1fr', gap: 6 }}>
             <button onClick={() => logoInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), justifyContent: 'center' }}>
-              <Upload size={13} /> Új Feltöltése
+              <Upload size={13} /> Új Kép Feltöltése
             </button>
             {bookData?.schoolLogo && (
               <button
@@ -3203,34 +3125,75 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
         </div>
       )}
 
-      {(layout.fontSize !== undefined || isHeader) && (
-        <div>
-          <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Betűméret: {layout.fontSize || 14}px</label>
-          <input
-            type="range" min="8" max="64" value={layout.fontSize || 14}
-            onChange={e => updateLayout('fontSize', Number(e.target.value))}
-            style={{ width: '100%' }}
-          />
+      {isLogo ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div>
+            <label style={{ fontSize: 11, color: '#fbbf24', fontWeight: 700 }}>
+              Logó Mérete: {Math.round(Math.max(layout.w || 10, layout.h || 10))}%
+            </label>
+            <input
+              type="range" min="3" max="70" value={Math.round(Math.max(layout.w || 10, layout.h || 10))}
+              onChange={e => {
+                const val = Number(e.target.value);
+                updateLayout('w', val);
+                updateLayout('h', val);
+              }}
+              style={{ width: '100%', accentColor: '#f59e0b' }}
+            />
+            <span style={{ fontSize: 9.5, color: '#94a3b8' }}>* A csúszkával arányosan méretezhető a logó</span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div>
+              <label style={{ fontSize: 10, color: '#cbd5e1' }}>Szélesség: {Math.round(layout.w || 10)}%</label>
+              <input
+                type="range" min="2" max="90" value={layout.w || 10}
+                onChange={e => updateLayout('w', Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: 10, color: '#cbd5e1' }}>Magasság: {Math.round(layout.h || 10)}%</label>
+              <input
+                type="range" min="2" max="90" value={layout.h || 10}
+                onChange={e => updateLayout('h', Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+          </div>
         </div>
+      ) : (
+        <>
+          {(layout.fontSize !== undefined || isHeader) && (
+            <div>
+              <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Betűméret: {layout.fontSize || 14}px</label>
+              <input
+                type="range" min="8" max="64" value={layout.fontSize || 14}
+                onChange={e => updateLayout('fontSize', Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+          )}
+
+          <div>
+            <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Szélesség: {Math.round(layout.w || 50)}%</label>
+            <input
+              type="range" min="2" max="100" value={layout.w || 50}
+              onChange={e => updateLayout('w', Number(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+
+          <div>
+            <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Magasság: {Math.round(layout.h || 30)}%</label>
+            <input
+              type="range" min="2" max="100" value={layout.h || 30}
+              onChange={e => updateLayout('h', Number(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+        </>
       )}
-
-      <div>
-        <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Szélesség: {Math.round(layout.w || 50)}%</label>
-        <input
-          type="range" min="2" max="100" value={layout.w || 50}
-          onChange={e => updateLayout('w', Number(e.target.value))}
-          style={{ width: '100%' }}
-        />
-      </div>
-
-      <div>
-        <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Magasság: {Math.round(layout.h || 30)}%</label>
-        <input
-          type="range" min="2" max="100" value={layout.h || 30}
-          onChange={e => updateLayout('h', Number(e.target.value))}
-          style={{ width: '100%' }}
-        />
-      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         <div>

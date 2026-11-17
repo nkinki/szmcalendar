@@ -37,7 +37,7 @@ export const DEFAULT_LAYOUTS = {
     footer: { x: 0, y: 94, w: 100, h: 6,  zIndex: 1, fontSize: 8  },
   },
   divider: {
-    logo:   { x: 15, y: 15, w: 70, h: 12, zIndex: 5 },
+    logo:   { x: 30, y: 10, w: 40, h: 22, zIndex: 5 },
     title:  { x: 10, y: 35, w: 80, h: 30, zIndex: 1, fontSize: 32 },
     footer: { x: 10, y: 75, w: 80, h: 10, zIndex: 1, fontSize: 8  },
   },
