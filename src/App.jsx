@@ -17,7 +17,7 @@ const ADMIN_STORAGE_KEY = 'szmc_admin_bookdata';
 export const DEFAULT_BOOK = {
   schoolName: 'Szent Mihály Görögkatolikus Óvoda és Általános Iskola',
   schoolMotto: '„Hit, Szeretet, Tudás” — Krisztus köztünk! Van és lesz!  •  4254 Nyíradony, Árpád tér 10.  •  www.szentmihalyaltisk.hu',
-  schoolLogo: '', // dataUrl
+  schoolLogo: '/school_logo.png', // alapértelmezett kerek Szent Mihály címer
   currentYear: 2026,
 
   // Igazgatói & Lelki vezetői oldal

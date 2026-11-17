@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
 import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
-import { fileToCompressedDataUrl } from '../utils/imageCompressor';
+import { fileToCompressedDataUrl, fileToLogoDataUrl } from '../utils/imageCompressor';
 
 // ── Byzantine Cross Icon (Görögkatolikus Kereszt) ───────────────────────────
 function ByzantineCross({ size = 24, color = '#f59e0b' }) {
@@ -25,14 +25,12 @@ export function renderSchoolLogo(bookData, extraStyle = {}, sizeFallback = 24) {
   if (styleMode === 'badge') {
     effectStyle = {
       background: '#ffffff',
-      borderRadius: '50%',
       border: '2px solid #d97706',
       boxShadow: '0 3px 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(245,158,11,0.3)',
-      boxSizing: 'border-box',
     };
   } else if (styleMode === 'glow') {
     effectStyle = {
-      filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6))',
+      filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6))',
     };
   } else if (styleMode === 'shadow') {
     effectStyle = {
@@ -41,20 +39,36 @@ export function renderSchoolLogo(bookData, extraStyle = {}, sizeFallback = 24) {
   }
 
   return (
-    <img
-      src={bookData.schoolLogo}
-      alt="Iskola Címer"
+    <div
       style={{
-        maxWidth: '100%',
-        maxHeight: '100%',
         width: '100%',
         height: '100%',
-        objectFit: 'contain',
-        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+        aspectRatio: '1 / 1',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
         ...effectStyle,
         ...extraStyle,
       }}
-    />
+    >
+      <img
+        src={bookData.schoolLogo}
+        alt="Iskola Címer"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          transform: 'scale(1.05)', // Kiszűri az esetleges fekete doboz-szegélyt külső maszkolással
+          display: 'block',
+          borderRadius: '50%',
+        }}
+      />
+    </div>
   );
 }
 
@@ -87,6 +101,10 @@ export function isShortEvent(evt) {
   return len <= 280 && imgs <= 2;
 }
 
+export function getMergedGroups(bookData) {
+  return bookData?.mergedGroups || bookData?.dualPairs || [];
+}
+
 export function buildPages(bookData) {
   const pages = [];
   pages.push({ id: 'cover', type: 'cover' });
@@ -105,39 +123,38 @@ export function buildPages(bookData) {
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
 
-  // Build a set of paired event IDs from dualPairs
-  const dualPairs = bookData.dualPairs || [];
-  const pairedIds = new Set(dualPairs.flat());
+  const groups = getMergedGroups(bookData);
 
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
     const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
 
-    // Build a map: eventId -> paired partner id (from dualPairs)
-    const pairMap = {};
-    dualPairs.forEach(([a, b]) => { pairMap[a] = b; pairMap[b] = a; });
-
     const usedIds = new Set();
     syEvents.forEach(evt => {
       if (usedIds.has(evt.id)) return;
-      // Check if this event is the FIRST of a pair
-      const partnerId = pairMap[evt.id];
-      const partner = partnerId ? syEvents.find(e => e.id === partnerId) : null;
-      if (partner && !usedIds.has(partner.id)) {
-        pages.push({
-          id: `dual_${evt.id}_${partner.id}`,
-          type: 'dual_event',
-          eventIds: [evt.id, partner.id],
-          event1: evt,
-          event2: partner,
-          schoolYear: sy,
-        });
-        usedIds.add(evt.id);
-        usedIds.add(partner.id);
-      } else {
-        pages.push({ id: evt.id, type: 'event', eventId: evt.id });
-        usedIds.add(evt.id);
+
+      // Ellenőrizzük, hogy benne van-e egy összevont csoportban (2 vagy 3 cikk / lap)
+      const group = groups.find(g => Array.isArray(g) && g.includes(evt.id));
+      if (group) {
+        const groupEvents = syEvents.filter(e => group.includes(e.id));
+        if (groupEvents.length >= 2) {
+          pages.push({
+            id: `merged_${groupEvents.map(e => e.id).join('_')}`,
+            type: 'dual_event',
+            eventIds: groupEvents.map(e => e.id),
+            events: groupEvents,
+            event1: groupEvents[0],
+            event2: groupEvents[1],
+            event3: groupEvents[2] || null,
+            schoolYear: sy,
+          });
+          groupEvents.forEach(e => usedIds.add(e.id));
+          return;
+        }
       }
+
+      pages.push({ id: evt.id, type: 'event', eventId: evt.id });
+      usedIds.add(evt.id);
     });
   });
   return pages;
@@ -1662,8 +1679,12 @@ function RightInspector({
   const handleFileUpload = async (e, field) => {
     const file = e.target.files[0];
     if (!file) return;
-    const url = await fileToDataUrl(file);
-    setBookData(prev => ({ ...prev, [field]: url }));
+    const url = field === 'schoolLogo' ? await fileToLogoDataUrl(file) : await fileToDataUrl(file);
+    setBookData(prev => ({
+      ...prev,
+      [field]: url,
+      ...(field === 'schoolLogo' ? { logoStyle: prev.logoStyle || 'badge' } : {})
+    }));
   };
 
   const updateEventField = (field, value) => {
@@ -2766,48 +2787,139 @@ function RightInspector({
           <Upload size={16} /> Képek hozzáadása
         </button>
 
-        <Divider label="Összevonás (2 cikk / lap)" />
+        <Divider label="Összevonás (2-3 cikk / lap)" />
         {(() => {
-          const dualPairs = bookData.dualPairs || [];
-          const currentPair = dualPairs.find(p => p.includes(selectedEvent?.id));
-          const partnerId = currentPair ? currentPair.find(id => id !== selectedEvent?.id) : null;
-          const partner = partnerId ? (bookData.events || []).find(e => e.id === partnerId) : null;
-          const allEvents = (bookData.events || []).filter(e => e.id !== selectedEvent?.id);
-          return (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {partner ? (
-                <div style={{ padding: '10px 12px', borderRadius: 8, background: 'rgba(124,58,237,0.12)', border: '1px solid #7c3aed', fontSize: 12 }}>
-                  <div style={{ color: '#c084fc', fontWeight: 700, marginBottom: 4 }}>⚡ Összevonva ezzel:</div>
-                  <div style={{ color: '#e2e8f0', fontWeight: 600 }}>{partner.date || partner.id}</div>
-                  <div style={{ color: '#94a3b8', fontSize: 11, marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(partner.text || '').slice(0, 60)}</div>
-                  <button
-                    onClick={() => setBookData(prev => ({ ...prev, dualPairs: (prev.dualPairs || []).filter(p => !p.includes(selectedEvent?.id)) }))}
-                    style={{ ...btn('danger', 'sm'), marginTop: 8, width: '100%', justifyContent: 'center' }}
-                  >
-                    ✕ Összevonás megszüntetése
-                  </button>
+          const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === selectedEvent?.schoolYear));
+          const curIdx = syEvents.findIndex(e => e.id === selectedEvent?.id);
+          const prevEvent = curIdx > 0 ? syEvents[curIdx - 1] : null;
+          const nextEvent = curIdx >= 0 && curIdx < syEvents.length - 1 ? syEvents[curIdx + 1] : null;
+
+          const groups = getMergedGroups(bookData);
+          const currentGroup = groups.find(g => Array.isArray(g) && g.includes(selectedEvent?.id));
+
+          if (currentGroup) {
+            const groupEvents = currentGroup.map(id => (bookData.events || []).find(e => e.id === id)).filter(Boolean);
+            const canAddNext = currentGroup.length < 3 && nextEvent && !currentGroup.includes(nextEvent.id);
+            const canAddPrev = currentGroup.length < 3 && prevEvent && !currentGroup.includes(prevEvent.id);
+
+            return (
+              <div style={{ background: '#121024', border: '1.5px solid #7c3aed', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  ⚡ Összevont lapon szerepel ({currentGroup.length} cikk / lap)
                 </div>
-              ) : (
-                <>
-                  <div style={{ fontSize: 11, color: '#94a3b8' }}>Válassz másik eseményt, amivel egy lapra kerüljön:</div>
-                  <select
-                    defaultValue=""
-                    onChange={e => {
-                      const targetId = e.target.value;
-                      if (!targetId || !selectedEvent?.id) return;
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {groupEvents.map((ev, idx) => (
+                    <div key={ev.id} style={{ fontSize: 11, color: ev.id === selectedEvent.id ? '#f59e0b' : '#cbd5e1', fontWeight: ev.id === selectedEvent.id ? 700 : 400 }}>
+                      {idx + 1}. {ev.date || ev.id} {ev.id === selectedEvent.id ? '⭐ (Ez a cikk)' : ''}
+                    </div>
+                  ))}
+                </div>
+
+                {/* 3. cikk hozzáadása, ha még csak 2 van */}
+                {canAddNext && (
+                  <button
+                    onClick={() => {
                       setBookData(prev => {
-                        const pairs = (prev.dualPairs || []).filter(p => !p.includes(selectedEvent.id) && !p.includes(targetId));
-                        return { ...prev, dualPairs: [...pairs, [selectedEvent.id, targetId]] };
+                        const grps = getMergedGroups(prev);
+                        const updated = grps.map(g => g === currentGroup ? [...g, nextEvent.id] : g);
+                        return { ...prev, mergedGroups: updated, dualPairs: updated };
                       });
                     }}
-                    style={{ ...inputStyle, padding: '8px 10px' }}
+                    style={{ ...btn('secondary', 'sm'), justifyContent: 'flex-start', borderColor: '#7c3aed', color: '#c084fc', padding: '6px 10px' }}
                   >
-                    <option value="">— Válassz eseményt —</option>
-                    {allEvents.filter(e => !(bookData.dualPairs || []).flat().includes(e.id)).map(e => (
-                      <option key={e.id} value={e.id}>{e.date || e.id} — {(e.text || '').slice(0, 40)}</option>
-                    ))}
-                  </select>
-                </>
+                    ➕ 3. cikk hozzákapcsolása: {nextEvent.date}
+                  </button>
+                )}
+                {canAddPrev && !canAddNext && (
+                  <button
+                    onClick={() => {
+                      setBookData(prev => {
+                        const grps = getMergedGroups(prev);
+                        const updated = grps.map(g => g === currentGroup ? [prevEvent.id, ...g] : g);
+                        return { ...prev, mergedGroups: updated, dualPairs: updated };
+                      });
+                    }}
+                    style={{ ...btn('secondary', 'sm'), justifyContent: 'flex-start', borderColor: '#7c3aed', color: '#c084fc', padding: '6px 10px' }}
+                  >
+                    ➕ 3. cikk hozzákapcsolása: {prevEvent.date}
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    setBookData(prev => {
+                      const grps = getMergedGroups(prev).filter(g => !g.includes(selectedEvent.id));
+                      return { ...prev, mergedGroups: grps, dualPairs: grps };
+                    });
+                  }}
+                  style={{ ...btn('danger', 'sm'), justifyContent: 'center', width: '100%', marginTop: 4 }}
+                >
+                  ✕ Összevonás felbontása (külön lapokra)
+                </button>
+              </div>
+            );
+          }
+
+          // Nincs még összevonva: egyszerű 1-kattintásos gombok az előző és következő cikkhez!
+          return (
+            <div style={{ background: '#121024', border: '1px solid #7c3aed', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                ⚡ Gyors Összevonás (2-3 cikk / lap)
+              </div>
+              <div style={{ fontSize: 10.5, color: '#94a3b8' }}>
+                Kattints, ha ezt a cikket az előtte vagy utána lévővel szeretnéd egy lapra tenni:
+              </div>
+
+              {prevEvent && (
+                <button
+                  onClick={() => {
+                    setBookData(prev => {
+                      const grps = getMergedGroups(prev).filter(g => !g.includes(selectedEvent.id));
+                      const prevGrp = grps.find(g => g.includes(prevEvent.id));
+                      if (prevGrp && prevGrp.length < 3) {
+                        const updated = grps.map(g => g === prevGrp ? [...g, selectedEvent.id] : g);
+                        return { ...prev, mergedGroups: updated, dualPairs: updated };
+                      }
+                      const filtered = grps.filter(g => !g.includes(prevEvent.id));
+                      const updated = [...filtered, [prevEvent.id, selectedEvent.id]];
+                      return { ...prev, mergedGroups: updated, dualPairs: updated };
+                    });
+                  }}
+                  style={{ ...btn('secondary', 'sm'), justifyContent: 'flex-start', textAlign: 'left', padding: '8px 10px', gap: 8 }}
+                  title="Összekapcsolás az előző eseménnyel egy lapra"
+                >
+                  <span style={{ fontSize: 14 }}>⬆️</span>
+                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                    <div style={{ color: '#f59e0b', fontSize: 11, fontWeight: 700 }}>Összevonás az ELŐZŐ cikkel</div>
+                    <div style={{ color: '#cbd5e1', fontSize: 10, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{prevEvent.date} • {(prevEvent.text || '').slice(0, 35)}</div>
+                  </div>
+                </button>
+              )}
+
+              {nextEvent && (
+                <button
+                  onClick={() => {
+                    setBookData(prev => {
+                      const grps = getMergedGroups(prev).filter(g => !g.includes(selectedEvent.id));
+                      const nextGrp = grps.find(g => g.includes(nextEvent.id));
+                      if (nextGrp && nextGrp.length < 3) {
+                        const updated = grps.map(g => g === nextGrp ? [selectedEvent.id, ...g] : g);
+                        return { ...prev, mergedGroups: updated, dualPairs: updated };
+                      }
+                      const filtered = grps.filter(g => !g.includes(nextEvent.id));
+                      const updated = [...filtered, [selectedEvent.id, nextEvent.id]];
+                      return { ...prev, mergedGroups: updated, dualPairs: updated };
+                    });
+                  }}
+                  style={{ ...btn('secondary', 'sm'), justifyContent: 'flex-start', textAlign: 'left', padding: '8px 10px', gap: 8 }}
+                  title="Összekapcsolás a következő eseménnyel egy lapra"
+                >
+                  <span style={{ fontSize: 14 }}>⬇️</span>
+                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                    <div style={{ color: '#f59e0b', fontSize: 11, fontWeight: 700 }}>Összevonás a KÖVETKEZŐ cikkel</div>
+                    <div style={{ color: '#cbd5e1', fontSize: 10, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nextEvent.date} • {(nextEvent.text || '').slice(0, 35)}</div>
+                  </div>
+                </button>
               )}
             </div>
           );
@@ -2821,11 +2933,15 @@ function RightInspector({
     );
   }
 
-  // ── DUAL EVENT PAGE EDITING (2 CIKK / LAP) ───────────────────────────────
+  // ── DUAL / MERGED EVENT PAGE EDITING (2-3 CIKK / LAP) ─────────────────────
   if (selectedPage.type === 'dual_event') {
     const pageId = selectedPage.id;
-    const ev1 = selectedPage.event1 || (bookData.events || []).find(e => e.id === selectedPage.eventIds?.[0]);
-    const ev2 = selectedPage.event2 || (bookData.events || []).find(e => e.id === selectedPage.eventIds?.[1]);
+    const eventIds = selectedPage.eventIds || [];
+    const events = eventIds.map(id => (bookData.events || []).find(e => e.id === id)).filter(Boolean);
+    const count = events.length;
+    const is3 = count >= 3;
+    const maxImgs = is3 ? 2 : 3;
+
     const currentHeaderText = bookData?.pageLayouts?.[pageId]?.headerText != null
       ? bookData.pageLayouts[pageId].headerText
       : '';
@@ -2850,17 +2966,29 @@ function RightInspector({
       }));
     };
 
-    const handleUnpair = () => {
-      if (!confirm('Biztosan szétválasztod ezt a 2 eseményt külön oldalakra?')) return;
+    const toggleSubEventImage = (eventId, imgIdx) => {
       setBookData(prev => ({
         ...prev,
-        dualPairs: (prev.dualPairs || []).filter(p => !p.includes(ev1?.id) && !p.includes(ev2?.id))
+        events: (prev.events || []).map(ev => {
+          if (ev.id !== eventId) return ev;
+          const currentImages = normalizeEventImages(ev.images || []);
+          const updated = currentImages.map((img, idx) => idx === imgIdx ? { ...img, enabled: !img.enabled } : img);
+          return { ...ev, images: updated };
+        })
       }));
+    };
+
+    const handleUnpair = () => {
+      if (!confirm(`Biztosan szétválasztod ezt a(z) ${count} eseményt külön oldalakra?`)) return;
+      setBookData(prev => {
+        const grps = getMergedGroups(prev).filter(g => !eventIds.some(id => g.includes(id)));
+        return { ...prev, mergedGroups: grps, dualPairs: grps };
+      });
     };
 
     return (
       <div style={panelStyle}>
-        <div style={panelHeaderStyle}>⚡ 2 Cikk / Lap szerkesztése</div>
+        <div style={panelHeaderStyle}>⚡ Összevont Oldal ({count} cikk / lap)</div>
 
         <div style={{ background: '#121024', border: '1px solid #7c3aed', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ fontSize: 11, fontWeight: 800, color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
@@ -2874,46 +3002,89 @@ function RightInspector({
           />
         </div>
 
-        {/* 1. Esemény (Felső) */}
-        {ev1 && (
-          <div style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b' }}>1. Felső Esemény</div>
-            <label style={labelStyle}>Dátum</label>
-            <input
-              value={ev1.date || ''}
-              onChange={e => updateSubEvent(ev1.id, 'date', e.target.value)}
-              style={inputStyle}
-            />
-            <label style={labelStyle}>Szöveg</label>
-            <textarea
-              value={ev1.text || ''}
-              onChange={e => updateSubEvent(ev1.id, 'text', e.target.value)}
-              style={{ ...inputStyle, minHeight: 70, resize: 'vertical', fontSize: 12 }}
-            />
-          </div>
-        )}
+        {events.map((ev, idx) => {
+          const evImages = normalizeEventImages(ev.images || []);
+          const activeCount = evImages.filter(im => im.enabled).length;
 
-        {/* 2. Esemény (Alsó) */}
-        {ev2 && (
-          <div style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b' }}>2. Alsó Esemény</div>
-            <label style={labelStyle}>Dátum</label>
-            <input
-              value={ev2.date || ''}
-              onChange={e => updateSubEvent(ev2.id, 'date', e.target.value)}
-              style={inputStyle}
-            />
-            <label style={labelStyle}>Szöveg</label>
-            <textarea
-              value={ev2.text || ''}
-              onChange={e => updateSubEvent(ev2.id, 'text', e.target.value)}
-              style={{ ...inputStyle, minHeight: 70, resize: 'vertical', fontSize: 12 }}
-            />
-          </div>
-        )}
+          return (
+            <div key={ev.id} style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b', display: 'flex', justifyContent: 'space-between' }}>
+                <span>{idx + 1}. Esemény</span>
+                <span style={{ fontSize: 10, color: '#94a3b8' }}>ID: {ev.id.slice(-6)}</span>
+              </div>
 
-        <button onClick={handleUnpair} style={{ ...btn('secondary', 'md'), color: '#f87171', borderColor: '#7f1d1d', justifyContent: 'center', marginTop: 10 }}>
-          ✕ Szétválasztás 2 külön lapra
+              <div>
+                <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Dátum</label>
+                <input
+                  value={ev.date || ''}
+                  onChange={e => updateSubEvent(ev.id, 'date', e.target.value)}
+                  style={inputStyle}
+                />
+              </div>
+
+              <div>
+                <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Szöveg</label>
+                <textarea
+                  value={ev.text || ''}
+                  onChange={e => updateSubEvent(ev.id, 'text', e.target.value)}
+                  style={{ ...inputStyle, minHeight: 65, resize: 'vertical', fontSize: 12 }}
+                />
+              </div>
+
+              {/* 📸 KÉPEK KIVÁLASZTÁSA AZ ÖSSZEVONT LAPON (MAX 2-3 KÉP) */}
+              {evImages.length > 0 && (
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <label style={{ ...labelStyle, marginTop: 0, fontSize: 11, color: '#38bdf8' }}>
+                      📸 Megjelenítendő fotók (max. {maxImgs} fér el)
+                    </label>
+                    <span style={{ fontSize: 10, color: activeCount > maxImgs ? '#f87171' : '#94a3b8' }}>
+                      Kiválasztva: {activeCount} / {evImages.length}
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {evImages.map((img, imgIdx) => (
+                      <div
+                        key={imgIdx}
+                        onClick={() => toggleSubEventImage(ev.id, imgIdx)}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: 6,
+                          border: `2px solid ${img.enabled ? '#38bdf8' : '#334155'}`,
+                          position: 'relative',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          opacity: img.enabled ? 1 : 0.45,
+                        }}
+                        title={img.enabled ? 'Kattints az elrejtéshez' : 'Kattints a megjelenítéshez ezen a lapon'}
+                      >
+                        <img
+                          src={img.thumbnail || img.url}
+                          alt=""
+                          referrerPolicy="no-referrer"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                        {img.enabled && (
+                          <div style={{ position: 'absolute', top: 2, right: 2, background: '#38bdf8', borderRadius: 3, padding: 1, display: 'flex' }}>
+                            <Check size={11} color="#0f172a" strokeWidth={3} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ fontSize: 9.5, color: '#94a3b8', marginTop: 3 }}>
+                    * Kattints a képre a ki/bekapcsoláshoz. Az első {maxImgs} aktív kép jelenik meg a lapon.
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        <button onClick={handleUnpair} style={{ ...btn('secondary', 'md'), color: '#f87171', borderColor: '#7f1d1d', justifyContent: 'center', marginTop: 6 }}>
+          ✕ Szétválasztás külön lapokra
         </button>
       </div>
     );
@@ -2954,8 +3125,8 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
   const handleLogoUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = await fileToDataUrl(file);
-    if (setBookData) setBookData(prev => ({ ...prev, schoolLogo: url }));
+    const url = await fileToLogoDataUrl(file);
+    if (setBookData) setBookData(prev => ({ ...prev, schoolLogo: url, logoStyle: prev.logoStyle || 'badge' }));
   };
 
   const isLogo   = elemId === 'logo';
@@ -3860,10 +4031,11 @@ function EventContent({ page, event, bookData }) {
   );
 }
 
-// ── 8. KÉT RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2 CIKK / LAP) ─────────────
-function HalfEventCard({ event, bookData, onSelect, isSelected }) {
+// ── 8. KÉT VAGY HÁROM RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2-3 CIKK / LAP) ──
+function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3 }) {
   if (!event) return null;
-  const imgs = getVisibleEventImages(event);
+  const allVisibleImgs = getVisibleEventImages(event);
+  const imgs = allVisibleImgs.slice(0, maxImages);
   const { title, body } = splitEventTitle(event.text);
 
   return (
@@ -3874,7 +4046,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
         display: 'flex', flexDirection: 'column',
         background: '#fff',
         borderRadius: 6,
-        padding: '3% 4%',
+        padding: maxImages === 2 ? '2% 3%' : '2.5% 3.5%',
         boxSizing: 'border-box',
         overflow: 'hidden',
         position: 'relative',
@@ -3884,7 +4056,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
       }}
     >
       {/* Fejléc dátummal */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2%', borderBottom: '1px solid #fef08a', paddingBottom: '1%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5%', borderBottom: '1px solid #fef08a', paddingBottom: '0.8%' }}>
         <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '75%' }}>
           {title || event.date}
         </span>
@@ -3897,7 +4069,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
       <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '3%', overflow: 'hidden' }}>
         {imgs.length > 0 && (
           <div style={{
-            width: imgs.length === 1 ? '38%' : '44%',
+            width: imgs.length === 1 ? '38%' : imgs.length === 2 ? '44%' : '48%',
             flexShrink: 0,
             borderRadius: 5,
             overflow: 'hidden',
@@ -3907,7 +4079,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
             gap: 2,
             position: 'relative',
           }}>
-            {imgs.slice(0, 2).map((img, i) => (
+            {imgs.map((img, i) => (
               <div key={i} style={{ flex: 1, height: '100%', position: 'relative', overflow: 'hidden' }}>
                 <img
                   src={img.thumbnail || img.url}
@@ -3931,7 +4103,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
           borderRadius: '0 6px 6px 0',
           padding: '4px 8px',
           fontSize: event.fontSize ? `${Math.max(6, event.fontSize - 1)}pt` : '7pt',
-          lineHeight: event.lineHeight ? Math.min(1.5, event.lineHeight) : 1.4,
+          lineHeight: event.lineHeight ? Math.min(1.45, event.lineHeight) : 1.35,
           color: '#1e293b',
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
@@ -3946,15 +4118,17 @@ function HalfEventCard({ event, bookData, onSelect, isSelected }) {
 }
 
 export function DualEventContent({ page, bookData, onSelectEvent, selectedEventId }) {
-  const ev1 = page.event1 || (bookData.events || []).find(e => e.id === page.eventIds?.[0]);
-  const ev2 = page.event2 || (bookData.events || []).find(e => e.id === page.eventIds?.[1]);
+  const events = page.events || [page.event1, page.event2, page.event3].filter(Boolean);
+  const count = events.length;
+  const is3 = count >= 3;
+  const maxImgs = is3 ? 2 : 3;
 
   return (
     <div style={{
       width: '100%', height: '100%',
       background: '#fff',
       display: 'flex', flexDirection: 'column',
-      padding: '4% 5%',
+      padding: is3 ? '2.5% 3.5%' : '3.5% 4.5%',
       boxSizing: 'border-box',
       position: 'relative',
       overflow: 'hidden',
@@ -3962,47 +4136,44 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
       {/* Fő fejléc */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        borderBottom: '2px solid #f59e0b', paddingBottom: '1.5%', marginBottom: '2%',
-        flexShrink: 0, background: '#fffcf5', padding: '0 2% 1.5%',
+        borderBottom: '2px solid #f59e0b', paddingBottom: '1%', marginBottom: '1.5%',
+        flexShrink: 0, background: '#fffcf5', padding: '0 2% 1%',
         overflow: 'hidden', whiteSpace: 'nowrap'
       }}>
         <span style={{ fontSize: '6.5pt', fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.04em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {getHeaderTitle(page, bookData, bookData.schoolName)}
         </span>
         <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, flexShrink: 0, marginLeft: 8, whiteSpace: 'nowrap' }}>
-          {page.schoolYear || ev1?.schoolYear} tanév
+          {page.schoolYear || events[0]?.schoolYear} tanév
         </span>
       </div>
 
-      {/* Felső esemény */}
-      <HalfEventCard
-        event={ev1}
-        bookData={bookData}
-        onSelect={() => onSelectEvent && onSelectEvent(ev1?.id)}
-        isSelected={selectedEventId === ev1?.id}
-      />
-
-      {/* Középső dekoratív arany elválasztó */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '2% 0', flexShrink: 0 }}>
-        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
-        <ByzantineCross size={13} color="#f59e0b" />
-        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
-      </div>
-
-      {/* Alsó esemény */}
-      <HalfEventCard
-        event={ev2}
-        bookData={bookData}
-        onSelect={() => onSelectEvent && onSelectEvent(ev2?.id)}
-        isSelected={selectedEventId === ev2?.id}
-      />
+      {/* Esemény kártyák arany elválasztókkal */}
+      {events.map((ev, idx) => (
+        <React.Fragment key={ev.id || idx}>
+          {idx > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: is3 ? '0.8% 0' : '1.2% 0', flexShrink: 0 }}>
+              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
+              <ByzantineCross size={is3 ? 10 : 12} color="#f59e0b" />
+              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
+            </div>
+          )}
+          <HalfEventCard
+            event={ev}
+            bookData={bookData}
+            onSelect={() => onSelectEvent && onSelectEvent(ev.id)}
+            isSelected={selectedEventId === ev.id}
+            maxImages={maxImgs}
+          />
+        </React.Fragment>
+      ))}
 
       {/* Lábléc */}
       <div style={{
-        fontSize: '5.5pt', color: '#64748b', borderTop: '1px solid #f1f5f9',
-        paddingTop: '1.5%', marginTop: '2%', textAlign: 'center', flexShrink: 0
+        fontSize: '5pt', color: '#64748b', borderTop: '1px solid #f1f5f9',
+        paddingTop: '1%', marginTop: '1.2%', textAlign: 'center', flexShrink: 0
       }}>
-        {bookData.schoolName} • Helytakarékos nézet (2 cikk / lap)
+        {bookData.schoolName} • Helytakarékos nézet ({count} cikk / lap)
       </div>
     </div>
   );

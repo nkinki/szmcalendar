@@ -5,7 +5,7 @@
  */
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Printer, ZoomIn, ZoomOut, Search } from 'lucide-react';
-import { PageContent } from './Editor';
+import { PageContent, renderSchoolLogo, getMergedGroups } from './Editor';
 import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, renderMarkdown } from '../utils/media';
 
 // Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
@@ -88,7 +88,7 @@ export function isShortEvent(evt) {
   return len <= 280 && imgs <= 2;
 }
 
-// Build flat ordered page list — same order as PrintBook
+// Build flat ordered page list — same order as PrintBook & Editor
 export function buildPages(bookData) {
   const pages = [];
   pages.push({ id: 'cover', type: 'cover' });
@@ -102,43 +102,42 @@ export function buildPages(bookData) {
     pages.push({ id: `class_${cls.id}`, type: 'class', classId: cls.id });
   });
 
-  [...bookData.graduationPages].sort((a, b) => b.year - a.year).forEach(g =>
+  [...(bookData.graduationPages || [])].sort((a, b) => b.year - a.year).forEach(g =>
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
 
-  // Build a set of paired event IDs from dualPairs
-  const dualPairs = bookData.dualPairs || [];
-  const pairedIds = new Set(dualPairs.flat());
+  const groups = getMergedGroups(bookData);
 
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
     const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
 
-    // Build a map: eventId -> paired partner id (from dualPairs)
-    const pairMap = {};
-    dualPairs.forEach(([a, b]) => { pairMap[a] = b; pairMap[b] = a; });
-
     const usedIds = new Set();
     syEvents.forEach(evt => {
       if (usedIds.has(evt.id)) return;
-      // Check if this event is the FIRST of a pair
-      const partnerId = pairMap[evt.id];
-      const partner = partnerId ? syEvents.find(e => e.id === partnerId) : null;
-      if (partner && !usedIds.has(partner.id)) {
-        pages.push({
-          id: `dual_${evt.id}_${partner.id}`,
-          type: 'dual_event',
-          eventIds: [evt.id, partner.id],
-          event1: evt,
-          event2: partner,
-          schoolYear: sy,
-        });
-        usedIds.add(evt.id);
-        usedIds.add(partner.id);
-      } else {
-        pages.push({ id: evt.id, type: 'event', eventId: evt.id });
-        usedIds.add(evt.id);
+
+      // Ellenőrizzük, hogy benne van-e egy összevont csoportban (2 vagy 3 cikk / lap)
+      const group = groups.find(g => Array.isArray(g) && g.includes(evt.id));
+      if (group) {
+        const groupEvents = syEvents.filter(e => group.includes(e.id));
+        if (groupEvents.length >= 2) {
+          pages.push({
+            id: `merged_${groupEvents.map(e => e.id).join('_')}`,
+            type: 'dual_event',
+            eventIds: groupEvents.map(e => e.id),
+            events: groupEvents,
+            event1: groupEvents[0],
+            event2: groupEvents[1],
+            event3: groupEvents[2] || null,
+            schoolYear: sy,
+          });
+          groupEvents.forEach(e => usedIds.add(e.id));
+          return;
+        }
       }
+
+      pages.push({ id: evt.id, type: 'event', eventId: evt.id });
+      usedIds.add(evt.id);
     });
   });
   return pages;
@@ -470,9 +469,9 @@ export function CoverContent({ bookData }) {
       <div style={{ position: 'absolute', top: 16, left: 16, right: 16, bottom: 16, border: '1px solid rgba(245, 158, 11, 0.25)', pointerEvents: 'none' }} />
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'auto', position: 'relative', zIndex: 1 }}>
-        {bookData.schoolLogo
-          ? <img src={bookData.schoolLogo} alt="" style={{ height: 20, objectFit: 'contain' }} />
-          : <ByzantineCross size={20} color="#fbbf24" />}
+        <div style={{ height: 26, width: 26, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {renderSchoolLogo(bookData, {}, 22)}
+        </div>
         <span style={{ fontSize: '7pt', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff' }}>{bookData.schoolName}</span>
       </div>
       <div style={{ flex: 1, margin: '6% 0', borderRadius: 8, overflow: 'hidden', maxHeight: '55%', position: 'relative', zIndex: 1, isolation: 'isolate' }}>
@@ -625,9 +624,9 @@ export function GradContent({ grad, bookData }) {
 export function DividerContent({ schoolYear, bookData }) {
   return (
     <div style={{ width: '100%', height: '100%', background: 'linear-gradient(145deg, #090d16 0%, #17153a 45%, #2a1147 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, boxSizing: 'border-box' }}>
-      {bookData.schoolLogo
-        ? <img src={bookData.schoolLogo} alt="" style={{ height: 32, objectFit: 'contain', opacity: 0.7, marginBottom: 10 }} />
-        : <ByzantineCross size={34} color="#fbbf24" />}
+      <div style={{ width: 64, height: 64, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {renderSchoolLogo(bookData, {}, 40)}
+      </div>
       <div style={{ fontSize: '9pt', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#fbbf24', fontWeight: 800 }}>Tanév Eseményei</div>
       <div style={{ fontSize: '32pt', fontWeight: 900, color: '#f59e0b', lineHeight: 1 }}>{schoolYear}</div>
       <div style={{ width: 36, height: 2, background: 'linear-gradient(90deg, #f59e0b, #ec4899)', borderRadius: 2, marginTop: 6 }} />
