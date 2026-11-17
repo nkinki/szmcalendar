@@ -60,37 +60,40 @@ export function buildPages(bookData) {
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
 
+  // Build a set of paired event IDs from dualPairs
+  const dualPairs = bookData.dualPairs || [];
+  const pairedIds = new Set(dualPairs.flat());
+
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
     const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
 
-    if (bookData.compactEvents) {
-      let i = 0;
-      while (i < syEvents.length) {
-        const cur = syEvents[i];
-        const next = syEvents[i + 1];
+    // Build a map: eventId -> paired partner id (from dualPairs)
+    const pairMap = {};
+    dualPairs.forEach(([a, b]) => { pairMap[a] = b; pairMap[b] = a; });
 
-        if (isShortEvent(cur) && next && isShortEvent(next)) {
-          // Két rövid esemény összevonása egy oldalra (helytakarékos)
-          pages.push({
-            id: `dual_${cur.id}_${next.id}`,
-            type: 'dual_event',
-            eventIds: [cur.id, next.id],
-            event1: cur,
-            event2: next,
-            schoolYear: sy,
-          });
-          i += 2;
-        } else {
-          pages.push({ id: cur.id, type: 'event', eventId: cur.id });
-          i += 1;
-        }
-      }
-    } else {
-      syEvents.forEach(evt => {
+    const usedIds = new Set();
+    syEvents.forEach(evt => {
+      if (usedIds.has(evt.id)) return;
+      // Check if this event is the FIRST of a pair
+      const partnerId = pairMap[evt.id];
+      const partner = partnerId ? syEvents.find(e => e.id === partnerId) : null;
+      if (partner && !usedIds.has(partner.id)) {
+        pages.push({
+          id: `dual_${evt.id}_${partner.id}`,
+          type: 'dual_event',
+          eventIds: [evt.id, partner.id],
+          event1: evt,
+          event2: partner,
+          schoolYear: sy,
+        });
+        usedIds.add(evt.id);
+        usedIds.add(partner.id);
+      } else {
         pages.push({ id: evt.id, type: 'event', eventId: evt.id });
-      });
-    }
+        usedIds.add(evt.id);
+      }
+    });
   });
   return pages;
 }
@@ -794,21 +797,6 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
           <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Projekt megnyitása">
             <FolderOpen size={15} /> Import
           </button>
-          <button
-            onClick={() => setBookData(prev => ({ ...prev, compactEvents: !prev.compactEvents }))}
-            style={{
-              ...btn('secondary', 'sm'),
-              background: bookData.compactEvents ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : '#1e1b4b',
-              color: '#fff',
-              border: bookData.compactEvents ? '1px solid #c084fc' : '1px solid #2e2a45',
-              fontWeight: 700,
-              flexShrink: 0,
-            }}
-            title="Rövid posztok összevonása 2 cikk / lap formátumba a helytakarékosságért"
-          >
-            ⚡ 2 cikk / lap {bookData.compactEvents ? '(BE)' : '(KI)'}
-          </button>
-
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
           </button>
@@ -2536,6 +2524,9 @@ function RightInspector({
           <option value="grid">Rács (egyenletes)</option>
           <option value="hero">Fő kép + kis képek</option>
           <option value="rows">Sorok (egymás alá)</option>
+          <option value="photo_wall">📸 Fotófal (egész lap képekkel)</option>
+          <option value="full_page">🖼 Teljes oldalas kép (1 kép nagy)</option>
+          <option value="masonry">🧱 Mozaik (változó méretű képek)</option>
         </select>
 
         {/* Szegély be/ki */}
@@ -2636,6 +2627,53 @@ function RightInspector({
         >
           <Upload size={16} /> Képek hozzáadása
         </button>
+
+        <Divider label="Összevonás (2 cikk / lap)" />
+        {(() => {
+          const dualPairs = bookData.dualPairs || [];
+          const currentPair = dualPairs.find(p => p.includes(selectedEvent?.id));
+          const partnerId = currentPair ? currentPair.find(id => id !== selectedEvent?.id) : null;
+          const partner = partnerId ? (bookData.events || []).find(e => e.id === partnerId) : null;
+          const allEvents = (bookData.events || []).filter(e => e.id !== selectedEvent?.id);
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {partner ? (
+                <div style={{ padding: '10px 12px', borderRadius: 8, background: 'rgba(124,58,237,0.12)', border: '1px solid #7c3aed', fontSize: 12 }}>
+                  <div style={{ color: '#c084fc', fontWeight: 700, marginBottom: 4 }}>⚡ Összevonva ezzel:</div>
+                  <div style={{ color: '#e2e8f0', fontWeight: 600 }}>{partner.date || partner.id}</div>
+                  <div style={{ color: '#94a3b8', fontSize: 11, marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(partner.text || '').slice(0, 60)}</div>
+                  <button
+                    onClick={() => setBookData(prev => ({ ...prev, dualPairs: (prev.dualPairs || []).filter(p => !p.includes(selectedEvent?.id)) }))}
+                    style={{ ...btn('danger', 'sm'), marginTop: 8, width: '100%', justifyContent: 'center' }}
+                  >
+                    ✕ Összevonás megszüntetése
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div style={{ fontSize: 11, color: '#94a3b8' }}>Válassz másik eseményt, amivel egy lapra kerüljön:</div>
+                  <select
+                    defaultValue=""
+                    onChange={e => {
+                      const targetId = e.target.value;
+                      if (!targetId || !selectedEvent?.id) return;
+                      setBookData(prev => {
+                        const pairs = (prev.dualPairs || []).filter(p => !p.includes(selectedEvent.id) && !p.includes(targetId));
+                        return { ...prev, dualPairs: [...pairs, [selectedEvent.id, targetId]] };
+                      });
+                    }}
+                    style={{ ...inputStyle, padding: '8px 10px' }}
+                  >
+                    <option value="">— Válassz eseményt —</option>
+                    {allEvents.filter(e => !(bookData.dualPairs || []).flat().includes(e.id)).map(e => (
+                      <option key={e.id} value={e.id}>{e.date || e.id} — {(e.text || '').slice(0, 40)}</option>
+                    ))}
+                  </select>
+                </>
+              )}
+            </div>
+          );
+        })()}
 
         <Divider label="Esemény kezelése" />
         <button onClick={deleteEvent} style={{ ...btn('danger', 'lg'), width: '100%', justifyContent: 'center' }}>
@@ -3400,6 +3438,101 @@ function EventContent({ page, event, bookData }) {
       </div>
 
       {visibleImages.length > 0 && (() => {
+        const layout = event.imageLayout || 'auto';
+
+        // PHOTO WALL — egész oldalt betölti képekkel, szöveg overlay-ként a tetején
+        if (layout === 'photo_wall') {
+          const cols = Math.ceil(Math.sqrt(visibleImages.length));
+          const rows = Math.ceil(visibleImages.length / cols);
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, display: 'grid',
+              gridTemplateColumns: `repeat(${cols}, 1fr)`,
+              gridTemplateRows: `repeat(${rows}, 1fr)`,
+              gap: 2, zIndex: 1,
+            }}>
+              {visibleImages.map((img, i) => (
+                <div key={i} style={{ overflow: 'hidden', position: 'relative' }}>
+                  <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  {event.imageBorder === true && <div style={{ position: 'absolute', inset: 0, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />}
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        // FULL PAGE — egyetlen nagy kép tölti ki az egész oldalt, minimális overlay fejléc
+        if (layout === 'full_page') {
+          const img = visibleImages[0];
+          return (
+            <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+              <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              {event.imageBorder === true && <div style={{ position: 'absolute', inset: 0, border: '3px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />}
+            </div>
+          );
+        }
+
+        // MASONRY — mozaik elrendezés (különböző méretű képek)
+        if (layout === 'masonry') {
+          const count = visibleImages.length;
+          return (
+            <div style={{
+              position: 'absolute',
+              left: `${imagesBox.x}%`, top: `${imagesBox.y}%`, width: `${imagesBox.w}%`, height: `${imagesBox.h}%`,
+              zIndex: imagesBox.zIndex || 1, overflow: 'hidden', borderRadius: 6, boxSizing: 'border-box',
+            }}>
+              {count === 1 && (
+                <img src={visibleImages[0].thumbnail || visibleImages[0].url} alt="" referrerPolicy="no-referrer"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              )}
+              {count === 2 && (
+                <div style={{ display: 'grid', gridTemplateColumns: '60% 40%', height: '100%', gap: 2 }}>
+                  {visibleImages.map((img, i) => (
+                    <div key={i} style={{ overflow: 'hidden', position: 'relative' }}>
+                      <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {count === 3 && (
+                <div style={{ display: 'grid', gridTemplateColumns: '55% 45%', gridTemplateRows: '50% 50%', height: '100%', gap: 2 }}>
+                  <div style={{ gridRow: '1 / 3', overflow: 'hidden' }}>
+                    <img src={visibleImages[0].thumbnail || visibleImages[0].url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  {visibleImages.slice(1).map((img, i) => (
+                    <div key={i} style={{ overflow: 'hidden', position: 'relative' }}>
+                      <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {count >= 4 && (
+                <div style={{ display: 'grid', gridTemplateColumns: '55% 45%', gridTemplateRows: '60% 40%', height: '100%', gap: 2 }}>
+                  <div style={{ gridRow: '1 / 2', gridColumn: '1 / 2', overflow: 'hidden' }}>
+                    <img src={visibleImages[0].thumbnail || visibleImages[0].url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <div style={{ gridRow: '1 / 3', gridColumn: '2 / 3', display: 'grid', gridTemplateRows: `repeat(${Math.min(count - 1, 3)}, 1fr)`, gap: 2 }}>
+                    {visibleImages.slice(1, 4).map((img, i) => (
+                      <div key={i} style={{ overflow: 'hidden' }}>
+                        <img src={img.thumbnail || img.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    ))}
+                  </div>
+                  {count >= 5 && (
+                    <div style={{ gridRow: '2 / 3', gridColumn: '1 / 2', overflow: 'hidden' }}>
+                      <img src={visibleImages[4]?.thumbnail || visibleImages[4]?.url} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
+                </div>
+              )}
+              {event.imageBorder === true && <div style={{ position: 'absolute', inset: 0, borderRadius: 6, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />}
+            </div>
+          );
+        }
+
+        // DEFAULT (auto/grid/hero/rows) — existing behavior
         const imageBoxes = visibleImages.map((_, i) => getElemBox(page, `eventImg_${i}`, bookData));
         return (
           <div style={{

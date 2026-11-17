@@ -106,37 +106,40 @@ export function buildPages(bookData) {
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
 
+  // Build a set of paired event IDs from dualPairs
+  const dualPairs = bookData.dualPairs || [];
+  const pairedIds = new Set(dualPairs.flat());
+
   getSchoolYears(bookData.events).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
     const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
 
-    if (bookData.compactEvents) {
-      let i = 0;
-      while (i < syEvents.length) {
-        const cur = syEvents[i];
-        const next = syEvents[i + 1];
+    // Build a map: eventId -> paired partner id (from dualPairs)
+    const pairMap = {};
+    dualPairs.forEach(([a, b]) => { pairMap[a] = b; pairMap[b] = a; });
 
-        if (isShortEvent(cur) && next && isShortEvent(next)) {
-          // Két rövid esemény összevonása egy oldalra (helytakarékos)
-          pages.push({
-            id: `dual_${cur.id}_${next.id}`,
-            type: 'dual_event',
-            eventIds: [cur.id, next.id],
-            event1: cur,
-            event2: next,
-            schoolYear: sy,
-          });
-          i += 2;
-        } else {
-          pages.push({ id: cur.id, type: 'event', eventId: cur.id });
-          i += 1;
-        }
-      }
-    } else {
-      syEvents.forEach(evt => {
+    const usedIds = new Set();
+    syEvents.forEach(evt => {
+      if (usedIds.has(evt.id)) return;
+      // Check if this event is the FIRST of a pair
+      const partnerId = pairMap[evt.id];
+      const partner = partnerId ? syEvents.find(e => e.id === partnerId) : null;
+      if (partner && !usedIds.has(partner.id)) {
+        pages.push({
+          id: `dual_${evt.id}_${partner.id}`,
+          type: 'dual_event',
+          eventIds: [evt.id, partner.id],
+          event1: evt,
+          event2: partner,
+          schoolYear: sy,
+        });
+        usedIds.add(evt.id);
+        usedIds.add(partner.id);
+      } else {
         pages.push({ id: evt.id, type: 'event', eventId: evt.id });
-      });
-    }
+        usedIds.add(evt.id);
+      }
+    });
   });
   return pages;
 }
@@ -252,19 +255,6 @@ export default function BookPreview({ bookData, setBookData, setViewMode }) {
           {bookData.schoolName} — Évkönyv előnézet
         </span>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <button
-            onClick={() => setBookData(prev => ({ ...prev, compactEvents: !prev.compactEvents }))}
-            style={{
-              ...topBtn('ghost'),
-              background: bookData.compactEvents ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : 'rgba(255,255,255,0.08)',
-              color: '#fff',
-              border: bookData.compactEvents ? '1px solid #c084fc' : '1px solid rgba(255,255,255,0.15)',
-              fontWeight: 700,
-            }}
-            title="Rövid posztok összevonása 2 cikk / lap formátumba"
-          >
-            ⚡ 2 cikk / lap {bookData.compactEvents ? '(BE)' : '(KI)'}
-          </button>
           <button onClick={() => setViewMode('print')} style={topBtn('ghost')}>
             <Printer size={14} /> Nyomtatás
           </button>

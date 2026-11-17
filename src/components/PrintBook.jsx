@@ -66,21 +66,6 @@ export default function PrintBook({ bookData, setBookData, setViewMode }) {
           <span style={{ fontSize: 15, fontWeight: 700 }}>
             {bookData.schoolName} — Nyomdai nézet ({pages.length} oldal)
           </span>
-          {setBookData && (
-            <button
-              onClick={() => setBookData(prev => ({ ...prev, compactEvents: !prev.compactEvents }))}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                padding: '6px 14px', borderRadius: 8,
-                border: bookData.compactEvents ? '1px solid #c084fc' : '1px solid #2e2a45',
-                background: bookData.compactEvents ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : 'rgba(255,255,255,0.06)',
-                color: '#fff', cursor: 'pointer', fontSize: 12, fontWeight: 700,
-              }}
-              title="Rövid posztok összevonása 2 cikk / lap formátumba"
-            >
-              ⚡ 2 cikk / lap {bookData.compactEvents ? '(BE)' : '(KI)'}
-            </button>
-          )}
         </div>
         <button onClick={doPrint} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 20px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, boxShadow: '0 4px 14px rgba(124,58,237,0.4)' }}>
           <Printer size={16} /> Mentés PDF / Nyomtatás (Ctrl+P)
