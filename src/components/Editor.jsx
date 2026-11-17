@@ -2386,25 +2386,78 @@ function RightInspector({
   }
 
   if (selectedPage.type === 'event') {
+    const pageId = selectedPage.id;
+    const currentHeaderText = bookData?.pageLayouts?.[pageId]?.headerText != null
+      ? bookData.pageLayouts[pageId].headerText
+      : '';
+    const handleHeaderTextChange = (val) => {
+      setBookData(prev => {
+        const layouts = prev.pageLayouts || {};
+        const current = layouts[pageId] || {};
+        return {
+          ...prev,
+          pageLayouts: {
+            ...layouts,
+            [pageId]: { ...current, headerText: val }
+          }
+        };
+      });
+    };
+
     return (
       <div style={panelStyle}>
         <div style={panelHeaderStyle}>Esemény szerkesztése</div>
 
-        <label style={labelStyle}>Dátum</label>
-        <input
-          value={selectedEvent?.date || ''}
-          onChange={e => updateEventField('date', e.target.value)}
-          style={inputStyle}
-          placeholder="2026. június 10."
-        />
+        {/* Selected Element Adjuster ha ki van jelölve elem a dián */}
+        {selectedElemId && selectedElemLayout && (
+          <ElementAdjusterCard
+            elemId={selectedElemId}
+            layout={selectedElemLayout}
+            updateLayout={updateSelectedElemLayout}
+            onClose={() => setSelectedElemId(null)}
+            bookData={bookData}
+            setBookData={setBookData}
+            selectedPage={selectedPage}
+            selectedEvent={selectedEvent}
+          />
+        )}
 
-        <label style={labelStyle}>Tanév</label>
-        <input
-          value={selectedEvent?.schoolYear || ''}
-          onChange={e => updateEventField('schoolYear', e.target.value)}
-          style={inputStyle}
-          placeholder="2025/2026"
-        />
+        {/* Fejléc és Dátum kiemelt szerkesztő doboz */}
+        <div style={{ background: '#121024', border: '1.5px solid #d97706', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 4 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: 6 }}>
+            📌 Oldal teteje (Fejléc egy sorban)
+          </div>
+          
+          <label style={{ ...labelStyle, marginTop: 4, fontSize: 11 }}>Fejléc szöveg (bal oldal):</label>
+          <input
+            value={currentHeaderText}
+            onChange={e => handleHeaderTextChange(e.target.value)}
+            style={inputStyle}
+            placeholder={bookData.schoolName || "Iskola neve..."}
+            title="Hagyd üresen az alapértelmezett iskola névhez, vagy írj be egyedi fejlécet"
+          />
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 8 }}>
+            <div>
+              <label style={{ ...labelStyle, marginTop: 4, color: '#f59e0b', fontSize: 11 }}>📅 Dátum (jobb oldal):</label>
+              <input
+                value={selectedEvent?.date || ''}
+                onChange={e => updateEventField('date', e.target.value)}
+                style={{ ...inputStyle, borderColor: '#f59e0b', fontWeight: 600 }}
+                placeholder="2026. június 10."
+              />
+            </div>
+            <div>
+              <label style={{ ...labelStyle, marginTop: 4, fontSize: 11 }}>Tanév:</label>
+              <input
+                value={selectedEvent?.schoolYear || ''}
+                onChange={e => updateEventField('schoolYear', e.target.value)}
+                style={inputStyle}
+                placeholder="2025/2026"
+              />
+            </div>
+          </div>
+        </div>
 
         <label style={labelStyle}>Esemény szövege</label>
         
@@ -2683,6 +2736,104 @@ function RightInspector({
     );
   }
 
+  // ── DUAL EVENT PAGE EDITING (2 CIKK / LAP) ───────────────────────────────
+  if (selectedPage.type === 'dual_event') {
+    const pageId = selectedPage.id;
+    const ev1 = selectedPage.event1 || (bookData.events || []).find(e => e.id === selectedPage.eventIds?.[0]);
+    const ev2 = selectedPage.event2 || (bookData.events || []).find(e => e.id === selectedPage.eventIds?.[1]);
+    const currentHeaderText = bookData?.pageLayouts?.[pageId]?.headerText != null
+      ? bookData.pageLayouts[pageId].headerText
+      : '';
+    const handleHeaderTextChange = (val) => {
+      setBookData(prev => {
+        const layouts = prev.pageLayouts || {};
+        const current = layouts[pageId] || {};
+        return {
+          ...prev,
+          pageLayouts: {
+            ...layouts,
+            [pageId]: { ...current, headerText: val }
+          }
+        };
+      });
+    };
+
+    const updateSubEvent = (eventId, field, val) => {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === eventId ? { ...ev, [field]: val } : ev)
+      }));
+    };
+
+    const handleUnpair = () => {
+      if (!confirm('Biztosan szétválasztod ezt a 2 eseményt külön oldalakra?')) return;
+      setBookData(prev => ({
+        ...prev,
+        dualPairs: (prev.dualPairs || []).filter(p => !p.includes(ev1?.id) && !p.includes(ev2?.id))
+      }));
+    };
+
+    return (
+      <div style={panelStyle}>
+        <div style={panelHeaderStyle}>⚡ 2 Cikk / Lap szerkesztése</div>
+
+        <div style={{ background: '#121024', border: '1px solid #7c3aed', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            📌 Közös Fejléc (Iskola neve)
+          </div>
+          <input
+            value={currentHeaderText}
+            onChange={e => handleHeaderTextChange(e.target.value)}
+            style={inputStyle}
+            placeholder={bookData.schoolName || "Iskola neve..."}
+          />
+        </div>
+
+        {/* 1. Esemény (Felső) */}
+        {ev1 && (
+          <div style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b' }}>1. Felső Esemény</div>
+            <label style={labelStyle}>Dátum</label>
+            <input
+              value={ev1.date || ''}
+              onChange={e => updateSubEvent(ev1.id, 'date', e.target.value)}
+              style={inputStyle}
+            />
+            <label style={labelStyle}>Szöveg</label>
+            <textarea
+              value={ev1.text || ''}
+              onChange={e => updateSubEvent(ev1.id, 'text', e.target.value)}
+              style={{ ...inputStyle, minHeight: 70, resize: 'vertical', fontSize: 12 }}
+            />
+          </div>
+        )}
+
+        {/* 2. Esemény (Alsó) */}
+        {ev2 && (
+          <div style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b' }}>2. Alsó Esemény</div>
+            <label style={labelStyle}>Dátum</label>
+            <input
+              value={ev2.date || ''}
+              onChange={e => updateSubEvent(ev2.id, 'date', e.target.value)}
+              style={inputStyle}
+            />
+            <label style={labelStyle}>Szöveg</label>
+            <textarea
+              value={ev2.text || ''}
+              onChange={e => updateSubEvent(ev2.id, 'text', e.target.value)}
+              style={{ ...inputStyle, minHeight: 70, resize: 'vertical', fontSize: 12 }}
+            />
+          </div>
+        )}
+
+        <button onClick={handleUnpair} style={{ ...btn('secondary', 'md'), color: '#f87171', borderColor: '#7f1d1d', justifyContent: 'center', marginTop: 10 }}>
+          ✕ Szétválasztás 2 külön lapra
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={panelStyle}>
       <div style={panelHeaderStyle}>Tulajdonságok</div>
@@ -2712,7 +2863,7 @@ export function getHeaderTitle(page, bookData, defaultTitle) {
 }
 
 // ── Element Adjuster Card (Kiválasztott elem átméretező & pozícionáló) ──────
-function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, setBookData, selectedPage }) {
+function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, setBookData, selectedPage, selectedEvent }) {
   const logoInputRef = useRef();
 
   const handleLogoUpload = async (e) => {
@@ -2752,7 +2903,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
     <div style={{ background: '#161228', border: '1.5px solid #f59e0b', borderRadius: 10, padding: 12, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Sliders size={14} /> {isLogo ? '🖼 Fejléc Logó Szerkesztése' : isHeader ? '✍️ Fejléc Szöveg Szerkesztése' : `Elem Méretezése (${elemId})`}
+          <Sliders size={14} /> {isLogo ? '🖼 Fejléc Logó Szerkesztése' : isHeader ? '✍️ Fejléc Szöveg & Dátum' : `Elem Méretezése (${elemId})`}
         </span>
         <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: 2 }}>
           <X size={14} />
@@ -2777,15 +2928,32 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
       )}
 
       {isHeader && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingBottom: 6, borderBottom: '1px dashed #2e2a45' }}>
-          <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Fejléc Szöveg Módosítása:</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingBottom: 8, borderBottom: '1px dashed #2e2a45' }}>
+          <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Fejléc Szöveg (bal oldal):</label>
           <input
             value={currentHeaderText}
             onChange={e => handleHeaderTextChange(e.target.value)}
-            placeholder="Gépelj be egyedi fejléc feliratot..."
+            placeholder={bookData?.schoolName || "Iskola neve..."}
             style={inputStyle}
           />
-          <span style={{ fontSize: 9.5, color: '#94a3b8' }}>* Hagyhatod üresen az alapértelmezett felirathoz</span>
+          {selectedEvent && (
+            <>
+              <label style={{ fontSize: 11, color: '#f59e0b', fontWeight: 700, marginTop: 4 }}>📅 Fejléc Dátuma / Idő (jobb oldal):</label>
+              <input
+                value={selectedEvent.date || ''}
+                onChange={e => {
+                  const val = e.target.value;
+                  setBookData(prev => ({
+                    ...prev,
+                    events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, date: val } : ev)
+                  }));
+                }}
+                placeholder="2026. május 28."
+                style={{ ...inputStyle, borderColor: '#f59e0b' }}
+              />
+            </>
+          )}
+          <span style={{ fontSize: 9.5, color: '#94a3b8' }}>* A fejléc szövege és dátuma egyetlen sorban jelenik meg</span>
         </div>
       )}
 
@@ -3415,12 +3583,13 @@ function EventContent({ page, event, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', padding: '0 3%', boxSizing: 'border-box', background: '#fffcf5'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', padding: '0 2%', boxSizing: 'border-box', background: '#fffcf5',
+        overflow: 'hidden', whiteSpace: 'nowrap'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
-          <span style={{ fontSize: `${headerBox.fontSize || 9}px`, fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{titleText}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, overflow: 'hidden', marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+          <span style={{ fontSize: `${headerBox.fontSize || 7.5}px`, fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.04em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleText}</span>
         </div>
-        <span style={{ fontSize: `${headerBox.fontSize || 9}px`, color: '#b45309', fontWeight: 700 }}>{event.date}</span>
+        <span style={{ fontSize: `${headerBox.fontSize || 7.5}px`, color: '#b45309', fontWeight: 700, flexShrink: 0, marginLeft: 8, whiteSpace: 'nowrap' }}>{event.date}</span>
       </div>
 
       {/* Header Logo */}
@@ -3715,12 +3884,13 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         borderBottom: '2px solid #f59e0b', paddingBottom: '1.5%', marginBottom: '2%',
-        flexShrink: 0, background: '#fffcf5', padding: '0 2% 1.5%'
+        flexShrink: 0, background: '#fffcf5', padding: '0 2% 1.5%',
+        overflow: 'hidden', whiteSpace: 'nowrap'
       }}>
-        <span style={{ fontSize: '6pt', fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-          {bookData.schoolName}
+        <span style={{ fontSize: '6.5pt', fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.04em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {getHeaderTitle(page, bookData, bookData.schoolName)}
         </span>
-        <span style={{ fontSize: '6pt', color: '#b45309', fontWeight: 700 }}>
+        <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, flexShrink: 0, marginLeft: 8, whiteSpace: 'nowrap' }}>
           {page.schoolYear || ev1?.schoolYear} tanév
         </span>
       </div>

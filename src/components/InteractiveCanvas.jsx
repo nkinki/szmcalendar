@@ -42,7 +42,7 @@ export const DEFAULT_LAYOUTS = {
     footer: { x: 10, y: 75, w: 80, h: 10, zIndex: 1, fontSize: 8  },
   },
   event: {
-    header: { x: 6, y: 4,  w: 88, h: 8,  zIndex: 1, fontSize: 9  },
+    header: { x: 6, y: 4,  w: 88, h: 8,  zIndex: 1, fontSize: 7.5 },
     logo:   { x: 7, y: 4.5, w: 8,  h: 7,  zIndex: 5 },
     images: { x: 6, y: 14, w: 88, h: 44, zIndex: 1 },
     text:   { x: 6, y: 60, w: 88, h: 32, zIndex: 1, fontSize: 11 },
