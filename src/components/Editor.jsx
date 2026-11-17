@@ -832,16 +832,16 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
             <Plus size={14} /> Új Dia
           </button>
 
-          <button onClick={() => fbFolderInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), flexShrink: 0 }} title="Facebook export mappa importálása" disabled={fbImportBusy}>
-            <Upload size={14} /> {fbImportBusy ? 'Import…' : 'FB Import'}
+          <button onClick={() => fbFolderInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), flexShrink: 0 }} title="Facebook export mappa importálása (képek és leírások automatikus betöltése)" disabled={fbImportBusy}>
+            <Upload size={14} /> {fbImportBusy ? 'FB…' : 'FB Import'}
           </button>
 
           <button
             onClick={exportBookEvents}
             style={{ ...btn('secondary', 'sm'), flexShrink: 0 }}
-            title="Események exportálása JSON fájlként (feltölthető a Drive-ra / public mappába)"
+            title="Csak az eseményeket exportálja JSON-ba (szerverre feltölthető)"
           >
-            <Download size={14} /> Export JSON
+            <Download size={14} /> Esem. Export
           </button>
 
           {lastSavedAt && (
@@ -853,11 +853,11 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
 
         {/* Jobb oldali nézetek */}
         <div style={{ display: 'flex', gap: 6, flexShrink: 0, position: 'relative' }}>
-          <button onClick={() => exportProject()} style={btn('secondary', 'sm')} title="Projekt mentése fájlba">
-            <Download size={15} /> Export
+          <button onClick={() => exportProject()} style={btn('secondary', 'sm')} title="Teljes projekt mentése fájlba (biztonsági másolat)">
+            <Download size={15} /> Mentés Fájlba
           </button>
-          <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Projekt megnyitása">
-            <FolderOpen size={15} /> Import
+          <button onClick={() => projectInputRef.current?.click()} style={btn('secondary', 'sm')} title="Korábban mentett projekt megnyitása">
+            <FolderOpen size={15} /> Megnyitás
           </button>
           <button onClick={() => setViewMode('preview')} style={btn('secondary', 'sm')}>
             <Eye size={15} /> Előnézet
