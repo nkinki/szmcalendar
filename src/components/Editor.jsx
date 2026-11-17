@@ -13,6 +13,51 @@ function ByzantineCross({ size = 24, color = '#f59e0b' }) {
   return <span style={{ fontSize: size, color }}>✝</span>;
 }
 
+// ── Helper: Iskolai Logó & Címer intelligens renderelése (beolvadás elleni védelemmel) ──
+export function renderSchoolLogo(bookData, extraStyle = {}, sizeFallback = 24) {
+  if (!bookData?.schoolLogo) {
+    return <ByzantineCross size={sizeFallback} color="#f59e0b" />;
+  }
+
+  const styleMode = bookData.logoStyle || 'badge';
+  let effectStyle = {};
+
+  if (styleMode === 'badge') {
+    effectStyle = {
+      background: '#ffffff',
+      borderRadius: '50%',
+      border: '2px solid #d97706',
+      boxShadow: '0 3px 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(245,158,11,0.3)',
+      boxSizing: 'border-box',
+    };
+  } else if (styleMode === 'glow') {
+    effectStyle = {
+      filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6))',
+    };
+  } else if (styleMode === 'shadow') {
+    effectStyle = {
+      filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.5))',
+    };
+  }
+
+  return (
+    <img
+      src={bookData.schoolLogo}
+      alt="Iskola Címer"
+      style={{
+        maxWidth: '100%',
+        maxHeight: '100%',
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block',
+        ...effectStyle,
+        ...extraStyle,
+      }}
+    />
+  );
+}
+
 // ── Helper: automatikusan tömörített képolvasás ──────────────────────────────
 const fileToDataUrl = fileToCompressedDataUrl;
 
@@ -1988,14 +2033,54 @@ function RightInspector({
         <label style={labelStyle}>Iskolai Logó / Címer Cseréje</label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {bookData.schoolLogo ? (
-            <img src={bookData.schoolLogo} alt="" style={{ height: 60, objectFit: 'contain', border: '1px solid #2e2a45', borderRadius: 8, background: '#0e0c1a', padding: 4 }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 8, borderRadius: 8, border: '1px solid #2e2a45', background: '#121024' }}>
+              <div style={{ width: 64, height: 64, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {renderSchoolLogo(bookData, {}, 32)}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#f59e0b' }}>Aktív Iskolai Címer</div>
+                <div style={{ fontSize: 10, color: '#94a3b8' }}>Stílus: {bookData.logoStyle === 'badge' ? 'Fehér körlap (arany szegély)' : bookData.logoStyle === 'glow' ? 'Fehér fényudvar' : bookData.logoStyle === 'shadow' ? '3D árnyék' : 'Eredeti'}</div>
+              </div>
+            </div>
           ) : (
             <div style={{ padding: 12, borderRadius: 8, border: '1px dashed #2e2a45', textAlign: 'center', fontSize: 11, color: '#94a3b8' }}>Nincs egyedi logó feltöltve</div>
           )}
-          <input type="file" accept="image/*" ref={logoRef} style={{ display: 'none' }} onChange={e => handleFileUpload(e, 'schoolLogo')} />
-          <button onClick={() => logoRef.current?.click()} style={{ ...btn('secondary', 'md'), justifyContent: 'center' }}>
-            <Upload size={16} /> Új Logó / Címer Feltöltése
+
+          {/* Logó Kiemelés (Beolvadás elleni védelem) */}
+          <label style={{ ...labelStyle, marginTop: 4, color: '#fbbf24' }}>🛡️ Logó Kiemelés (Ne olvadjon be a fotóba!)</label>
+          <select
+            value={bookData.logoStyle || 'badge'}
+            onChange={e => setBookData(prev => ({ ...prev, logoStyle: e.target.value }))}
+            style={{ ...inputStyle, padding: '8px 10px', borderColor: '#f59e0b' }}
+          >
+            <option value="badge">⚪ Fehér körlap arany szegéllyel (Ajánlott — nem olvad be)</option>
+            <option value="glow">✨ Fehér fényudvar / glória (Kiemelés fotókon)</option>
+            <option value="shadow">🌑 3D finom árnyék</option>
+            <option value="none">◻️ Eredeti (effekt nélkül)</option>
+          </select>
+
+          <button
+            onClick={() => setBookData(prev => ({ ...prev, schoolLogo: '/school_logo.png', logoStyle: 'badge' }))}
+            style={{ ...btn('secondary', 'sm'), justifyContent: 'center', width: '100%', borderColor: '#f59e0b', color: '#f59e0b' }}
+            title="A feltöltött kerek Szent Mihály címer használata tiszta körbevágással és arany szegéllyel"
+          >
+            ✨ Levágott Szent Mihály Címer Beállítása
           </button>
+
+          <div style={{ display: 'grid', gridTemplateColumns: bookData.schoolLogo ? '1fr 1fr' : '1fr', gap: 8 }}>
+            <input type="file" accept="image/*" ref={logoRef} style={{ display: 'none' }} onChange={e => handleFileUpload(e, 'schoolLogo')} />
+            <button onClick={() => logoRef.current?.click()} style={{ ...btn('secondary', 'sm'), justifyContent: 'center' }}>
+              <Upload size={14} /> Saját Kép Feltöltése
+            </button>
+            {bookData.schoolLogo && (
+              <button
+                onClick={() => setBookData(prev => ({ ...prev, schoolLogo: '' }))}
+                style={{ ...btn('danger', 'sm'), justifyContent: 'center' }}
+              >
+                <Trash2 size={14} /> Eltávolítás
+              </button>
+            )}
+          </div>
         </div>
 
         <Divider label="Borítólap Fotó" />
@@ -2912,18 +2997,40 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 
       {isLogo && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 6, borderBottom: '1px dashed #2e2a45' }}>
-          <input type="file" accept="image/*" ref={logoInputRef} style={{ display: 'none' }} onChange={handleLogoUpload} />
-          <button onClick={() => logoInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), justifyContent: 'center', width: '100%' }}>
-            <Upload size={13} /> Logó Kép Cseréje / Feltöltése
+          <label style={{ fontSize: 11, color: '#fbbf24', fontWeight: 600 }}>🛡️ Logó Kiemelés (Ne olvadjon be a fotóba!)</label>
+          <select
+            value={bookData?.logoStyle || 'badge'}
+            onChange={e => setBookData && setBookData(prev => ({ ...prev, logoStyle: e.target.value }))}
+            style={{ ...inputStyle, padding: '6px 8px', fontSize: 11, borderColor: '#f59e0b' }}
+          >
+            <option value="badge">⚪ Fehér körlap arany szegéllyel (Ajánlott)</option>
+            <option value="glow">✨ Fehér fényudvar / glória</option>
+            <option value="shadow">🌑 3D finom árnyék</option>
+            <option value="none">◻️ Eredeti (effekt nélkül)</option>
+          </select>
+
+          <button
+            onClick={() => setBookData && setBookData(prev => ({ ...prev, schoolLogo: '/school_logo.png', logoStyle: 'badge' }))}
+            style={{ ...btn('secondary', 'sm'), justifyContent: 'center', width: '100%', borderColor: '#f59e0b', color: '#f59e0b' }}
+            title="A feltöltött kerek Szent Mihály címer használata tiszta körbevágással és arany szegéllyel"
+          >
+            ✨ Levágott Szent Mihály Címer
           </button>
-          {bookData?.schoolLogo && (
-            <button
-              onClick={() => setBookData && setBookData(prev => ({ ...prev, schoolLogo: '' }))}
-              style={{ ...btn('danger', 'sm'), justifyContent: 'center', width: '100%' }}
-            >
-              <Trash2 size={12} /> Logó Eltávolítása
+
+          <input type="file" accept="image/*" ref={logoInputRef} style={{ display: 'none' }} onChange={handleLogoUpload} />
+          <div style={{ display: 'grid', gridTemplateColumns: bookData?.schoolLogo ? '1fr 1fr' : '1fr', gap: 6 }}>
+            <button onClick={() => logoInputRef.current?.click()} style={{ ...btn('secondary', 'sm'), justifyContent: 'center' }}>
+              <Upload size={13} /> Új Feltöltése
             </button>
-          )}
+            {bookData?.schoolLogo && (
+              <button
+                onClick={() => setBookData && setBookData(prev => ({ ...prev, schoolLogo: '' }))}
+                style={{ ...btn('danger', 'sm'), justifyContent: 'center' }}
+              >
+                <Trash2 size={12} /> Eltávolítás
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -3082,11 +3189,7 @@ function CoverContent({ page, bookData }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 4, boxSizing: 'border-box'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', height: '100%', justifyContent: 'center' }}>
-          {bookData.schoolLogo ? (
-            <img src={bookData.schoolLogo} alt="" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
-          ) : (
-            <ByzantineCross size={Math.min(logoBox.w * 5, logoBox.h * 7)} color="#f59e0b" />
-          )}
+          {renderSchoolLogo(bookData, { maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }, Math.min(logoBox.w * 5, logoBox.h * 7))}
         </div>
       </div>
       )}      {/* Main Cover Photo Slot */}
@@ -3179,11 +3282,7 @@ function PrincipalContent({ page, bookData }) {
         zIndex: (logoBox.zIndex || 5),
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={Math.min(logoBox.w * 3.5, logoBox.h * 5)} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
       )}
 
@@ -3278,11 +3377,7 @@ function TeachersContent({ page, bookData }) {
         zIndex: (logoBox.zIndex || 5),
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={Math.min(logoBox.w * 3.5, logoBox.h * 5)} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
       )}
 
@@ -3369,11 +3464,7 @@ function ClassContent({ page, classData, bookData }) {
         zIndex: (logoBox.zIndex || 5),
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={Math.min(logoBox.w * 3.5, logoBox.h * 5)} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
 
       {/* Class Teacher Box */}
@@ -3484,11 +3575,7 @@ function GradContent({ page, grad, bookData }) {
         zIndex: (logoBox.zIndex || 5),
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={Math.min(logoBox.w * 3.5, logoBox.h * 5)} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
 
       {/* Resizable / Editable Tableau Image Slot */}
@@ -3534,11 +3621,7 @@ function DividerContent({ page, schoolYear, bookData }) {
         zIndex: logoBox.zIndex || 5,
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={40} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, 40)}
       </div>
 
       <div style={{
@@ -3599,11 +3682,7 @@ function EventContent({ page, event, bookData }) {
         zIndex: (logoBox.zIndex || 5),
         display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
       }}>
-        {bookData.schoolLogo ? (
-          <img src={bookData.schoolLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        ) : (
-          <ByzantineCross size={Math.min(logoBox.w * 3.5, logoBox.h * 5)} color="#f59e0b" />
-        )}
+        {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
 
       {visibleImages.length > 0 && (() => {
