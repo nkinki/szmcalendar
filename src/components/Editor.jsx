@@ -1551,38 +1551,6 @@ function CenterEditor({
         </div>
 
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <button
-            onClick={handleUndo}
-            disabled={!canUndo}
-            style={{
-              ...btn('secondary', 'sm'),
-              opacity: canUndo ? 1 : 0.4,
-              cursor: canUndo ? 'pointer' : 'not-allowed',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-            }}
-            title="Visszavonás (Ctrl+Z)"
-          >
-            <RotateCcw size={13} /> Visszavonás
-          </button>
-
-          <button
-            onClick={handleRedo}
-            disabled={!canRedo}
-            style={{
-              ...btn('secondary', 'sm'),
-              opacity: canRedo ? 1 : 0.4,
-              cursor: canRedo ? 'pointer' : 'not-allowed',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-            }}
-            title="Újra (Ctrl+Y vagy Ctrl+Shift+Z)"
-          >
-            <RotateCcw size={13} style={{ transform: 'scaleX(-1)' }} /> Újra
-          </button>
-
           <button onClick={handleResetLayout} style={btn('secondary', 'sm')} title="Pozíciók alaphelyzetbe">
             <RotateCcw size={13} /> Pozíciók Visszaállítása
           </button>
