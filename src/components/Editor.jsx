@@ -1667,6 +1667,18 @@ function RightInspector({
     updateEventImages(next);
   };
 
+  const setAllEventImagesEnabled = (enabled) => {
+    if (!selectedEvent) return;
+    const currentImages = normalizeEventImages(selectedEvent.images);
+    updateEventImages(currentImages.map(img => ({ ...img, enabled })));
+  };
+
+  const selectFirstNEventImages = (n) => {
+    if (!selectedEvent) return;
+    const currentImages = normalizeEventImages(selectedEvent.images);
+    updateEventImages(currentImages.map((img, idx) => ({ ...img, enabled: idx < n })));
+  };
+
   const deleteEvent = () => {
     if (!selectedEvent) return;
     if (!window.confirm('Biztosan törlöd ezt az eseményt? A dia is eltűnik az évkönyvből.')) return;
@@ -2635,7 +2647,69 @@ function RightInspector({
           ))}
         </select>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10, marginBottom: 10 }}>
+        {((selectedEvent?.images || []).length > 0) && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 10, padding: 8, background: '#121024', borderRadius: 8, border: '1px solid #232035' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#38bdf8' }}>
+                📸 Képek kijelölése: {(normalizeEventImages(selectedEvent?.images || [])).filter(i => i.enabled).length} / {(selectedEvent?.images || []).length}
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button
+                type="button"
+                onClick={() => setAllEventImagesEnabled(false)}
+                style={{
+                  ...btn('secondary', 'sm'),
+                  fontSize: 10.5,
+                  padding: '4px 8px',
+                  color: '#f87171',
+                  borderColor: '#7f1d1d',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4
+                }}
+                title="Minden fotó kijelölésének törlése egyszerre"
+              >
+                <X size={12} /> Kijelölések törlése
+              </button>
+              <button
+                type="button"
+                onClick={() => selectFirstNEventImages(selectedEvent?.imageCount || 4)}
+                style={{
+                  ...btn('secondary', 'sm'),
+                  fontSize: 10.5,
+                  padding: '4px 8px',
+                  color: '#38bdf8',
+                  borderColor: '#0369a1',
+                  background: 'rgba(56, 189, 248, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4
+                }}
+                title={`Csak az első ${selectedEvent?.imageCount || 4} fotó kiválasztása`}
+              >
+                <Check size={12} /> Első {selectedEvent?.imageCount || 4} kiválasztása
+              </button>
+              <button
+                type="button"
+                onClick={() => setAllEventImagesEnabled(true)}
+                style={{
+                  ...btn('secondary', 'sm'),
+                  fontSize: 10.5,
+                  padding: '4px 8px',
+                  color: '#94a3b8',
+                  borderColor: '#334155'
+                }}
+                title="Minden fotó bekapcsolása"
+              >
+                Mind
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8, marginBottom: 10 }}>
           {(normalizeEventImages(selectedEvent?.images || [])).map((img, idx) => (
             <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 8, borderRadius: 10, border: '1px solid #232035', background: img.enabled ? '#101025' : '#0d111a' }}>
               <button
@@ -2869,6 +2943,21 @@ function RightInspector({
       });
     };
 
+    const pageLayout = bookData?.pageLayouts?.[pageId] || {};
+    const setPageDateMode = (mode) => {
+      setBookData(prev => {
+        const layouts = prev.pageLayouts || {};
+        const current = layouts[pageId] || {};
+        return {
+          ...prev,
+          pageLayouts: {
+            ...layouts,
+            [pageId]: { ...current, dateDisplay: mode }
+          }
+        };
+      });
+    };
+
     const updateSubEvent = (eventId, field, val) => {
       setBookData(prev => ({
         ...prev,
@@ -2888,6 +2977,30 @@ function RightInspector({
       }));
     };
 
+    const setAllSubEventImagesEnabled = (eventId, enabled) => {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => {
+          if (ev.id !== eventId) return ev;
+          const currentImages = normalizeEventImages(ev.images || []);
+          const updated = currentImages.map(img => ({ ...img, enabled }));
+          return { ...ev, images: updated };
+        })
+      }));
+    };
+
+    const selectFirstNSubEventImages = (eventId, n) => {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => {
+          if (ev.id !== eventId) return ev;
+          const currentImages = normalizeEventImages(ev.images || []);
+          const updated = currentImages.map((img, idx) => ({ ...img, enabled: idx < n }));
+          return { ...ev, images: updated };
+        })
+      }));
+    };
+
     const handleUnpair = () => {
       if (!confirm(`Biztosan szétválasztod ezt a(z) ${count} eseményt külön oldalakra?`)) return;
       setBookData(prev => {
@@ -2895,6 +3008,8 @@ function RightInspector({
         return { ...prev, mergedGroups: grps, dualPairs: grps };
       });
     };
+
+    const activeDateMode = pageLayout?.dateDisplay || 'auto';
 
     return (
       <div style={panelStyle}>
@@ -2912,6 +3027,63 @@ function RightInspector({
           />
         </div>
 
+        {/* 📅 DÁTUM MEGJELENÍTÉSE AZ ÖSSZEVONT OLDALON */}
+        <div style={{ background: '#181528', border: '1px solid #334155', borderRadius: 8, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>📅 Dátumok az oldalon:</span>
+            <span style={{ fontSize: 9.5, color: '#94a3b8' }}>
+              {activeDateMode === 'first_only' ? 'Csak a felsőnél' : activeDateMode === 'all' ? 'Mindegyiknél' : 'Azonosnál csak 1x'}
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 4 }}>
+            <button
+              type="button"
+              onClick={() => setPageDateMode('auto')}
+              style={{
+                ...btn('secondary', 'sm'),
+                fontSize: 10,
+                padding: '4px 6px',
+                borderColor: activeDateMode === 'auto' ? '#f59e0b' : '#334155',
+                background: activeDateMode === 'auto' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
+                color: activeDateMode === 'auto' ? '#fbbf24' : '#94a3b8'
+              }}
+              title="Ha a két cikk dátuma megegyezik, csak a felsőnél jelenik meg (nem lesz 2x)"
+            >
+              ⚡ Auto (1x)
+            </button>
+            <button
+              type="button"
+              onClick={() => setPageDateMode('first_only')}
+              style={{
+                ...btn('secondary', 'sm'),
+                fontSize: 10,
+                padding: '4px 6px',
+                borderColor: activeDateMode === 'first_only' ? '#f59e0b' : '#334155',
+                background: activeDateMode === 'first_only' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
+                color: activeDateMode === 'first_only' ? '#fbbf24' : '#94a3b8'
+              }}
+              title="Kizárólag a legfelső cikknél jelenik meg dátum badge"
+            >
+              Csak fentinél
+            </button>
+            <button
+              type="button"
+              onClick={() => setPageDateMode('all')}
+              style={{
+                ...btn('secondary', 'sm'),
+                fontSize: 10,
+                padding: '4px 6px',
+                borderColor: activeDateMode === 'all' ? '#f59e0b' : '#334155',
+                background: activeDateMode === 'all' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
+                color: activeDateMode === 'all' ? '#fbbf24' : '#94a3b8'
+              }}
+              title="Mindegyik cikknél megjelenik a saját dátuma"
+            >
+              Mindegyiknél
+            </button>
+          </div>
+        </div>
+
         {events.map((ev, idx) => {
           const evImages = normalizeEventImages(ev.images || []);
           const activeCount = evImages.filter(im => im.enabled).length;
@@ -2924,10 +3096,25 @@ function RightInspector({
               </div>
 
               <div>
-                <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Dátum</label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                  <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Dátum</label>
+                  {ev.date ? (
+                    <button
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'date', '')}
+                      style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
+                      title="Dátum törlése erről a cikkről"
+                    >
+                      <Trash2 size={11} /> Törlés
+                    </button>
+                  ) : (
+                    <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs dátum badge</span>
+                  )}
+                </div>
                 <input
                   value={ev.date || ''}
                   onChange={e => updateSubEvent(ev.id, 'date', e.target.value)}
+                  placeholder="Üresen hagyva nincs dátum badge"
                   style={inputStyle}
                 />
               </div>
@@ -2948,9 +3135,63 @@ function RightInspector({
                     <label style={{ ...labelStyle, marginTop: 0, fontSize: 11, color: '#38bdf8' }}>
                       📸 Megjelenítendő fotók (max. {maxImgs} fér el)
                     </label>
-                    <span style={{ fontSize: 10, color: activeCount > maxImgs ? '#f87171' : '#94a3b8' }}>
+                    <span style={{ fontSize: 10, color: activeCount > maxImgs ? '#f87171' : '#94a3b8', fontWeight: 600 }}>
                       Kiválasztva: {activeCount} / {evImages.length}
                     </span>
+                  </div>
+
+                  {/* Gyorsgombok: Kijelölések törlése, Első 2-3 kijelölése, Mind */}
+                  <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      onClick={() => setAllSubEventImagesEnabled(ev.id, false)}
+                      style={{
+                        ...btn('secondary', 'sm'),
+                        fontSize: 10.5,
+                        padding: '4px 8px',
+                        color: '#f87171',
+                        borderColor: '#7f1d1d',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4
+                      }}
+                      title="Minden fotó kijelölésének törlése egyszerre (nem kell végigkattintgatni)"
+                    >
+                      <X size={12} /> Kijelölések törlése
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectFirstNSubEventImages(ev.id, maxImgs)}
+                      style={{
+                        ...btn('secondary', 'sm'),
+                        fontSize: 10.5,
+                        padding: '4px 8px',
+                        color: '#38bdf8',
+                        borderColor: '#0369a1',
+                        background: 'rgba(56, 189, 248, 0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4
+                      }}
+                      title={`Csak az első ${maxImgs} fotó kiválasztása`}
+                    >
+                      <Check size={12} /> Első {maxImgs} kiválasztása
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAllSubEventImagesEnabled(ev.id, true)}
+                      style={{
+                        ...btn('secondary', 'sm'),
+                        fontSize: 10.5,
+                        padding: '4px 8px',
+                        color: '#94a3b8',
+                        borderColor: '#334155'
+                      }}
+                      title="Minden fotó bekapcsolása"
+                    >
+                      Mind
+                    </button>
                   </div>
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -3963,11 +4204,12 @@ function EventContent({ page, event, bookData }) {
 }
 
 // ── 8. KÉT VAGY HÁROM RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2-3 CIKK / LAP) ──
-function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3 }) {
+function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, showDate = true }) {
   if (!event) return null;
   const allVisibleImgs = getVisibleEventImages(event);
   const imgs = allVisibleImgs.slice(0, maxImages);
   const { title, body } = splitEventTitle(event.text);
+  const hasDate = showDate && Boolean(event.date && event.date.trim());
 
   return (
     <div
@@ -3988,12 +4230,14 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3 })
     >
       {/* Fejléc dátummal */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5%', borderBottom: '1px solid #fef08a', paddingBottom: '0.8%' }}>
-        <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '75%' }}>
-          {title || event.date}
+        <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: hasDate ? '72%' : '100%' }}>
+          {title || event.date || 'Esemény'}
         </span>
-        <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, background: '#fef3c7', padding: '1px 6px', borderRadius: 4, flexShrink: 0 }}>
-          {event.date}
-        </span>
+        {hasDate && (
+          <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, background: '#fef3c7', padding: '1px 6px', borderRadius: 4, flexShrink: 0 }}>
+            {event.date}
+          </span>
+        )}
       </div>
 
       {/* Törzs: Kép + Szöveg egymás mellett */}
@@ -4054,6 +4298,8 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
   const is3 = count >= 3;
   const maxImgs = is3 ? 2 : 3;
 
+  const dateMode = bookData?.pageLayouts?.[page.id]?.dateDisplay || 'auto';
+
   return (
     <div style={{
       width: '100%', height: '100%',
@@ -4080,24 +4326,38 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
       </div>
 
       {/* Esemény kártyák arany elválasztókkal */}
-      {events.map((ev, idx) => (
-        <React.Fragment key={ev.id || idx}>
-          {idx > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: is3 ? '0.8% 0' : '1.2% 0', flexShrink: 0 }}>
-              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
-              <ByzantineCross size={is3 ? 10 : 12} color="#f59e0b" />
-              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
-            </div>
-          )}
-          <HalfEventCard
-            event={ev}
-            bookData={bookData}
-            onSelect={() => onSelectEvent && onSelectEvent(ev.id)}
-            isSelected={selectedEventId === ev.id}
-            maxImages={maxImgs}
-          />
-        </React.Fragment>
-      ))}
+      {events.map((ev, idx) => {
+        let showDate = true;
+        if (dateMode === 'first_only') {
+          showDate = idx === 0;
+        } else if (dateMode === 'none') {
+          showDate = false;
+        } else if (dateMode === 'auto') {
+          // Ha azonos a dátum mint az 1. cikknél, nem jelenik meg 2x!
+          const isDuplicate = idx > 0 && ev.date && events.slice(0, idx).some(prev => (prev.date || '').trim() === (ev.date || '').trim());
+          showDate = !isDuplicate;
+        }
+
+        return (
+          <React.Fragment key={ev.id || idx}>
+            {idx > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: is3 ? '0.8% 0' : '1.2% 0', flexShrink: 0 }}>
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
+                <ByzantineCross size={is3 ? 10 : 12} color="#f59e0b" />
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
+              </div>
+            )}
+            <HalfEventCard
+              event={ev}
+              bookData={bookData}
+              onSelect={() => onSelectEvent && onSelectEvent(ev.id)}
+              isSelected={selectedEventId === ev.id}
+              maxImages={maxImgs}
+              showDate={showDate}
+            />
+          </React.Fragment>
+        );
+      })}
 
       {/* Lábléc */}
       <div style={{
