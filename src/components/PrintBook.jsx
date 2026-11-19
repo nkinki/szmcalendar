@@ -72,11 +72,32 @@ export default function PrintBook({ bookData, setBookData, setViewMode }) {
         </button>
       </div>
 
-      {/* Nyomtatási tipp */}
-      <div className="print-hide" style={{ maxWidth: 840, margin: '16px auto', padding: '12px 18px', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 10, fontSize: 13, color: '#fef3c7', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: 18 }}>💡</span>
-        <div>
-          Nyomtatási beállítások a tökéletes eredményhez: <strong>Álló (Portrait)</strong> tájolás, <strong>A4</strong> papírméret, <strong>Margók: Nincs (None)</strong>, és kapcsold be a <strong>„Háttérgrafikák” (Background graphics)</strong> opciót!
+      {/* Lépésről lépésre PDF útmutató */}
+      <div className="print-hide" style={{ maxWidth: 840, margin: '16px auto 0', padding: '16px 20px', background: 'rgba(15,14,23,0.95)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 12, fontSize: 13, color: '#e2e8f0' }}>
+        <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 12, color: '#a78bfa' }}>
+          📋 PDF mentés / Nyomtatás — pontosan így csináld:
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+          {[
+            { n: '1', icon: '🖨️', title: 'Nyomj Ctrl+P-t', desc: 'vagy kattints a lila "Mentés PDF" gombra fent jobbra' },
+            { n: '2', icon: '📄', title: 'Papírméret: A4', desc: 'Ellenőrizd hogy A4 van kiválasztva (ne Letter vagy más!)' },
+            { n: '3', icon: '↕️', title: 'Tájolás: Álló', desc: 'Portrait / Álló legyen — NEM fekvő (Landscape)' },
+            { n: '4', icon: '✂️', title: 'Margók: Nincs', desc: 'Margins → None / Nincs — ez nagyon fontos, különben levágja!' },
+            { n: '5', icon: '🎨', title: 'Háttérgrafikák: BE', desc: '"Background graphics" legyen kipipálva — különben fehér lesz a háttér!' },
+            { n: '6', icon: '💾', title: 'Mentés PDF-ként', desc: 'Célnyomtató: "Mentés PDF-be" / "Save as PDF" → Mentés' },
+          ].map(s => (
+            <div key={s.n} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '10px 12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                <span style={{ background: '#7c3aed', color: '#fff', borderRadius: '50%', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{s.n}</span>
+                <span style={{ fontSize: 16 }}>{s.icon}</span>
+                <strong style={{ color: '#c4b5fd' }}>{s.title}</strong>
+              </div>
+              <div style={{ color: '#94a3b8', paddingLeft: 28, fontSize: 12 }}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 12, padding: '8px 12px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 8, color: '#86efac', fontSize: 12 }}>
+          ✅ Az oldalak mérete <strong>pontosan A4 (210×297mm)</strong> van beállítva a kódban — ha a fenti 6 lépést követed, a PDF/nyomtatás tökéletes lesz. Nem kell méreteket kézzel beállítani.
         </div>
       </div>
 
@@ -110,7 +131,7 @@ function PrintPage({ page, bookData, pageNumber }) {
         flexDirection: 'column',
       }}
     >
-      {/* Oldaltartalom — 100%-ban megegyezik a szerkesztővel (beleértve az elmozgatott elemeket és egyedi feliratokat) */}
+      {/* Oldaltartalom — 100%-ban megegyezik a szerkesztővel */}
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
         <PageContent page={page} bookData={bookData} />
         <CustomElementsOverlay page={page} bookData={bookData} />

@@ -7,6 +7,7 @@ import AdminLogin from './components/AdminLogin';
 import { repairBookData, STORAGE_KEY } from './utils/media';
 import { isAdminLoggedIn, adminLogout } from './utils/driveSync';
 import { compressBookDataImages } from './utils/imageCompressor';
+import JSZip from 'jszip';
 
 // Admin által szerkesztett adat tartós mentése — külön kulcs a per-session
 // STORAGE_KEY-től, hogy F5/reload után is a szerkesztett adat töltődjön be,
@@ -216,12 +217,112 @@ function App() {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(compressedBook));
           localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(compressedBook));
         } catch {}
-        alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~1-2 percen belül frissül mindenkinél.`);
+
+        // ── Automatikus biztonsági mentés letöltése ──
+        try {
+          const now = new Date();
+          const stamp = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+          const backupData = JSON.stringify(compressedBook, null, 2);
+          const blob = new Blob([backupData], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `szmc_backup_${stamp}.json`;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+        } catch (backupErr) {
+          console.warn('Backup letöltés sikertelen:', backupErr);
+        }
+
+        alert(`✅ Közzétéve! Commit: ${data.commit}\n\nAz oldal ~1-2 percen belül frissül mindenkinél.\n💾 Biztonsági mentés letöltve!`);
       } else {
         alert('❌ Hiba: ' + data.error);
       }
     } catch (err) {
       alert('❌ Hiba: ' + err.message);
+    }
+  };
+
+  // ── Nyomdai ZIP csomag exportálása (eredeti minőségű képekkel) ───────────────
+  const handlePrintExport = async () => {
+    try {
+      const zip = new JSZip();
+      const imgFolder = zip.folder('kepek');
+      const manifest = { schoolName: bookData.schoolName, currentYear: bookData.currentYear, files: [] };
+
+      // Segéd: base64 dataUrl → Blob → zip fájl
+      const addImage = (dataUrl, filename) => {
+        if (!dataUrl || !dataUrl.startsWith('data:image/')) return;
+        const [header, b64] = dataUrl.split(',');
+        const ext = header.includes('png') ? 'png' : 'jpg';
+        const fname = `${filename}.${ext}`;
+        imgFolder.file(fname, b64, { base64: true });
+        manifest.files.push(fname);
+      };
+
+      // Iskolai logó
+      if (bookData.schoolLogo) addImage(bookData.schoolLogo, 'iskola_logo');
+      // Igazgató fotó
+      if (bookData.principalPhoto) addImage(bookData.principalPhoto, 'igazgato_foto');
+      // Tanárok
+      (bookData.teachers || []).forEach((t, i) => {
+        if (t.photo) addImage(t.photo, `tanar_${i + 1}_${(t.name || 'ismeretlen').replace(/[^a-z0-9áéíóöőúüű]/gi, '_').slice(0, 30)}`);
+      });
+      // Osztályok
+      (bookData.classes || []).forEach((c, i) => {
+        const cn = (c.name || `osztaly_${i + 1}`).replace(/[^a-z0-9áéíóöőúüű]/gi, '_').slice(0, 30);
+        if (c.groupPhoto) addImage(c.groupPhoto, `${cn}_csoportkep`);
+        if (c.classTeacherPhoto) addImage(c.classTeacherPhoto, `${cn}_osztalyfonok`);
+      });
+      // Érettségi oldalak
+      (bookData.graduationPages || []).forEach((g, i) => {
+        if (g.image) addImage(g.image, `erettsegi_${i + 1}_${(g.name || '').replace(/[^a-z0-9áéíóöőúüű]/gi, '_').slice(0, 30)}`);
+      });
+      // Esemény képek
+      (bookData.events || []).forEach((ev, i) => {
+        (ev.images || []).forEach((img, j) => {
+          const url = typeof img === 'string' ? img : img?.url;
+          if (url) addImage(url, `esemeny_${i + 1}_kep_${j + 1}`);
+        });
+      });
+      // Egyéni canvas elemek képei
+      if (bookData.pageLayouts) {
+        Object.entries(bookData.pageLayouts).forEach(([pageId, layout]) => {
+          (layout?.customElements || []).forEach((el, j) => {
+            if (el.src) addImage(el.src, `oldal_${pageId}_elem_${j + 1}`);
+          });
+        });
+      }
+
+      // Manifest JSON
+      zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+      // README a nyomdának
+      zip.file('NYOMDA_UTASITAS.txt', `NYOMDAI KÉPCSOMAG - ${bookData.schoolName || ''} ${bookData.currentYear || ''}
+==========================================
+Ez a csomag tartalmazza az évkönyv összes képét eredeti (nem tömörített) minőségben.
+
+FÁJLOK:
+${manifest.files.map(f => '  - ' + f).join('\n')}
+
+FONTOS: A képek base64-ből dekódolt JPEG/PNG fájlok.
+Ajánlott felbontás nyomtatáshoz: minimum 300 DPI.
+Ha egy kép kisebb felbontású, az eredeti forrásból cserélje ki nyomdai méretűre.
+`);
+
+      const now = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const content = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+      const url = URL.createObjectURL(content);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `szmc_nyomdai_csomag_${now}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+
+      alert(`📦 Nyomdai csomag elkészült!\n${manifest.files.length} kép letöltve.\n\nFigyelj: a képek minősége attól függ, milyen felbontásban töltötted fel őket!`);
+    } catch (err) {
+      alert('❌ Hiba a nyomdai csomag készítésekor: ' + err.message);
     }
   };
 
@@ -273,6 +374,7 @@ function App() {
           isAdmin={isAdmin}
           onAdminLogout={() => { adminLogout(); setIsAdmin(false); }}
           onPublish={handlePublish}
+          onPrintExport={handlePrintExport}
         />
       )}
 

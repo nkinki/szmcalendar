@@ -127,7 +127,7 @@ export function buildPages(bookData) {
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ══════════════════════════════════════════════════════════════════════════════
-export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty, isAdmin, onAdminLogout, onPublish }) {
+export default function Editor({ bookData, setBookData, setViewMode, onBackToMenu, onResetDefault, onResetEmpty, isAdmin, onAdminLogout, onPublish, onPrintExport }) {
   const pages = buildPages(bookData);
   const [selectedPageId, setSelectedPageId] = useState(pages[0]?.id || 'cover');
   const [editingText, setEditingText] = useState(false);
@@ -747,6 +747,38 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               title="Mentés és közzététel a szerverre (jelszóval védve)"
             >
               🚀 Közzététel
+            </button>
+          )}
+
+          <button
+            onClick={exportProject}
+            style={{
+              ...btn('secondary', 'sm'),
+              background: 'linear-gradient(135deg,#1d4ed8,#3b82f6)',
+              color: '#fff',
+              fontWeight: 700,
+              boxShadow: '0 2px 8px rgba(59,130,246,0.35)',
+              flexShrink: 0,
+            }}
+            title="Biztonsági mentés letöltése (JSON) — bármikor visszatölthető"
+          >
+            💾 Backup
+          </button>
+
+          {onPrintExport && (
+            <button
+              onClick={onPrintExport}
+              style={{
+                ...btn('secondary', 'sm'),
+                background: 'linear-gradient(135deg,#b45309,#f59e0b)',
+                color: '#fff',
+                fontWeight: 700,
+                boxShadow: '0 2px 8px rgba(245,158,11,0.35)',
+                flexShrink: 0,
+              }}
+              title="Nyomdai képcsomag letöltése ZIP-ben (eredeti minőségű képek)"
+            >
+              🖨️ Nyomda ZIP
             </button>
           )}
 
