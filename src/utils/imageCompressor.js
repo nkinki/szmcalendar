@@ -1,9 +1,9 @@
 // src/utils/imageCompressor.js
 // Intelligens képtömörítés a böngészőben (Canvas alapú).
-// A nagyfelbontású (5-15MB) kameraképeket azonnal optimális (~100-150KB) méretre tömöríti,
-// megakadályozva a 413 Request Entity Too Large hibát és a böngésző lassulását.
+// A nagyfelbontású kameraképeket optimalizált, prémium nyomdai felbontásra (max 2500px, 92% minőség)
+// skálázza, megőrizve a 300 DPI élességet A4-es méretben is, miközben a fájlméret ésszerű marad.
 
-export function fileToCompressedDataUrl(file, maxWidth = 1400, maxHeight = 1400, quality = 0.8) {
+export function fileToCompressedDataUrl(file, maxWidth = 2500, maxHeight = 2500, quality = 0.92) {
   return new Promise((resolve, reject) => {
     if (!file) return resolve('');
     if (!file.type || !file.type.startsWith('image/')) {
@@ -50,13 +50,13 @@ export function fileToCompressedDataUrl(file, maxWidth = 1400, maxHeight = 1400,
   });
 }
 
-export function compressDataUrlIfNeeded(dataUrl, maxWidth = 1400, maxHeight = 1400, quality = 0.8) {
+export function compressDataUrlIfNeeded(dataUrl, maxWidth = 2500, maxHeight = 2500, quality = 0.92) {
   return new Promise((resolve) => {
     if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
       return resolve(dataUrl);
     }
-    // Ha már 250 KB alatt van (karakterszám ~340000), nem szükséges újratömöríteni
-    if (dataUrl.length < 350000) {
+    // Ha már 600 KB alatt van (karakterszám ~800000), nem szükséges újratömöríteni
+    if (dataUrl.length < 800000) {
       return resolve(dataUrl);
     }
 
