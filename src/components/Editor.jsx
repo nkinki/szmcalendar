@@ -44,16 +44,28 @@ function normalizeEventImages(images = []) {
 }
 
 // ── Build pages (same order as PrintBook) ────────────────────────────────────
-function getSchoolYears(events) {
-  // Legfrissebb tanév elöl (pl. 2025/2026 -> 2024/2025)
-  return [...new Set((events || []).map(e => e.schoolYear).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+function getSchoolYears(events, order = 'desc') {
+  const years = [...new Set((events || []).map(e => e.schoolYear).filter(Boolean))];
+  return years.sort((a, b) => order === 'asc' ? a.localeCompare(b) : b.localeCompare(a));
 }
-const monthOrder = [6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7];
-function sortEventsDesc(events) {
+
+// Tanév szerinti hónaprend:
+// desc (legfrissebb elöl): június -> május -> ... -> szeptember -> augusztus -> július
+const monthOrderDesc = [6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7];
+// asc (legkorábbi / kronologikus elöl): szeptember -> október -> ... -> június -> július -> augusztus
+const monthOrderAsc = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8];
+
+function sortEventsByOrder(events, order = 'desc') {
+  const mOrder = order === 'asc' ? monthOrderAsc : monthOrderDesc;
   return [...(events || [])].sort((a, b) => {
-    const ma = new Date(a.dateSort || '').getMonth() + 1, mb = new Date(b.dateSort || '').getMonth() + 1;
-    const oa = monthOrder.indexOf(ma), ob = monthOrder.indexOf(mb);
-    if (oa !== ob) return oa - ob;
+    const ma = new Date(a.dateSort || '').getMonth() + 1;
+    const mb = new Date(b.dateSort || '').getMonth() + 1;
+    const oa = mOrder.indexOf(ma);
+    const ob = mOrder.indexOf(mb);
+    if (oa !== -1 && ob !== -1 && oa !== ob) return oa - ob;
+    if (order === 'asc') {
+      return (a.dateSort || '').localeCompare(b.dateSort || '');
+    }
     return (b.dateSort || '').localeCompare(a.dateSort || '');
   });
 }
@@ -82,16 +94,21 @@ export function buildPages(bookData) {
     pages.push({ id: `class_${cls.id}`, type: 'class', classId: cls.id });
   });
 
-  // Graduation tableau pages (ordered backwards from latest year)
-  [...(bookData.graduationPages || [])].sort((a, b) => b.year - a.year).forEach(g =>
+  // Graduation tableau pages
+  const gradOrder = bookData?.sortOrder === 'asc' 
+    ? [...(bookData.graduationPages || [])].sort((a, b) => a.year - b.year)
+    : [...(bookData.graduationPages || [])].sort((a, b) => b.year - a.year);
+
+  gradOrder.forEach(g =>
     pages.push({ id: `grad_${g.id}`, type: 'graduation', data: g })
   );
 
   const groups = getMergedGroups(bookData);
+  const sortDirection = bookData?.sortOrder || 'desc';
 
-  getSchoolYears(bookData.events).forEach(sy => {
+  getSchoolYears(bookData.events, sortDirection).forEach(sy => {
     pages.push({ id: `div_${sy}`, type: 'divider', schoolYear: sy });
-    const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === sy));
+    const syEvents = sortEventsByOrder((bookData.events || []).filter(e => e.schoolYear === sy), sortDirection);
 
     const usedIds = new Set();
     syEvents.forEach(evt => {
@@ -781,6 +798,28 @@ export default function Editor({ bookData, setBookData, setViewMode, onBackToMen
               🖨️ Nyomda ZIP
             </button>
           )}
+
+          <button
+            onClick={() => {
+              const nextOrder = bookData?.sortOrder === 'asc' ? 'desc' : 'asc';
+              setBookData(prev => ({ ...prev, sortOrder: nextOrder }));
+            }}
+            style={{
+              ...btn('secondary', 'sm'),
+              background: bookData?.sortOrder === 'asc' ? '#3730a3' : '#1e1b4b',
+              color: '#c7d2fe',
+              borderColor: '#6366f1',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+            }}
+            title={bookData?.sortOrder === 'asc' 
+              ? 'Jelenlegi sorrend: Legrégebbi elöl (Kattints a váltáshoz: Legújabb elöl)' 
+              : 'Jelenlegi sorrend: Legújabb elöl (Kattints a váltáshoz: Legrégebbi elöl)'}
+          >
+            {bookData?.sortOrder === 'asc' ? '⏳ Régi ➔ Új' : '⚡ Új ➔ Régi'}
+          </button>
 
           <button
             onClick={handleManualSave}

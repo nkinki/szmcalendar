@@ -188,6 +188,7 @@ function App() {
         classes: compressedBook.classes,
         graduationPages: compressedBook.graduationPages,
         pageLayouts: compressedBook.pageLayouts,
+        sortOrder: compressedBook.sortOrder || 'desc',
       };
 
       const res = await fetch('/api/save', {
