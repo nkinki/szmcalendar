@@ -579,119 +579,87 @@ body {
   opacity: 1;
 }
 
-/* Print Bleed & Crop Marks CSS */
-.print-container {
-  display: none;
-}
+/* ── Print CSS – Évkönyv nyomtatás ── */
+
+/* Képernyőn a print-container normálisan látható (PrintBook nézet mutatja) */
 
 @media print {
-  /* Hide standard screen elements */
-  body, .app-container, .main-content, .sidebar, .header-bar, .editor-workspace {
+  /* 1. Minden elrejtése ami NEM print tartalom */
+  .print-hide {
     display: none !important;
   }
-  
+
+  /* 2. html/body reset */
   html, body {
-    background-color: #fff !important;
-    color: #000 !important;
     margin: 0 !important;
     padding: 0 !important;
-    width: 210mm;
-    height: 297mm;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
     overflow: visible !important;
   }
 
+  /* 3. #root legyen blokk-szintű */
+  #root {
+    display: block !important;
+    min-height: unset !important;
+  }
+
+  /* 4. Az oldalak konténere */
   .print-container {
     display: block !important;
-    width: 297mm;
-    height: auto;
-  }
-
-  /* Set page format to A4 Landscape */
-  @page {
-    size: A4 portrait;
-    margin: 0;
-  }
-
-  .print-page {
-    position: relative;
-    width: 210mm;
-    height: 297mm;
-    box-sizing: border-box;
-    page-break-after: always;
-    page-break-inside: avoid;
-    overflow: hidden;
-    background-color: #fff;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    /* Print Layout Padding + Bleed calculation:
-       Standard A4 size is 297x210mm.
-       We add 3mm bleed around it, making it 303x216mm during production,
-       but for standard browsers printing to A4 we render inside 297x210mm
-       and draw simulated trim marks inside.
-    */
-    padding: 15mm;
-  }
-
-  /* Draw actual nyomdai vágójelek (Crop Marks) */
-  .print-page::before, .print-page::after,
-  .print-page-trim-marker-tr, .print-page-trim-marker-bl {
-    content: "";
-    position: absolute;
-    width: 10mm;
-    height: 10mm;
-    border-color: #000;
-    border-style: solid;
-    pointer-events: none;
-    z-index: 100;
-  }
-  
-  /* Top-left crop mark */
-  .print-page::before {
-    top: 5mm;
-    left: 5mm;
-    border-width: 0.1mm 0 0 0.1mm;
-  }
-  
-  /* Top-right crop mark */
-  .print-page::after {
-    top: 5mm;
-    right: 5mm;
-    border-width: 0.1mm 0.1mm 0 0;
-  }
-  
-  /* Bottom-left crop mark */
-  .print-page-trim-marker-bl {
-    bottom: 5mm;
-    left: 5mm;
-    border-width: 0 0 0.1mm 0.1mm;
-  }
-  
-  /* Bottom-right crop mark */
-  .print-page-trim-marker-tr {
-    bottom: 5mm;
-    right: 5mm;
-    border-width: 0 0.1mm 0.1mm 0;
-  }
-
-  .calendar-page-layout {
     padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    background: transparent !important;
+  }
+
+  /* 5. Minden egyes A4 oldal */
+  .print-page-outer {
+    display: block !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
+    position: relative !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
-  .photo-area {
-    border: 1px solid #eee !important;
-    background-color: #fafafa !important;
+  .print-page-outer:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
-  .calendar-cell {
-    border: 1px solid #ccc !important;
-    background-color: #fff !important;
+  /* 6. A belső 500×706px vászon → scale(1.5874) → 210mm */
+  .print-page-canvas {
+    width: 500px !important;
+    height: 706px !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform-origin: top left !important;
+    transform: scale(1.5874) !important;
+    overflow: hidden !important;
   }
 
-  .calendar-cell.weekend {
-    background-color: #f7f7f7 !important;
+  /* 7. A4 oldal beállítás */
+  @page {
+    size: A4 portrait;
+    margin: 0mm;
   }
 }
+
+/* (régi vágójel CSS törölve - már nem szükséges) */
