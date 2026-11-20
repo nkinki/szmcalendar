@@ -21668,51 +21668,5 @@
         "enabled": true
       }
     ]
-  },
-  {
-    "id": "fb_1756653177_0",
-    "schoolYear": "2024/2025",
-    "date": "2025. augusztus 31.",
-    "dateSort": "2025-08-31",
-    "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
-  },
-  {
-    "id": "fb_1756653177_343",
-    "schoolYear": "2024/2025",
-    "date": "2025. augusztus 31.",
-    "dateSort": "2025-08-31",
-    "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
-  },
-  {
-    "id": "fb_1756309174_344",
-    "schoolYear": "2024/2025",
-    "date": "2025. augusztus 27.",
-    "dateSort": "2025-08-27",
-    "text": "Szent Mihály egy új fényképet töltött fel.",
-    "images": [
-      {
-        "url": "/api/img?id=1twPWVUArv2iLGUQ-k76uPFGmW3WTPltm",
-        "thumbnail": "/api/img?id=1twPWVUArv2iLGUQ-k76uPFGmW3WTPltm",
-        "driveId": "1twPWVUArv2iLGUQ-k76uPFGmW3WTPltm",
-        "enabled": true
-      }
-    ]
-  },
-  {
-    "id": "fb_1756306975_345",
-    "schoolYear": "2024/2025",
-    "date": "2025. augusztus 27.",
-    "dateSort": "2025-08-27",
-    "text": "Szent Mihály egy új fényképet töltött fel.",
-    "images": [
-      {
-        "url": "/api/img?id=1ynEtsuSYwMliklbmFG6emGPpj7I7gGpG",
-        "thumbnail": "/api/img?id=1ynEtsuSYwMliklbmFG6emGPpj7I7gGpG",
-        "driveId": "1ynEtsuSYwMliklbmFG6emGPpj7I7gGpG",
-        "enabled": true
-      }
-    ]
   }
 ]
