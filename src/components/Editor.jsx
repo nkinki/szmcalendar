@@ -70,6 +70,10 @@ function sortEventsByOrder(events, order = 'desc') {
   });
 }
 
+function sortEventsDesc(events) {
+  return sortEventsByOrder(events, 'desc');
+}
+
 export function isShortEvent(evt) {
   if (!evt) return false;
   const len = (evt.text || '').length;
@@ -2844,7 +2848,8 @@ function RightInspector({
 
         <Divider label="Összevonás (2-3 cikk / lap)" />
         {(() => {
-          const syEvents = sortEventsDesc((bookData.events || []).filter(e => e.schoolYear === selectedEvent?.schoolYear));
+          const sortDirection = bookData?.sortOrder || 'desc';
+          const syEvents = sortEventsByOrder((bookData.events || []).filter(e => e.schoolYear === selectedEvent?.schoolYear), sortDirection);
           const curIdx = syEvents.findIndex(e => e.id === selectedEvent?.id);
           const prevEvent = curIdx > 0 ? syEvents[curIdx - 1] : null;
           const nextEvent = curIdx >= 0 && curIdx < syEvents.length - 1 ? syEvents[curIdx + 1] : null;

@@ -90,6 +90,10 @@ function sortEventsByOrder(events, order = 'desc') {
   });
 }
 
+export function sortEventsDesc(events) {
+  return sortEventsByOrder(events, 'desc');
+}
+
 export function isShortEvent(evt) {
   if (!evt) return false;
   const len = (evt.text || '').length;
