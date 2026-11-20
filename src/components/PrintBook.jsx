@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Printer } from 'lucide-react';
-import { buildPages, CustomElementsOverlay } from './BookPreview';
-import { PageContent } from './Editor';
+import { buildPages, PageContent } from './Editor';
+import { CustomElementsOverlay } from './BookPreview';
 
 export default function PrintBook({ bookData, setBookData, setViewMode }) {
   const doPrint = () => window.print();
@@ -24,11 +24,14 @@ export default function PrintBook({ bookData, setBookData, setViewMode }) {
             display: none !important;
           }
           .print-container {
+            display: block !important;
             padding: 0 !important;
+            margin: 0 !important;
             gap: 0 !important;
             background: transparent !important;
           }
           .print-page {
+            display: block !important;
             width: 210mm !important;
             height: 297mm !important;
             min-height: 297mm !important;
@@ -41,6 +44,7 @@ export default function PrintBook({ bookData, setBookData, setViewMode }) {
             border: none !important;
             border-radius: 0 !important;
             margin: 0 !important;
+            padding: 0 !important;
             overflow: hidden !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
@@ -52,7 +56,7 @@ export default function PrintBook({ bookData, setBookData, setViewMode }) {
           }
           @page {
             size: A4 portrait;
-            margin: 0;
+            margin: 0mm;
           }
         }
       `}</style>
