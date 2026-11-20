@@ -3684,9 +3684,12 @@ function PrincipalContent({ page, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '2% 5%', display: 'flex', alignItems: 'center', gap: 10, boxSizing: 'border-box', color: '#fff', borderBottom: '3px solid #f59e0b'
+        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        padding: '2% 5% 2% 0',
+        paddingLeft: `${isElemHidden(page, 'logo', bookData) ? 5 : Math.max(5, Math.round(((logoBox.x + logoBox.w - headerBox.x + 3.5) / (headerBox.w || 100)) * 100))}%`,
+        display: 'flex', alignItems: 'center', gap: 10, boxSizing: 'border-box', color: '#fff', borderBottom: '3px solid #f59e0b'
       }}>
-        <div style={{ marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+        <div>
           <div style={{ fontSize: 7, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24' }}>{bookData.schoolName}</div>
           <div style={{ fontSize: `${headerBox.fontSize || 14}px`, fontWeight: 900, lineHeight: 1.1 }}>{titleText}</div>
         </div>
@@ -3779,9 +3782,12 @@ function TeachersContent({ page, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '2% 5%', display: 'flex', alignItems: 'center', gap: 10, boxSizing: 'border-box', color: '#fff', borderBottom: '3px solid #f59e0b'
+        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        padding: '2% 5% 2% 0',
+        paddingLeft: `${isElemHidden(page, 'logo', bookData) ? 5 : Math.max(5, Math.round(((logoBox.x + logoBox.w - headerBox.x + 3.5) / (headerBox.w || 100)) * 100))}%`,
+        display: 'flex', alignItems: 'center', gap: 10, boxSizing: 'border-box', color: '#fff', borderBottom: '3px solid #f59e0b'
       }}>
-        <div style={{ marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+        <div>
           <div style={{ fontSize: 7, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24' }}>{bookData.schoolName}</div>
           <div style={{ fontSize: `${headerBox.fontSize || 14}px`, fontWeight: 900, lineHeight: 1.1 }}>{titleText}</div>
         </div>
@@ -3862,10 +3868,12 @@ function ClassContent({ page, classData, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '1.5% 4%',
+        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        padding: '1.5% 4% 1.5% 0',
+        paddingLeft: `${isElemHidden(page, 'logo', bookData) ? 4 : Math.max(4, Math.round(((logoBox.x + logoBox.w - headerBox.x + 3.5) / (headerBox.w || 100)) * 100))}%`,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxSizing: 'border-box', color: '#fff', borderBottom: '3px solid #f59e0b'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div>
             <div style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fbbf24' }}>{bookData.schoolName}</div>
             <div style={{ fontSize: `${headerBox.fontSize || 13}px`, fontWeight: 900, lineHeight: 1.1 }}>{titleText}</div>
@@ -3974,10 +3982,12 @@ function GradContent({ page, grad, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '2% 5%',
+        background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        padding: '2% 5% 2% 0',
+        paddingLeft: `${isElemHidden(page, 'logo', bookData) ? 5 : Math.max(5, Math.round(((logoBox.x + logoBox.w - headerBox.x + 3.5) / (headerBox.w || 100)) * 100))}%`,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff', boxSizing: 'border-box', borderBottom: '3px solid #f59e0b'
       }}>
-        <div style={{ marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+        <div>
           <div style={{ fontSize: 7, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fbbf24' }}>{bookData.schoolName} • Ballagás</div>
           <div style={{ fontSize: `${headerBox.fontSize || 14}px`, fontWeight: 900, lineHeight: 1 }}>{titleText}</div>
         </div>
@@ -4085,16 +4095,20 @@ function EventContent({ page, event, bookData }) {
         position: 'absolute',
         left: `${headerBox.x}%`, top: `${headerBox.y}%`, width: `${headerBox.w}%`, height: `${headerBox.h}%`,
         zIndex: headerBox.zIndex || 1,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', padding: '0 2%', boxSizing: 'border-box', background: '#fffcf5',
-        overflow: 'hidden', whiteSpace: 'nowrap'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b',
+        boxSizing: 'border-box', background: '#fffcf5',
+        overflow: 'hidden', whiteSpace: 'nowrap',
+        padding: '0 2% 0 0',
+        paddingLeft: `${isElemHidden(page, 'logo', bookData) ? 2 : Math.max(2, Math.round(((logoBox.x + logoBox.w - headerBox.x + 3.5) / (headerBox.w || 88)) * 100))}%`
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, overflow: 'hidden', marginLeft: `${Math.max(0, (logoBox.x + logoBox.w) - headerBox.x - 2)}%` }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, overflow: 'hidden' }}>
           <span style={{ fontSize: `${headerBox.fontSize || 7.5}px`, fontWeight: 800, color: '#1e1b4b', letterSpacing: '0.04em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleText}</span>
         </div>
         <span style={{ fontSize: `${headerBox.fontSize || 7.5}px`, color: '#b45309', fontWeight: 700, flexShrink: 0, marginLeft: 8, whiteSpace: 'nowrap' }}>{event.date}</span>
       </div>
 
       {/* Header Logo */}
+      {!isElemHidden(page, 'logo', bookData) && (
       <div style={{
         position: 'absolute',
         left: `${logoBox.x}%`, top: `${logoBox.y}%`, width: `${logoBox.w}%`, height: `${logoBox.h}%`,
@@ -4103,6 +4117,7 @@ function EventContent({ page, event, bookData }) {
       }}>
         {renderSchoolLogo(bookData, {}, Math.min(logoBox.w * 3.5, logoBox.h * 5))}
       </div>
+      )}
 
       {visibleImages.length > 0 && (() => {
         const layout = event.imageLayout || 'auto';
