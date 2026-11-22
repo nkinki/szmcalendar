@@ -1784,17 +1784,39 @@ function RightInspector({
       const current = layouts[pageId] || {};
       const elements = current.elements || {};
       const currentBox = getElemBox(selectedPage, selectedElemId, prev);
+      const updates = (typeof field === 'object' && field !== null) ? field : { [field]: value };
       return {
         ...prev,
         pageLayouts: {
           ...layouts,
           [pageId]: {
             ...current,
-            elements: { ...elements, [selectedElemId]: { ...currentBox, [field]: value } }
+            elements: { ...elements, [selectedElemId]: { ...currentBox, ...updates } }
           }
         }
       };
     });
+  };
+
+  const resetDropCapDefaults = () => {
+    const defaults = {
+      dropCapStyle: 'gold',
+      dropCapSize: 3.2,
+      dropCapSpacing: 4,
+      dropCapOffsetY: 2,
+      dropCapFont: "'Georgia', serif",
+      dropCapColor: '#b45309',
+      dropCapBg: ''
+    };
+    if (selectedEvent) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(e => e.id === selectedEvent.id ? { ...e, ...defaults } : e)
+      }));
+    }
+    if (selectedPage && selectedElemId) {
+      updateSelectedElemLayout(defaults);
+    }
   };
 
   // Ha custom szöveg elem van kijelölve → megmutatjuk a tulajdonságait bármelyik oldaltípusnál
@@ -2826,8 +2848,32 @@ function RightInspector({
           {/* Iniciálé Részletes Testreszabása (ha be van kapcsolva az iniciálé) */}
           {selectedEvent?.dropCap && (
             <div style={{ gridColumn: 'span 2', paddingTop: 8, borderTop: '1px dashed #232035', display: 'flex', flexDirection: 'column', gap: 7 }}>
-              <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
-                <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+                </div>
+                <button
+                  type="button"
+                  onClick={resetDropCapDefaults}
+                  title="Iniciálé beállítások visszaállítása alapértelmezettre"
+                  style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid #334155',
+                    borderRadius: 4,
+                    color: '#94a3b8',
+                    padding: '2px 7px',
+                    fontSize: 9.5,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    transition: 'all 0.15s'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#f59e0b'; e.currentTarget.style.borderColor = '#f59e0b'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.borderColor = '#334155'; }}
+                >
+                  <RotateCcw size={10} /> Alaphelyzet
+                </button>
               </div>
 
               {/* Stílus választó */}
@@ -3681,6 +3727,27 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
     }
   };
 
+  const handleResetDropCap = () => {
+    const defaults = {
+      dropCapStyle: 'gold',
+      dropCapSize: 3.2,
+      dropCapSpacing: 4,
+      dropCapOffsetY: 2,
+      dropCapFont: "'Georgia', serif",
+      dropCapColor: '#b45309',
+      dropCapBg: ''
+    };
+    if (updateLayout) {
+      updateLayout(defaults);
+    }
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, ...defaults } : ev)
+      }));
+    }
+  };
+
   const handleAlignChange = (val) => {
     updateLayout('textAlign', val);
     if (selectedEvent && setBookData) {
@@ -3936,8 +4003,32 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 
               {hasDropCap && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 7, padding: '8px 10px', background: 'rgba(217,119,6,0.07)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 8 }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleResetDropCap}
+                      title="Iniciálé beállítások visszaállítása alapértelmezettre"
+                      style={{
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid #334155',
+                        borderRadius: 4,
+                        color: '#94a3b8',
+                        padding: '2px 7px',
+                        fontSize: 9.5,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        transition: 'all 0.15s'
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.color = '#f59e0b'; e.currentTarget.style.borderColor = '#f59e0b'; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.borderColor = '#334155'; }}
+                    >
+                      <RotateCcw size={10} /> Alaphelyzet
+                    </button>
                   </div>
 
                   {/* Stílus választó */}

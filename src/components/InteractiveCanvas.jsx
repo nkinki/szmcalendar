@@ -648,6 +648,38 @@ export default function InteractiveCanvas({
                               <Sparkles size={11} />
                               <span>Iniciálé</span>
                             </button>
+                            {hasDropCap && (
+                              <button
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  const dropDefaults = {
+                                    dropCapStyle: 'gold',
+                                    dropCapSize: 3.2,
+                                    dropCapSpacing: 4,
+                                    dropCapOffsetY: 2,
+                                    dropCapFont: "'Georgia', serif",
+                                    dropCapColor: '#b45309',
+                                    dropCapBg: ''
+                                  };
+                                  updateElementLayout(elemId, { ...box, ...dropDefaults });
+                                  if (page?.eventId) {
+                                    setBookData(prev => ({
+                                      ...prev,
+                                      events: (prev.events || []).map(ev => ev.id === page.eventId ? { ...ev, ...dropDefaults } : ev)
+                                    }));
+                                  }
+                                }}
+                                title="Iniciálé beállítások visszaállítása alapértelmezettre"
+                                style={{
+                                  background: 'rgba(255,255,255,0.06)',
+                                  border: 'none', borderRadius: 4,
+                                  color: '#cbd5e1',
+                                  padding: '2px 4px', cursor: 'pointer', display: 'flex', alignItems: 'center'
+                                }}
+                              >
+                                <RotateCcw size={10} />
+                              </button>
+                            )}
                             <button
                               onClick={e => {
                                 e.stopPropagation();
