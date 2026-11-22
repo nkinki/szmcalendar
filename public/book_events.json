@@ -5,7 +5,13 @@
     "date": "2026. augusztus 18.",
     "dateSort": "2026-08-18",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1787027848_36",
@@ -13,7 +19,13 @@
     "date": "2026. augusztus 18.",
     "dateSort": "2026-08-18",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1786894136_37",
@@ -21,7 +33,13 @@
     "date": "2026. augusztus 16.",
     "dateSort": "2026-08-16",
     "text": "Szent Mihály új videót töltött fel.\nMilyen volt a 2025./2026. tanév?\nNéhány pillanat a teljesség igénye nélkül...",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1785324140_38",
@@ -66,7 +84,13 @@
         "driveId": "1MPkywWJ1ul5VwSVl8M61DplNDBi5P1kA",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1785271112_39",
@@ -74,7 +98,13 @@
     "date": "2026. július 28.",
     "dateSort": "2026-07-28",
     "text": "Szent Mihály új videót töltött fel.\n🌞 Élményekkel teli 6 napot töltöttünk a Zánkai Erzsébet-táborban! 🌊\nIskolánk szervezésében 44 tanuló és 5 kísérő pedagógus vett részt egy 6 napos, 5 éjszakás táborozáson a Zánkai Erzsébet-táborban. Ez idő alatt számtalan izgalmas programon, közös élményen és felejthetetlen pillanaton osztozhattunk.\nA tábor programjai között szerepeltek koncertek, nyitó- és záróbuli, SUP-ozás, sárkányhajózás, sétahajózás, vizes vetélkedő, történelmi hadi játékok, kosárlabda élményfoglalkozás és élő csocsó. Természetesen a sok strandolás, a közös játékok, a nevetés és a jó hangulat sem maradhatott el.\nA hat nap alatt diákjaink nemcsak új élményekkel gazdagodtak, hanem közösségként is még jobban összekovácsolódtak. Jó volt látni a mosolygós arcokat, a lelkes részvételt és azt, hogy mindenki megtalálta a számára legizgalmasabb programot.\nKísérőként örömmel tölt el bennünket, hogy részesei lehettünk ennek az élményekben gazdag hétnek. Bízunk benne, hogy a Zánkán szerzett emlékek még sokáig elkísérik a Szent Mihály iskolásokat.\nKV\nKísérő tanárok: Fényi Zsolt, Hartman-Huszti Beáta, Kartali Viktória, Molnár Csilla, Móricz Sándorné",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1784028288_40",
@@ -251,7 +281,13 @@
         "driveId": "1hLqXaFKHFqZU_MWIgyGOklnZFDCqLFTc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1783058162_41",
@@ -452,7 +488,13 @@
         "driveId": "1vBF7doS_bfr9q_UyX23T6ThyQzh4MsCI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782365768_42",
@@ -485,7 +527,13 @@
         "driveId": "1R7zYxYEKp4p3V6ApE93fgJxIJZVS6u-0",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782278993_43",
@@ -566,7 +614,13 @@
         "driveId": "1yVuQ7Y9gr6yWJQvFklDc-Fi_nd7Kflw-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782045722_45",
@@ -953,7 +1007,13 @@
         "driveId": "1nnGvl0-XrSwTccW5rm5ANymAkJgoAsvH",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782045051_46",
@@ -1424,7 +1484,13 @@
         "driveId": "127MNvhaovofqd-B1k6D8dReETJRI6G82",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782039492_47",
@@ -1535,7 +1601,13 @@
         "driveId": "1Tr5yqDkgLy4uMJpsdNUhD5qZq1ITuPTw",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1782024843_48",
@@ -1550,7 +1622,13 @@
         "driveId": "137Mz_zRPqQ7LXVH1U1wwNsS5h2nkTW9j",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781984198_49",
@@ -1589,7 +1667,13 @@
         "driveId": "1qsDDEsQt0-oGOF7asj3DcBWYWPyK7Ns5",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781971860_50",
@@ -1958,7 +2042,13 @@
         "driveId": "10d-PTcAS9DvyodNsJebuSEJdBIeek4dH",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781766548_52",
@@ -1997,7 +2087,13 @@
         "driveId": "1KSWZgnLOfm-IV-n9CQPvb52r0NE05dbS",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781766062_53",
@@ -2018,7 +2114,13 @@
         "driveId": "1JAt5nOeWnbXw2OoYPX8QV9ahwYK0HvRk",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781765844_54",
@@ -2501,7 +2603,13 @@
         "driveId": "1SFFHojq4uLSbAqqaeaYJgXDdEs9_kGL2",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781509681_55",
@@ -2509,7 +2617,13 @@
     "date": "2026. június 15.",
     "dateSort": "2026-06-15",
     "text": "Szent Mihály új videót töltött fel.\n🎓 Ballagás a Szent Mihály Görögkatolikus Óvodában 🎓\nJúnius 4-én és 5-én megható és felemelő ünnepségek keretében búcsúztattuk el a Szent Mihály Görögkatolikus Óvoda nagycsoportos gyermekeit.\nEbben a nevelési évben 35 kisgyermek köszönt el óvodánktól, hogy szeptembertől megkezdje életének egy új, izgalmas szakaszát az iskolában. Az évek során igyekeztünk megtölteni tarisznyájukat szeretettel, tudással, élményekkel és olyan útravalóval, amelyre a jövőben is építhetnek.\nBüszkén tekintünk gyermekeinkre, akik sokat fejlődtek, ügyesedtek, és mára készen állnak arra, hogy magabiztosan átlépjék az iskola kapuját. Bízunk benne, hogy az óvodában eltöltött évek emlékei erőt, biztonságot és örömöt adnak majd számukra az előttük álló új kihívások során.\nAz ünnepségek bensőséges pillanatai sokak szemébe könnyeket csaltak, hiszen a búcsúzás egyszerre hordozta magában a hála, az öröm és a meghatottság érzéseit. Köszönjük a szülők éveken át tartó bizalmát, támogatását és áldozatos együttműködését.\nImádságban adtunk hálát az együtt töltött évekért, és Isten áldását kértük gyermekeink további életútjára, hogy szeretetben, hitben és bölcsességben növekedve találják meg helyüket a világban.\nSzeretettel búcsúzunk tőletek, kedves Ballagóink! ❤️\nIsten áldása kísérje minden lépéseteket!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1781067317_56",
@@ -2752,7 +2866,13 @@
         "driveId": "1fB7sWdAwO4RSuWhTpO_-X-W4JhdW_fa6",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780869112_59",
@@ -2827,7 +2947,13 @@
         "driveId": "1C7RnVzvfVkAdftuwWLp7GT8QMycUBa_C",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780707334_60",
@@ -2866,7 +2992,13 @@
         "driveId": "1WPN5C-SpWpfg9eNsUtgOa9wiTo2EfZ25",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780634465_61",
@@ -3001,7 +3133,13 @@
         "driveId": "1qX3ppls3UwXfUNgzqSpkYCK23x5zHcY2",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780607869_63",
@@ -3094,7 +3232,13 @@
         "driveId": "1DVwjb6v5mOfjdPUSgYdRrPzvD1Ej8AC0",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780606227_64",
@@ -3469,7 +3613,13 @@
         "driveId": "1QfEeerHgP5OzBxj0g9_6kY266p7BOTey",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780544676_65",
@@ -3514,7 +3664,13 @@
         "driveId": "1TNNSGdgeHcwmmJZIV78M84IpDaPv6dBp",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780434682_66",
@@ -3643,7 +3799,13 @@
         "driveId": "1K3iyHEuQU2drEXaBw6JwgDrrYUu4jSzA",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780288473_67",
@@ -3688,7 +3850,13 @@
         "driveId": "18ibw8Oj0QG5oTiFlmBFeoTE63C8klmCR",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780029541_68",
@@ -3997,7 +4165,13 @@
         "driveId": "1LAqkf0oa1m8V96H6lVuIVXpHFBkAtQJO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780025772_69",
@@ -4012,7 +4186,13 @@
         "driveId": "1LE6bRBIRxspcqT5JFfdR_WRIdyHsIxdj",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1780001516_70",
@@ -4027,7 +4207,13 @@
         "driveId": "1KGKYSzwyks8k5d_Y2ffTZBlKPhB_1C1U",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779856511_73",
@@ -4066,7 +4252,13 @@
         "driveId": "1YdtwiBwU9P4D282m7w5NgHNGpj0ZEBvM",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779856159_74",
@@ -4303,7 +4495,13 @@
         "driveId": "1i3p9khKTajj-TpGC02DWhw80bCI6xPSf",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779854709_75",
@@ -4384,7 +4582,13 @@
         "driveId": "1TQ37xGXFsYuMk9rkRrTgVBaH3eo-ihuP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779852817_76",
@@ -4417,7 +4621,13 @@
         "driveId": "1fTjY83JaHeGQuvo18w_Y2y1RSa4o9JHY",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779725012_78",
@@ -4558,7 +4768,13 @@
         "driveId": "1Wz6-v-HX0IVkt1KZNf0l7LFSzVjd3_ax",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779657812_79",
@@ -5041,7 +5257,13 @@
         "driveId": "1RQN1DSSveTeWeIsM4moaQ1PLfZw-2Wj0",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779526411_81",
@@ -5062,7 +5284,13 @@
         "driveId": "1C96DHPJw1a3sXb-H8fyG0ok4zrLOpsFg",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779449650_82",
@@ -5077,7 +5305,13 @@
         "driveId": "1CawOqNz-6NFcZM2fzB3-We8nHk3cQb3U",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779425971_83",
@@ -5512,7 +5746,13 @@
         "driveId": "1CmHvTnnbu_gMFD68GhMomgdhwh_sRXWq",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779306323_84",
@@ -5725,7 +5965,13 @@
         "driveId": "1AzXP1NnTOLLvxaaUgi1Zu_ilgcotPMCY",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779305822_85",
@@ -5782,7 +6028,13 @@
         "driveId": "1s4Ged_JsHYiFNbaHKHXM0-Ohuh0eH8mw",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779258003_86",
@@ -5917,7 +6169,13 @@
         "driveId": "1W1L0rIJZ4jzU7kj6DsYO5AQObEPbhkFO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779257133_87",
@@ -5932,7 +6190,13 @@
         "driveId": "1FEwSc2AxIij21KranlaYbiu4qv8xVoKi",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779252270_88",
@@ -6103,7 +6367,13 @@
         "driveId": "169QGxDhaA483Y_o79a1fxRsvrdLGLstK",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779251761_89",
@@ -6292,7 +6562,13 @@
         "driveId": "1pvv9jIeeiaLRPQ368fNZ3911m99X_h82",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779187365_29",
@@ -6300,7 +6576,13 @@
     "date": "2026. május 19.",
     "dateSort": "2026-05-19",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779187365_90",
@@ -6308,7 +6590,13 @@
     "date": "2026. május 19.",
     "dateSort": "2026-05-19",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779135353_91",
@@ -6491,7 +6779,13 @@
         "driveId": "1CNcxB7nVvW6zwoszxdscJ5OXIjiaXSRP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779124328_92",
@@ -6506,7 +6800,13 @@
         "driveId": "1NjEDpFcdCUErFpeWWdilcYNo_lKkffDm",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1779079518_93",
@@ -6623,7 +6923,13 @@
         "driveId": "1u4zNWJlsnt6NUBjVi38iMD4siDodhcO2",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778922798_28",
@@ -6631,7 +6937,13 @@
     "date": "2026. május 16.",
     "dateSort": "2026-05-16",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778923298_94",
@@ -6724,7 +7036,13 @@
         "driveId": "1mLZe_KSMjQwzj3Xk3PAQ7ytiTlCKsB05",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778922813_95",
@@ -6739,7 +7057,13 @@
         "driveId": "1FcWChDxLoBpyRKVRc7Pt_bgtZehob9EO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778922798_96",
@@ -6747,7 +7071,13 @@
     "date": "2026. május 16.",
     "dateSort": "2026-05-16",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778920317_97",
@@ -6780,7 +7110,13 @@
         "driveId": "1UV_aq7iKom7GihyU5F_xefHv38o7i33K",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778889129_27",
@@ -6788,7 +7124,13 @@
     "date": "2026. május 16.",
     "dateSort": "2026-05-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778889129_98",
@@ -6796,7 +7138,13 @@
     "date": "2026. május 16.",
     "dateSort": "2026-05-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778889027_99",
@@ -6829,7 +7177,13 @@
         "driveId": "1me3XZ26S12FLxhP-SSGLJPWxoCFRPYka",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778850092_100",
@@ -6988,7 +7342,13 @@
         "driveId": "17C2e9mI_a3Un0AMEtaf_UyhjB1eGG408",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778613541_101",
@@ -7147,7 +7507,13 @@
         "driveId": "1Oms8DqETqiSj5E7avKhu73BVwa3MfhLc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778562819_102",
@@ -7264,7 +7630,13 @@
         "driveId": "1h4C01TDOXdvlwJF2HnaF2e1TPloquBdy",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778527416_103",
@@ -7291,7 +7663,13 @@
         "driveId": "1AeNPFjF7Ktq7RxOqEQpKZmM7nhr3lssa",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778474660_104",
@@ -7336,7 +7714,13 @@
         "driveId": "10YNIf62A1FZMutToa6w3okkXrCLWputP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778474232_105",
@@ -7357,7 +7741,13 @@
         "driveId": "1SM9DT7UkP5FosNeXjWJzNghsBJmynd5M",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778474207_106",
@@ -7372,7 +7762,13 @@
         "driveId": "1HjIwPkru1X31u9q_tfcM5r9IGn7B15cl",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778474198_107",
@@ -7639,7 +8035,13 @@
         "driveId": "1EjhrjYBiuqO3B9XMf4GoYX95ELhnjpPy",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778447871_108",
@@ -7828,7 +8230,13 @@
         "driveId": "1ZWfOp9D0ciO82jiT9HVozxKj6gQomye7",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778444663_109",
@@ -7836,7 +8244,13 @@
     "date": "2026. május 10.",
     "dateSort": "2026-05-10",
     "text": "Szent Mihály 4 új videót töltött fel.\n💗🫶Anyák napja az óvodában🫶💗\nÓvodánk mind a négy csoportjában szeretettel köszöntötték gyermekeink az édesanyákat és nagymamákat. Megható versek, kedves mesék, vidám énekek és táncok tették emlékezetessé ezeket a szép pillanatokat.\nA gyermekek csillogó szemmel, nagy szeretettel készültek erre a napra, hogy örömet szerezzenek azoknak, akik nap mint nap szeretettel ölelik körül őket. 🌺💓💟\nEzekben a kis videókban a közösen átélt meghitt, örömteli percekből osztunk meg részleteket. 💐",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778441005_110",
@@ -8013,7 +8427,13 @@
         "driveId": "1hHX0x2dO7KpUVsB_DeYz8sHyuR7dVx92",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778313378_26",
@@ -8021,7 +8441,13 @@
     "date": "2026. május 9.",
     "dateSort": "2026-05-09",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778332069_111",
@@ -8042,7 +8468,13 @@
         "driveId": "1u8Xl99AVGKsAxD64MwsvNFqYKEJdqhaK",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778313378_112",
@@ -8050,7 +8482,13 @@
     "date": "2026. május 9.",
     "dateSort": "2026-05-09",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778226834_25",
@@ -8058,7 +8496,13 @@
     "date": "2026. május 8.",
     "dateSort": "2026-05-08",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778260274_113",
@@ -8079,7 +8523,13 @@
         "driveId": "1QpEbv6kOlW2MVIl3h7qls__tIp4VOmMP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778226834_114",
@@ -8087,7 +8537,13 @@
     "date": "2026. május 8.",
     "dateSort": "2026-05-08",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778215715_115",
@@ -8174,7 +8630,13 @@
         "driveId": "1foH2l8eZWW10BjRpORZixp5IpFq2KfbJ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778215205_116",
@@ -8182,7 +8644,13 @@
     "date": "2026. május 8.",
     "dateSort": "2026-05-08",
     "text": "Szent Mihály új videót töltött fel.\n■Félévzáró anyáknapi koncert■\nA Szent Mihály Gyermekkar anyák napi koncertet tartott május 6-án a görögkatolikus templomban. Repertoárjukban szerepelt:\nBerthier: Jubilate Deo\nBárdos Lajos: Édesanyámhoz\nVijay Singh: Medieval Coloria\nParóczi Bardos Tamás: Üszküdára\nA koncert végén pedig az Úgy szeretném meghálálni dallamai csendültek fel, mely alatt minden énekkaros gyermek egy-egy szál rózsát adott át édesanyjának, nagymamájának és keresztanyjának. \nVégül Keczán Szilárd igazgató köszöntötte az anyákat, s megköszönte Illyés Adrienn karvezető munkáját, aki valódi közösséget kovácsolt a kis énekesekből. Zongorán közreműködött: Tar Éva",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778131018_117",
@@ -8197,7 +8665,13 @@
         "driveId": "1xHzqQ9Pk_CYyNNpyFvlx9hE5vQfQ_hil",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1778128998_118",
@@ -8374,7 +8848,13 @@
         "driveId": "18-j2G3BQjPOl07xldlqlAoU_0pIEMfwN",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777981468_119",
@@ -8593,7 +9073,13 @@
         "driveId": "11HlxoBC6G-FHTGB2lf_BN8kWbOm6K8RL",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777961941_120",
@@ -8632,7 +9118,13 @@
         "driveId": "106-NmvWBnoxh5bz4dA6m758dEhzV0aVZ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777869516_24",
@@ -8640,7 +9132,13 @@
     "date": "2026. május 4.",
     "dateSort": "2026-05-04",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777925762_121",
@@ -8733,7 +9231,13 @@
         "driveId": "1qfxE4kDbQqlMTj_V_IzJ4v8rLVYEHuwH",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777869516_122",
@@ -8741,7 +9245,13 @@
     "date": "2026. május 4.",
     "dateSort": "2026-05-04",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777792373_123",
@@ -8786,7 +9296,13 @@
         "driveId": "1C-h7sfslUDLDivskI4ozMP-FZOVEAozp",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777706976_124",
@@ -8915,7 +9431,13 @@
         "driveId": "1_5LMxV74m6wn3MrsspzWg3f_4NT5OMha",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777662723_125",
@@ -9086,7 +9608,13 @@
         "driveId": "1dIy7nc75-lkepvWnbycjaY26lcoejrey",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777550772_23",
@@ -9094,7 +9622,13 @@
     "date": "2026. április 30.",
     "dateSort": "2026-04-30",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777558710_126",
@@ -9109,7 +9643,13 @@
         "driveId": "1J0XTVyBmtEg0Lln01PVkwFL89DF6uWMs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777550772_127",
@@ -9117,7 +9657,13 @@
     "date": "2026. április 30.",
     "dateSort": "2026-04-30",
     "text": "Szent Mihály megosztott egy bejegyzést.\nMa 6-tól futás. Holnap családi programok!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777525148_128",
@@ -9222,7 +9768,13 @@
         "driveId": "1iEsqZl2olkXwVzaAPDI3t8WNXogaurZD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777524052_129",
@@ -9297,7 +9849,13 @@
         "driveId": "1hSdkn36AO_dV27kWmVq6rrp8vGJX4ORJ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777523900_130",
@@ -9396,7 +9954,13 @@
         "driveId": "1htNRG1Xd5PIGUXE-y3loqR3NxiLL0teb",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777523386_131",
@@ -9633,7 +10197,13 @@
         "driveId": "1yxlsunfFttBteL01rVsWpWl_ouwKB1KJ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777351693_132",
@@ -9840,7 +10410,13 @@
         "driveId": "1QpVTTN2xtyvqNSTAZBxY8NvRAl35BK_1",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777103206_22",
@@ -9848,7 +10424,13 @@
     "date": "2026. április 25.",
     "dateSort": "2026-04-25",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777103206_133",
@@ -9856,7 +10438,13 @@
     "date": "2026. április 25.",
     "dateSort": "2026-04-25",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777006319_134",
@@ -9883,7 +10471,13 @@
         "driveId": "1vdLmPH11nOQLYQ8kGszWJAdcliCer05e",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1777006198_135",
@@ -9898,7 +10492,13 @@
         "driveId": "1ZoOtIw6sX2SEb_l8DHFiWFYVP-hzDqU0",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776918103_20",
@@ -9906,7 +10506,13 @@
     "date": "2026. április 23.",
     "dateSort": "2026-04-23",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776918265_21",
@@ -9914,7 +10520,13 @@
     "date": "2026. április 23.",
     "dateSort": "2026-04-23",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776918265_136",
@@ -9922,7 +10534,13 @@
     "date": "2026. április 23.",
     "dateSort": "2026-04-23",
     "text": "Szent Mihály megosztott egy bejegyzést.\nBeiratkozás 04.23., 04.24-én!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776918103_137",
@@ -9930,7 +10548,13 @@
     "date": "2026. április 23.",
     "dateSort": "2026-04-23",
     "text": "Szent Mihály megosztott egy bejegyzést.\nMa és holnap!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776753121_19",
@@ -9938,7 +10562,13 @@
     "date": "2026. április 21.",
     "dateSort": "2026-04-21",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776764979_138",
@@ -9953,7 +10583,13 @@
         "driveId": "1YB2e0QtXd6t1rHt56cZWf51Q98RKlLrc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776753121_139",
@@ -9961,7 +10597,13 @@
     "date": "2026. április 21.",
     "dateSort": "2026-04-21",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776747334_140",
@@ -9976,7 +10618,13 @@
         "driveId": "1sTCzJhbKdH3Gn4A8Om2oP-8tRibYZ9eI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776659977_18",
@@ -9984,7 +10632,13 @@
     "date": "2026. április 20.",
     "dateSort": "2026-04-20",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776659977_141",
@@ -9992,7 +10646,13 @@
     "date": "2026. április 20.",
     "dateSort": "2026-04-20",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776656967_142",
@@ -10007,7 +10667,13 @@
         "driveId": "1Z7XxP5LFD252QxIfOt-uBpxki2gdOo-L",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776627306_143",
@@ -10046,7 +10712,13 @@
         "driveId": "1p-KXoy5ufeO0tllXNnPwhvLqaxyPpS_k",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776624419_144",
@@ -10079,7 +10751,13 @@
         "driveId": "1j_b8o-hz7mfxGDQoTE2PbtzaMM42byKc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776404204_145",
@@ -10166,7 +10844,13 @@
         "driveId": "1XL7K3I5cf4pSKvFNUCKzGEuwI99eQEPB",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776325150_17",
@@ -10174,7 +10858,13 @@
     "date": "2026. április 16.",
     "dateSort": "2026-04-16",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776325150_146",
@@ -10182,7 +10872,13 @@
     "date": "2026. április 16.",
     "dateSort": "2026-04-16",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1776285132_147",
@@ -10197,7 +10893,13 @@
         "driveId": "1iKZ8duLR4phtfsCamSzBfXOq3atumNvK",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775910888_16",
@@ -10205,7 +10907,13 @@
     "date": "2026. április 11.",
     "dateSort": "2026-04-11",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775910888_148",
@@ -10213,7 +10921,13 @@
     "date": "2026. április 11.",
     "dateSort": "2026-04-11",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775853100_149",
@@ -10221,7 +10935,13 @@
     "date": "2026. április 10.",
     "dateSort": "2026-04-10",
     "text": "Szent Mihály új videót töltött fel.\nMi leszek, ha nagy leszek!😇\nFoglalkozások témahetünk igazán különlegesre sikerült az óvodában! 😊\nSok kedves szülő és nagyszülő látogatott el hozzánk, akik megmutatták munkájuk szépségét és érdekességeit a gyerekeknek.\nA hét élményeit közösen, sok-sok kreatív ötlettel dolgoztuk fel, így a tanulás igazi élménnyé vált! 🎨✨\nHálásan köszönjük a közreműködő családok segítségét – együtt tettük felejthetetlenné ezt a hetet!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775852386_150",
@@ -10229,7 +10949,13 @@
     "date": "2026. április 10.",
     "dateSort": "2026-04-10",
     "text": "Szent Mihály új videót töltött fel.\nVár a Szent Mihály!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775852262_151",
@@ -10237,7 +10963,13 @@
     "date": "2026. április 10.",
     "dateSort": "2026-04-10",
     "text": "Szent Mihály új videót töltött fel.\nAz \"Űr hete\" igazán izgalmasan telt óvodánkban! 🚀✨\nA gyerekek „kilőttek” a képzelet rakétájával, és felfedezték a bolygók, csillagok és titokzatos égitestek világát. 🌍🌙\nKészültek vidám űrhajók, ragyogó csillagképek, és még egy-egy kis űrutazásra is beneveztünk játék közben! 👩‍🚀🧑‍🚀\nSok-sok élménnyel gazdagodva tértünk vissza a Földre – de ki tudja, talán már készül a következő küldetés! 🚀💫",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775575555_152",
@@ -10288,7 +11020,13 @@
         "driveId": "1kmIL0Qmm7MpIHa_HO2R1X7HVXd5gnGFA",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775395992_153",
@@ -10303,7 +11041,13 @@
         "driveId": "1HJUStPO2U4x9dIxoP91l9lWMc3JYq-mF",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775076471_154",
@@ -10366,7 +11110,13 @@
         "driveId": "1W1bG3Yjlawq8TVJpY7s5uImsvTBbyegw",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775072998_155",
@@ -10393,7 +11143,13 @@
         "driveId": "1G3nDCKOaJ_MotyUyJAdMhxsCIKXS4ONA",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1775069091_156",
@@ -10426,7 +11182,13 @@
         "driveId": "1WZ9XNplMSqU1iXok5wDdHh-6HqoT-F08",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774845357_157",
@@ -10501,7 +11263,13 @@
         "driveId": "1bCv3w8T-zGSB4WxBglW62ttuNFHJwbBJ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774725627_158",
@@ -10516,7 +11284,13 @@
         "driveId": "1mi64lZnJ4UH91KREM82WNhFqlOw9ucaG",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774538392_159",
@@ -10615,7 +11389,13 @@
         "driveId": "1dfxY1lxma1q-RyLjFY647DmSpPx0PN4U",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774532587_160",
@@ -10696,7 +11476,13 @@
         "driveId": "1MZ60k9p2wI3UjGVqJ9t3RtqOJzg2Ocw2",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774532232_161",
@@ -10747,7 +11533,13 @@
         "driveId": "1hRIiEGWUCwxia13JJdDt527iBYqtwSDn",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774527549_162",
@@ -10762,7 +11554,13 @@
         "driveId": "15V0ORzPIj3C8CaOcpZPsK3FwRqLyQJSr",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774293446_163",
@@ -10843,7 +11641,13 @@
         "driveId": "1hckx9BB5gBBKMiN4KTEuP7XTiMiJBTRP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774277426_164",
@@ -10858,7 +11662,13 @@
         "driveId": "1OGmTk66aSSfTdDPEBljtOcIvcKOYdO2t",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774270788_165",
@@ -10885,7 +11695,13 @@
         "driveId": "1vDDTVAc13KmZpAtBhh7u80OhnvZQnqsL",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774196949_166",
@@ -10893,7 +11709,13 @@
     "date": "2026. március 22.",
     "dateSort": "2026-03-22",
     "text": "Szent Mihály új videót töltött fel.\n„Vándor, ki szomjadat oltod forrásom vizével, vigyázz reám!”\n /Vizek fohásza/\nAz iskolánk tanulói a Víz világnapja alkalmából különleges élőképet alkottak, hogy felhívják a figyelmet a vizek védelmének fontosságára. A tanulók közösen formálták meg a „VÍZ NAPJA” feliratot, ezzel is hangsúlyozva, hogy mindannyiunk felelőssége a tiszta víz megőrzése. A kezdeményezés célja az volt, hogy felhívja a figyelmet a tudatos vízhasználatra, amely nemcsak figyelemfelkeltő volt, hanem közösségépítő élményt is nyújtott a résztvevő diákok számára.\nAntal Éva\nFelvétel: Gólya György \nVágó: Molnár Csilla",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774175021_167",
@@ -10908,7 +11730,13 @@
         "driveId": "1v1ttPTLw4GxUWca1KxH40jzWMLnHZTcB",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1774173440_168",
@@ -11013,7 +11841,13 @@
         "driveId": "18BrJRrdw0ce2Crmue298O-s02bUbBE9y",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773937613_169",
@@ -11021,7 +11855,13 @@
     "date": "2026. március 19.",
     "dateSort": "2026-03-19",
     "text": "Szent Mihály új videót töltött fel.\n2 kiemelt arany\n1 arany\n1 ezüst \n1 bronz \nGratulálunk!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773926677_170",
@@ -11162,7 +12002,13 @@
         "driveId": "1607nRsEAkZbfq974-ZouENwGFzhEFyLM",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773903805_171",
@@ -11201,7 +12047,13 @@
         "driveId": "1zVpuJ7yr1R1sVGAQSmqDOoi4917L7i_a",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773743329_15",
@@ -11209,7 +12061,13 @@
     "date": "2026. március 17.",
     "dateSort": "2026-03-17",
     "text": "Szent Mihály megosztott egy hivatkozást.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773743329_172",
@@ -11217,7 +12075,13 @@
     "date": "2026. március 17.",
     "dateSort": "2026-03-17",
     "text": "Szent Mihály megosztott egy hivatkozást.\nSzeretettel várunk minden kedves érdeklődőt óvodai beiratkozásunkra április 20–21-én! 😊\nNyitott kapukkal, barátságos környezettel és sok szeretettel fogadjuk a leendő kis ovisokat és szüleiket. Intézményünkben fontos számunkra a gyermekek biztonsága, egyéni fejlődése és a vidám, élményekkel teli mindennapok megteremtése. 🌈\nGyertek el, ismerkedjetek meg óvodánkkal, pedagógusainkkal és betekintést nyerhettek mindennapi életünkbe is!\nSzeretettel várunk mindenkit! 💗",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773699666_173",
@@ -11268,7 +12132,13 @@
         "driveId": "1sHVM13VwpNurq0jzCnX6VsDtTJSDZE1K",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773699315_174",
@@ -11313,7 +12183,13 @@
         "driveId": "1Cxjj6DAMkkUSPkn2WIWnI1CibaallY3Q",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773694761_175",
@@ -11321,7 +12197,13 @@
     "date": "2026. március 16.",
     "dateSort": "2026-03-16",
     "text": "Szent Mihály új videót töltött fel.\nÓvodásaink is méltóképpen megemlékeztek március 15-ről. 🇭🇺\nA gyermekek nagy lelkesedéssel készítettek nemzeti színű zászlót, festett kavicsokat, huszárokat és virágokat. Az elkészült alkotásokat büszkén vitték el a Kossuth-szoborhoz, ahol közösen elhelyezték és kitűzték őket, ezzel tisztelegve hőseink emléke előtt.\nA közös készülődés és a megemlékezés segítette a gyermekeket abban, hogy játékosan, mégis meghitt hangulatban ismerkedjenek meg nemzeti ünnepünk jelentőségével. 🇭🇺🌷\nEbben a kis videóban az ünnepi készülődés és a közös megemlékezés örömteli pillanatait osztjuk meg. 🇭🇺🌷",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773558026_14",
@@ -11329,7 +12211,13 @@
     "date": "2026. március 15.",
     "dateSort": "2026-03-15",
     "text": "Szent Mihály megosztott egy hivatkozást.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773560565_176",
@@ -11362,7 +12250,13 @@
         "driveId": "1cT2FyOJhy1mSvMUM3TQsxm6J3j2lYTwo",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773558026_177",
@@ -11370,7 +12264,13 @@
     "date": "2026. március 15.",
     "dateSort": "2026-03-15",
     "text": "Szent Mihály megosztott egy hivatkozást.\n■Rendhagyó ünnepi műsor az 1848-49-es forradalom emlékére■\nMűvészeti Iskolánk néptánc tagozata egy rendkívül izgalmas, látványos táncszínházi előadással lepte meg a Szent Mihály Görögkatolikus Általános Iskola tanulóit március 13-án. Wolf Andrea és Bak János korrográfiáját, a nem mindennapi előadás felvételét itt tekinthetik meg:",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773343901_178",
@@ -11391,7 +12291,13 @@
         "driveId": "1XHxS-v5196Efs9GRp7-br52RPPKlhcde",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773264233_179",
@@ -11424,7 +12330,13 @@
         "driveId": "1QrNM1XI_1Bfym-dZ36hIBvQQDVsahjpI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773263861_180",
@@ -11445,7 +12357,13 @@
         "driveId": "166reYZZvrkXPWG0zHVwVI2VaJB6Z3C78",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773246945_181",
@@ -11556,7 +12474,13 @@
         "driveId": "1GuxbGPHymIlT1Nb4LfT6ENJy2xMCoFTC",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773243338_182",
@@ -11564,7 +12488,13 @@
     "date": "2026. március 11.",
     "dateSort": "2026-03-11",
     "text": "Szent Mihály új videót töltött fel.\n🎭 Visszatekintés a farsangi mulatságra!\nBár már eltelt egy kis idő, a vidám pillanatokat jó újra felidézni. Február 13-án óvodánkban farsangi ünnepséget tartottunk, ahol a gyermekek kreatív jelmezekben, sok játékkal, tánccal és nevetéssel ünnepeltek.\nMost egy rövid videóval idézzük fel ezt a vidám napot. 🎉\n🌞Úgy tűnik, jól elűztük a telet, hiszen már csodás tavaszi napjaink vannak! 🌷🪻 🌷",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1773120153_183",
@@ -11633,7 +12563,13 @@
         "driveId": "1Yzjg088baggypwhX2KY0aB3TC2I2utuD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1772776361_184",
@@ -11714,7 +12650,13 @@
         "driveId": "1xc4Yd69sx8gv5uOIlizXPxioghYrmrBb",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1772552498_185",
@@ -11909,7 +12851,13 @@
         "driveId": "126i7p9awDIHakdEVRw_PcNeR6u-FU6sR",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1772491921_186",
@@ -11924,7 +12872,13 @@
         "driveId": "1yjPKmyxt1LMT39Javwh5xiQwIR6VHXrj",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1772384458_187",
@@ -12101,7 +13055,13 @@
         "driveId": "1DMn_KBPjIxA4PwNlpfYFEI98TBvSDqG2",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1772199443_188",
@@ -12116,7 +13076,13 @@
         "driveId": "1Da3hFuvGyu7d4L8-lF4qMEbvOftqL3zg",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771912913_189",
@@ -12124,7 +13090,13 @@
     "date": "2026. február 24.",
     "dateSort": "2026-02-24",
     "text": "Szent Mihály új videót töltött fel.\nIskolai beiratkozás 2026. április 23-24-én!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771565895_190",
@@ -12163,7 +13135,13 @@
         "driveId": "1naum_qi7amPbwvMrVFnZaIavlyOCtblk",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771227908_13",
@@ -12171,7 +13149,13 @@
     "date": "2026. február 16.",
     "dateSort": "2026-02-16",
     "text": "Szent Mihály megosztott egy hivatkozást.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771232940_191",
@@ -12372,7 +13356,13 @@
         "driveId": "1vX2pI7CJdZYOsv9H7oh5ERAJO9tEBoyZ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771229675_192",
@@ -12657,7 +13647,13 @@
         "driveId": "1rpG5LmSnR1V_is8--sT8fw1E8nrzB6Qy",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1771227908_193",
@@ -12665,7 +13661,13 @@
     "date": "2026. február 16.",
     "dateSort": "2026-02-16",
     "text": "Szent Mihály megosztott egy hivatkozást.\n■Alsós farsang■\n„Itt a farsang, áll a bál!”\n2026. február 12-én, csütörtök délután került sor a Szent Mihály Görögkatolikus Általános Iskola tanulóinak fergeteges farsangi karneváljára a nyíradonyi Harangi Imre Rendezvénycsarnokban. \nAz alsó tagozatos osztályok zenés műsorokat adtak elő a meghívott szülők, barátok, kedves ismerősök előtt. \nA vendégek láthattak az Emoji pop-ot, volt Csillám és stoplis, megszólalt az örök kedvenc Korda György Reptér c. dala, láthattunk egy fantasztikus jelenetet az István a királyból, volt jelmezkavalkád, és megjelentek a vízi világ gyöngyszemei is. A zsűri tagjai oklevelekkel és édességcsomaggal jutalmazták a fellépőket. \nAztán mini disco következett, ahol még limbóztak is a gyerekek a nemrég elment legenda, Fenyő Miklós Limbó hintójára.\nA farsang fénypontja a tombolasorsolás volt. A diákok nagy izgalommal lesték a tombola számait, színeit, melyet a Diákönkormányzat segítő pedagógusa, a program főszervezője Emese néni bonyolított le.\nKöszönet és hála mindenkinek, aki bármilyen formában hozzájárult délutánunk létrejöttéhez és sikeréhez! Köszönjük adományozóink támogatását, felajánlását!\nA fellépéseket ide kattintva megtekinthetik:\nhttps://youtu.be/i_L7sMCaRWU",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770987411_194",
@@ -12673,7 +13675,13 @@
     "date": "2026. február 13.",
     "dateSort": "2026-02-13",
     "text": "Szent Mihály új videót töltött fel.\n🧊❄️ Jégvilág állatai az óvodában ❄️🧊\nApró kezek ügyeskedtek, szorgos kis alkotóink pedig nagy lelkesedéssel készítették el a jégvilág állatait. 🐧🐻‍❄️\nA közös tevékenység során játékosan ismerkedtünk a hideg tájak élővilágával, miközben fejlődött a kreativitás, a finommotorika és az együttműködés öröme is. 🎨✨\nIgazi téli csoda született az óvodában! 💙☃️",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770875023_195",
@@ -12688,7 +13696,13 @@
         "driveId": "1QZ7vly7pcE06iAoeCwgdTiAJAkto-Pte",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770549965_196",
@@ -12877,7 +13891,13 @@
         "driveId": "1tD-6Y55y0pQXnURD0_8XaCloH6BIHxcB",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770545887_197",
@@ -13042,7 +14062,13 @@
         "driveId": "1u5vBF5p81uSwvOb3GBffKVYUID3QX7AQ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770395202_198",
@@ -13093,7 +14119,13 @@
         "driveId": "1Jyev7bSphaXqVBl7H-s_43hSTqE1dwqk",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770137013_199",
@@ -13101,7 +14133,13 @@
     "date": "2026. február 3.",
     "dateSort": "2026-02-03",
     "text": "Szent Mihály új videót töltött fel.\n🐦 Apró kezek, gondoskodó szívek - Madárbarát óvoda lettünk! \nÓvodánk elkötelezetten csatlakozott a Madárbarát Óvoda programhoz. A gyermekek játékos tevékenységek során ismerkednek a madarak életével, élőhelyeivel és a természetvédelem fontosságával. Nálunk télen sem állhat meg az élet az udvaron! Etetőket, odúkat helyezünk ki, figyeljük a környezetünkben élő madarakat, és együtt tanuljuk meg, hogyan óvhatjuk meg őket. 🐦🌱",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1770099412_200",
@@ -13116,7 +14154,13 @@
         "driveId": "1lfgjjiqoCueiTWMflozLNRiIQcFoW-Fs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769979579_201",
@@ -13191,7 +14235,13 @@
         "driveId": "1nDwtFntBajQkSK-tVkaE3f77OLgtj1_M",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769609651_202",
@@ -13199,7 +14249,13 @@
     "date": "2026. január 28.",
     "dateSort": "2026-01-28",
     "text": "Szent Mihály új videót töltött fel.\n🎭 Varázslat, bábok és rengeteg mosoly! 🎭  \nÓvodánk Nyílt Napja idén is bebizonyította, hogy a közös játéknál és a meséknél nincs jobb dolog a világon. ✨  A nap abszolút sztárja a bábelőadás volt!  Fantasztikus volt látni a gyerekek arcát, ahogy teljesen átszellemülve figyelték a paraván mögött megelevenedő történetet. A nagy nevetések és a lelkes taps a végén nekünk is hatalmas élményt adott! \nMi fért még bele a napba? \n 🎨 Közös alkotás: apró kezek munkái!\n 🎲 Felfedezés: mindenki megtalálta a kedvenc játékát a csoportszobákban.\n  ☕️Kötetlen beszélgetés: Köszönjük a szülőknek a bizalmat és a sok-sok kérdést! \nReméljük, hogy ti is olyan jól éreztétek magatokat, mint mi!🥰 \n🎥 Nézzétek meg videónkat a legvidámabb pillanatokkal! \nVárunk titeket szeptembertől a mi óvodánkban!💗",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769362603_203",
@@ -13207,7 +14263,13 @@
     "date": "2026. január 25.",
     "dateSort": "2026-01-25",
     "text": "Szent Mihály új videót töltött fel.\nMilyen hangulat volt a Szent Mihály Görögkatolikus Jótékonysági Bálon? \nNézzünk be😉",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769234733_204",
@@ -13222,7 +14284,13 @@
         "driveId": "1hugNl1gPQntcFojE_l20quIFEwE3nbVe",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769144511_205",
@@ -13230,7 +14298,13 @@
     "date": "2026. január 23.",
     "dateSort": "2026-01-23",
     "text": "Szent Mihály új videót töltött fel.\nMagyar Kultúra Napja iskolánkban január 22-én! \nFelkészítő tanárok: Simonné Dublinszki Ibolya és Dán Alexandra",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1769058605_206",
@@ -13269,7 +14343,13 @@
         "driveId": "1N6pSJBr1ff67L873wsyQIOELGT9G3GFD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768816319_12",
@@ -13277,7 +14357,13 @@
     "date": "2026. január 19.",
     "dateSort": "2026-01-19",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768854224_207",
@@ -13388,7 +14474,13 @@
         "driveId": "1peKtdI3AhipmmWjLlUbd7I_NooqUl-Th",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768834078_208",
@@ -13403,7 +14495,13 @@
         "driveId": "1zSc5UfWAWx0VQ_q91fCcuZ3Cfn2ehUFN",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768816319_209",
@@ -13411,7 +14509,13 @@
     "date": "2026. január 19.",
     "dateSort": "2026-01-19",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768756458_210",
@@ -13798,7 +14902,13 @@
         "driveId": "1ZXQtE3HZr34s9_2P2q_7jX5BzlG4V07y",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768508306_11",
@@ -13806,7 +14916,13 @@
     "date": "2026. január 15.",
     "dateSort": "2026-01-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768508306_211",
@@ -13814,7 +14930,13 @@
     "date": "2026. január 15.",
     "dateSort": "2026-01-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768456483_212",
@@ -13847,7 +14969,13 @@
         "driveId": "1IMtQ7ZEz2PBbxYQG_ZhvR3bvo7L4r-Jl",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768134983_213",
@@ -13855,7 +14983,13 @@
     "date": "2026. január 11.",
     "dateSort": "2026-01-11",
     "text": "Szent Mihály új videót töltött fel.\nSzánkózás a csarnoknál...❄️☃️❄️",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1768125315_214",
@@ -13863,7 +14997,13 @@
     "date": "2026. január 11.",
     "dateSort": "2026-01-11",
     "text": "Szent Mihály új videót töltött fel.\n☃️❄️⛄️",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767986446_215",
@@ -13878,7 +15018,13 @@
         "driveId": "10oGrgcklCtz8nIeUx-gF9lSQhzMKjhRc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767824273_216",
@@ -13959,7 +15105,13 @@
         "driveId": "1OOKEfjM9L1-Ae3wNWNyA1jLT-rr_S-Rq",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767731804_217",
@@ -14154,7 +15306,13 @@
         "driveId": "1awEiTX57vHqYXvIdFUEP56irDaeij95k",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767729182_218",
@@ -14162,7 +15320,13 @@
     "date": "2026. január 6.",
     "dateSort": "2026-01-06",
     "text": "Szent Mihály új videót töltött fel.\n🛷Udvari móka! 🛷\n☃️❄️Téli örömök az óvodában❄️☃️",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767695415_219",
@@ -14170,7 +15334,13 @@
     "date": "2026. január 6.",
     "dateSort": "2026-01-06",
     "text": "Szent Mihály új videót töltött fel.\nA Szent Mihály hóangyalkái",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767652019_220",
@@ -14191,7 +15361,13 @@
         "driveId": "1mp3HIMWx57BGevPkWOkbvObMdB2XpqOt",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767027651_221",
@@ -14199,7 +15375,13 @@
     "date": "2025. december 29.",
     "dateSort": "2025-12-29",
     "text": "Szent Mihály új videót töltött fel.\nMinisuli – 2. rész \nÜsth Jutta matematika nyílt órája az 1. b osztályban",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767004018_222",
@@ -14214,7 +15396,13 @@
         "driveId": "1rsSRVW4r-SMSsRcDe_ZkCc_h5B8-6g7-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1767003713_223",
@@ -14222,7 +15410,13 @@
     "date": "2025. december 29.",
     "dateSort": "2025-12-29",
     "text": "Szent Mihály új videót töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nKarácsonyi gála hangversenyünkön művészeti iskolánk diákjai és tanárai örvendeztettek bennünket hangszeres és énekes produkciókkal...\nÁlló- és mozgókép: Vas-Erdei Fruzsina\nVágó: Molnár Csilla",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766957418_224",
@@ -14230,7 +15424,13 @@
     "date": "2025. december 28.",
     "dateSort": "2025-12-28",
     "text": "Szent Mihály új videót töltött fel.\n🎄❤️ A szeretet ünnepére készülve ❤️🎄\nÓvodásaink betlehemes játékokkal, karácsonyi énekekkel és meghitt történetekkel színesítették a közös csoportos ünnepségeket. Nagy örömünkre megtiszteltek bennünket drága szüleink, nagyszüleink és családtagjaink, hogy együtt élhessük meg a szeretet ünnepének előkészületeit.\nAz ünnepségek végén a kicsiny kezek által készített ajándékokat adták át óvodásaink, szívből jövő szeretettel. 🎁✨",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766955605_225",
@@ -14238,7 +15438,13 @@
     "date": "2025. december 28.",
     "dateSort": "2025-12-28",
     "text": "Szent Mihály új videót töltött fel.\n🎄✨ Közös készülődés karácsonyra ✨🎄\nMind a négy óvodai csoportunk részt vett a központi karácsonyfa feldíszítésében. A csillogó szemű gyermekeink nagy örömére a Jézuska is megérkezett, szebbnél szebb fiús és lányos játékokkal, melyek még varázslatosabbá tették az ünnepvárást. 🎁❤️\nA gyermekek nagy örömmel próbálták ki az új játékokat, a közös élmények pedig tovább erősítették az ünnep meghitt hangulatát.🫶🫶🫶",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766954788_226",
@@ -14277,7 +15483,13 @@
         "driveId": "1f6RYbaki47KD66oPGHIvOdw8--cK5LE9",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766735130_227",
@@ -14376,7 +15588,13 @@
         "driveId": "19icESZNe13WwGzDv1fgGzO6wTLr0HInD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766733489_228",
@@ -14384,7 +15602,13 @@
     "date": "2025. december 26.",
     "dateSort": "2025-12-26",
     "text": "Szent Mihály új videót töltött fel.\n■Áldott karácsonyt! ■\nAz idei karácsonyi műsor a művelődési ház felújítása miatt a görögkatolikus templomban kapott helyet. Versek, megható dalok, dramatikus játék melyet idén láthatott a Szent Mihály Görögkatolikus Általános Iskola apraja-nagyja. Felkészítő tanárok: Bucskóné Magyar Ildikó, Molnár Csilla segítőik: Kissné Kovács Edit és Demján Szilvia \nHangosítás: Terdik Róbert \nKöszönjük Miklós atya, Ricsi atya és Orsika segítségnyújtását a templomi próbák létrejöttéért!\nHálásan köszönjük a szülők támogató háttérmunkáját!\n📸: Gólya György \n🎥: Molnár Csilla \nA teljes műsor itt tekinthető meg:\nhttps://youtu.be/ncQqqADZ0OQ",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766663319_10",
@@ -14399,7 +15623,13 @@
         "driveId": "1a840x3HtJx7OvCJn0xHjXQlNAqBaUwF-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766664866_229",
@@ -14420,7 +15650,13 @@
         "driveId": "14rLxJjygz24zmhrxcYku9VclmE2_nFqV",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766663319_230",
@@ -14435,7 +15671,13 @@
         "driveId": "1a840x3HtJx7OvCJn0xHjXQlNAqBaUwF-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766605390_231",
@@ -14443,7 +15685,13 @@
     "date": "2025. december 24.",
     "dateSort": "2025-12-24",
     "text": "Szent Mihály új videót töltött fel.\nKrisztus születik! Dicsőítsétek!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766516642_232",
@@ -14458,7 +15706,13 @@
         "driveId": "1mNaKoiOsrncyFvh8luddVSLu4JhnehVs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766516139_233",
@@ -14527,7 +15781,13 @@
         "driveId": "1v2dn7_7E3okSCe0ixUXxndUFjwB0U88w",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766474629_234",
@@ -14548,7 +15808,13 @@
         "driveId": "1f8Bh05YDQLUN9X_PJvgENinM9NI_dnml",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766474259_235",
@@ -14719,7 +15985,13 @@
         "driveId": "1ldbINsSU6UH-bftLXf--3qzI3LJ9NgBQ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766036154_236",
@@ -14746,7 +16018,13 @@
         "driveId": "1zskUfbEzf-wXqh1DmKUsapyvnBEzpeXt",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766035514_237",
@@ -14887,7 +16165,13 @@
         "driveId": "1awsdNX6v94aIlu3dHkhB9eSfnSNJGjFq",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1766035021_238",
@@ -14944,7 +16228,13 @@
         "driveId": "1MWvx7IYzqnJISMctEN1DPCVx9xrH2DfI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765903246_239",
@@ -14965,7 +16255,13 @@
         "driveId": "1J1QNHAxHokh3qhbGWOHqNlYCxgLmHcYb",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765902543_240",
@@ -14973,7 +16269,13 @@
     "date": "2025. december 16.",
     "dateSort": "2025-12-16",
     "text": "Szent Mihály új videót töltött fel.\n🎶✨ Ünnepi ráhangolódás óvodánkban ✨🎶\nMűvészeti iskolásaink ünnepi ráhangoló koncerttel ajándékozták meg óvodásainkat. A gyönyörű dallamok, a közös éneklés és a meghitt hangulat segítette a gyermekeket az ünnepre való készülődésben. 🎄🎵\nEz a különleges alkalom nemcsak zenei élményt adott, hanem erősítette az összetartozás érzését is – kicsik és nagyok együtt élhették át az ünnepvárás örömét. 💖🤝\nKöszönjük a szép élményt! 🌟",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765735214_241",
@@ -15138,7 +16440,13 @@
         "driveId": "1rABkV2J54bu3Q-BQxZGASxpTOB-wHJld",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765734626_242",
@@ -15279,7 +16587,13 @@
         "driveId": "1S21Gife-La4rlIfEzI1g6eXEQPeGp9de",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765733267_243",
@@ -15287,7 +16601,13 @@
     "date": "2025. december 14.",
     "dateSort": "2025-12-14",
     "text": "Szent Mihály új videót töltött fel.\nDíszben áll a Szent Mihály karácsonyfája...",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765732327_244",
@@ -15302,7 +16622,13 @@
         "driveId": "1XXSwigkIvlfHO0SWlMTWjzNVxaR_b6j1",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765578823_245",
@@ -15317,7 +16643,13 @@
         "driveId": "1YWEYl8MIO6Ynr8XWNWr9-GxTxWB0YntD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765578807_246",
@@ -15332,7 +16664,13 @@
         "driveId": "18kpp4lkG1Nc3Ni6G6kBMzhrkI0HdV92h",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765436760_247",
@@ -15455,7 +16793,13 @@
         "driveId": "1j4LXJkqrQ59fvbFYkYRcOSa_iCB90vDz",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765321818_248",
@@ -15463,7 +16807,13 @@
     "date": "2025. december 10.",
     "dateSort": "2025-12-09",
     "text": "Szent Mihály új videót töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nMikulás foci az 1. a osztályban",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765175919_249",
@@ -15478,7 +16828,13 @@
         "driveId": "1bdxrO98HsgNwMBKl7Lq8aBQrIoCpcIQi",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765140982_250",
@@ -15486,7 +16842,13 @@
     "date": "2025. december 7.",
     "dateSort": "2025-12-07",
     "text": "Szent Mihály új videót töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nDecember 3-án meglátogattuk a volt óvó néniket és csoportjukat. Verssel és tánccal szórakoztattuk kicsiket és nagyokat.\nVeres Noémi",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765121097_251",
@@ -15645,7 +17007,13 @@
         "driveId": "18NipYMkH1sXW4y0OQAYrVIwdXS04BfaV",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765117722_252",
@@ -15702,7 +17070,13 @@
         "driveId": "1bGg-PN6CPanUVbPxoec9wqICHoMJSnEu",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765115686_253",
@@ -15789,7 +17163,13 @@
         "driveId": "1pJHfS0hI5OarZIHnBVeO9t04Yv3HfJhF",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765108540_254",
@@ -15804,7 +17184,13 @@
         "driveId": "159IaFn2ReiU14vdZL6nzWl85gOoXshka",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765034160_9",
@@ -15812,7 +17198,13 @@
     "date": "2025. december 6.",
     "dateSort": "2025-12-06",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765065236_255",
@@ -15820,7 +17212,13 @@
     "date": "2025. december 7.",
     "dateSort": "2025-12-06",
     "text": "Szent Mihály új videót töltött fel.\n🎅Szent Miklós Püspök péntek délelőtt megérkezett óvodánkba is.🎅",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765039043_256",
@@ -15835,7 +17233,13 @@
         "driveId": "1xO48Aq9CkxC87K93WAZItw8fREHBXfnO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765036068_257",
@@ -15874,7 +17278,13 @@
         "driveId": "1ISZe2ht6IpeAKBXDWMM9K5E5ivK1EPIi",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765035843_258",
@@ -16261,7 +17671,13 @@
         "driveId": "1Lp7GZeRZnu8hyeFfUGJDp0lwoI57xwXD",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765035487_259",
@@ -16269,7 +17685,13 @@
     "date": "2025. december 6.",
     "dateSort": "2025-12-06",
     "text": "Szent Mihály új videót töltött fel.\nMinisuli – 1. rész \nNyakacskáné Bihari Julianna magyar irodalom nyílt órája a 4. a osztályban",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1765034160_260",
@@ -16277,7 +17699,13 @@
     "date": "2025. december 6.",
     "dateSort": "2025-12-06",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764825199_261",
@@ -16292,7 +17720,13 @@
         "driveId": "1kNfCWTTPvZ5F57hw4VT2PlzXPWnPGmHL",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764747719_7",
@@ -16300,7 +17734,13 @@
     "date": "2025. december 3.",
     "dateSort": "2025-12-03",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764747730_8",
@@ -16308,7 +17748,13 @@
     "date": "2025. december 3.",
     "dateSort": "2025-12-03",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764747793_262",
@@ -16617,7 +18063,13 @@
         "driveId": "1kqhsXPPfkcF8nVTMzsE44L-Xpwnu_fm3",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764747730_263",
@@ -16625,7 +18077,13 @@
     "date": "2025. december 3.",
     "dateSort": "2025-12-03",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764747719_264",
@@ -16633,7 +18091,13 @@
     "date": "2025. december 3.",
     "dateSort": "2025-12-03",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764609801_265",
@@ -16641,7 +18105,13 @@
     "date": "2025. december 1.",
     "dateSort": "2025-12-01",
     "text": "Szent Mihály új videót töltött fel.\n🫶Máron-napi lámpás felvonulás az óvodában🫶\nA Márton-napi hét legszebb része a már hagyománnyá vált lámpás felvonulás volt, amelyen a gyermekek és családjaik ragyogó lámpásaikkal vonultak közösen a Görögkatolikus templom kertbe. A színes fények varázslatos hangulatot teremtettek, és mindenkit elbűvöltek.\nA nap végén közös étkezés következett, ahol zsíros kenyeret lilahagymával és forró teával kínáltunk a résztvevőknek. A finom falatok mellett mindenki beszélgetett, és még inkább megerősödött közösségünk összetartása.\nKöszönjük mindenkinek, hogy részt vett a Márton-napi eseményen, és hozzájárult a nap sikeréhez! \nKülön köszönjük a Polgárőrségnek, hogy biztosították a biztonságos közlekedésünket!💗💗💗",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764607675_266",
@@ -16692,7 +18162,13 @@
         "driveId": "11As81zg-cyqZ4okfSgtZHdy2D07HXJbI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764509974_6",
@@ -16700,7 +18176,13 @@
     "date": "2025. november 30.",
     "dateSort": "2025-11-30",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764540414_267",
@@ -16751,7 +18233,13 @@
         "driveId": "1VLNALxCDGw0WOosUfVA1GtoGpVRKL46j",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764509985_268",
@@ -16940,7 +18428,13 @@
         "driveId": "19TiVav8fzCg_rKFnLI_TgW-ykscl3Mv1",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764509974_269",
@@ -16948,7 +18442,13 @@
     "date": "2025. november 30.",
     "dateSort": "2025-11-30",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764479420_270",
@@ -16963,7 +18463,13 @@
         "driveId": "1-x3qNPG2-P1xLFIgDnLPkT6bK9BbwT7P",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764048121_271",
@@ -17038,7 +18544,13 @@
         "driveId": "1q69zyDdQhk3OhokSsKpbOsWtVNzLsbvZ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1764047467_272",
@@ -17137,7 +18649,13 @@
         "driveId": "1vMFcOTD-ymPMKRxQsOK2er0MX_rV3PTW",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763962137_273",
@@ -17145,7 +18663,13 @@
     "date": "2025. november 24.",
     "dateSort": "2025-11-24",
     "text": "Szent Mihály új videót töltött fel.\nAz első lángot a 8. a lobbantotta fel. Felkészítő tanár: Móricz Sándorné",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763731289_274",
@@ -17184,7 +18708,13 @@
         "driveId": "1WncKSuAC80wOMnOFC53HZEZczYzlykTp",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763730211_275",
@@ -17265,7 +18795,13 @@
         "driveId": "1cippCO9xco-ODXC_Rlzq9IdK0T1QcbzR",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763530699_276",
@@ -17280,7 +18816,13 @@
         "driveId": "1xb11tZwUZVijaK9hf1OpP8F1PKJgqw2t",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763381901_277",
@@ -17295,7 +18837,13 @@
         "driveId": "1GvHAo5o6i4N-KMZyr-uemx9rOin8o8Np",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763355937_278",
@@ -17466,7 +19014,13 @@
         "driveId": "1xJ1xWjziaONjpHe16wzpE9KvseWxZkZ_",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763322827_279",
@@ -17474,7 +19028,13 @@
     "date": "2025. november 16.",
     "dateSort": "2025-11-16",
     "text": "Szent Mihály új videót töltött fel.\n🫶Szent Mihály hét az óvodában🫶\nA Szent Mihály-heti időszakban, óvodánkban változatos programokkal készültünk. \nA gyermekek mesén keresztül ismerkedtek Szent Mihály történetével, majd egy lelki nap keretében Egyházunk kincseit fedezték fel. \nHagyományos Szent Mihály-napi sütit készítettek, valamint különféle technikákkal megalkották saját pajzsukat. A hét játékos, mozgásos feladatokkal folytatódott. \nPénteken a Katica nagycsoportosaink tánccal kedveskedtek társaiknak, majd a Csibe-avatón az alsó tagozatos tanulóknak is bemutatták műsorukat.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763071865_280",
@@ -17591,7 +19151,13 @@
         "driveId": "15yHmreoLGOiK3iehG4E8kb4_3kgZteGZ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1763006657_281",
@@ -17966,7 +19532,13 @@
         "driveId": "1bSc4cB0MtXZeTMukExxnubmgURf-KbrI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762841555_282",
@@ -17974,7 +19546,13 @@
     "date": "2025. november 11.",
     "dateSort": "2025-11-11",
     "text": "Szent Mihály új videót töltött fel.\nSzent Mihály hét utolsó napja a felső tagozatban...",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762752233_283",
@@ -18271,7 +19849,13 @@
         "driveId": "1cuPyVZSMuk8Qne5as7jfjiCotAE1xqK_",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762751410_284",
@@ -18670,7 +20254,13 @@
         "driveId": "1Z6o2TbxepBSmLGcvHtfyu84IkBtwL-b5",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762668245_285",
@@ -18678,7 +20268,13 @@
     "date": "2025. november 9.",
     "dateSort": "2025-11-09",
     "text": "Szent Mihály 2 új videót töltött fel.\nSzent Mihály hét 3. nap",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762407060_5",
@@ -18686,7 +20282,13 @@
     "date": "2025. november 6.",
     "dateSort": "2025-11-06",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762407060_286",
@@ -18694,7 +20296,13 @@
     "date": "2025. november 6.",
     "dateSort": "2025-11-06",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762406606_287",
@@ -18702,7 +20310,13 @@
     "date": "2025. november 6.",
     "dateSort": "2025-11-06",
     "text": "Szent Mihály 2 új videót töltött fel.\nSzent Mihály hét 2. nap",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762293402_288",
@@ -18710,7 +20324,13 @@
     "date": "2025. november 4.",
     "dateSort": "2025-11-04",
     "text": "Szent Mihály új videót töltött fel.\nSzent Mihály hét 1. nap",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762236428_289",
@@ -18725,7 +20345,13 @@
         "driveId": "19DZFzC35v1YDQyM4tuuJQR9LWh_glb_f",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762110277_290",
@@ -18866,7 +20492,13 @@
         "driveId": "1bmDvl7CuPJasC2GRFra6wfYqFRaHtPCs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1762027331_291",
@@ -18881,7 +20513,13 @@
         "driveId": "1K-Flz0xXtXIayzJMOYP8kU8Piw0JVyLF",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761728881_292",
@@ -18889,7 +20527,13 @@
     "date": "2025. október 29.",
     "dateSort": "2025-10-29",
     "text": "Szent Mihály új videót töltött fel.\n❤️👨‍👩‍👧‍👦Családi nap az óvodában.👨‍👩‍👦❤️",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761465978_293",
@@ -19006,7 +20650,13 @@
         "driveId": "1J2GtNvfUUOpLi0a1fdY-k_YdrA7_eMGI",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761381952_294",
@@ -19045,7 +20695,13 @@
         "driveId": "1Z7cFSuASAlG3WfiALHV5poohPCJrfhrQ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761370980_295",
@@ -19072,7 +20728,13 @@
         "driveId": "1rt5AfekMKpqE5RVTaPfxAtnglwJnm89T",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761317160_296",
@@ -19225,7 +20887,13 @@
         "driveId": "1vbdKypH9_q9ZdA4t6UFI2FvcNxN_LPdU",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761303407_297",
@@ -19270,7 +20938,13 @@
         "driveId": "1UZoIDFIe9kNhdl2rvgNEMIA7FvxF4Phx",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1761230400_298",
@@ -19278,7 +20952,13 @@
     "date": "2025. október 23.",
     "dateSort": "2025-10-23",
     "text": "Szent Mihály új videót töltött fel.\n■Emlékezzünk '56 hőseire■\nOktóber 22-én a 7. évfolyam tanulóinak műsorával emlékeztünk a szabadságért harcoló hőseinkre. Legyenek példaképeink őseink a fiatalok számára: a szabadság alapvető jogunk, melyet minden korban meg kell őrizni! A műsort az iskola kórusának szívhezszóló éneke zárta.\nVégül a történelmi események összegzését Kartali Viktória történelem tanár előadásában hallhattuk. \nFelkészítő tanárok: Simonné Dublinszki Ibolya,\nIllyés Adrienn\nKözreműködött: Kartali Viktória, Dán Alexandra",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760934939_299",
@@ -19323,7 +21003,13 @@
         "driveId": "1rZnJaJVUqdUT4LjH1QTXRd34CmcUWdAy",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760934572_300",
@@ -19368,7 +21054,13 @@
         "driveId": "1E2XAS1x9q81RqRmLHq1fDVKRnNVE4XID",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760917143_301",
@@ -19383,7 +21075,13 @@
         "driveId": "1ycqL19BOs-nEUOSZqVnFy6YuxmgtjPUp",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760782532_302",
@@ -19440,7 +21138,13 @@
         "driveId": "1EGCRf6qa-0ux2ZpcN21AscTQZBEC4P2r",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760782117_303",
@@ -19617,7 +21321,13 @@
         "driveId": "1FwVTqE5IkPDzTqfvrovczNFyrw7y5r_x",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760504205_4",
@@ -19625,7 +21335,13 @@
     "date": "2025. október 15.",
     "dateSort": "2025-10-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760504205_304",
@@ -19633,7 +21349,13 @@
     "date": "2025. október 15.",
     "dateSort": "2025-10-15",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760284316_3",
@@ -19641,7 +21363,13 @@
     "date": "2025. október 12.",
     "dateSort": "2025-10-12",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760284316_305",
@@ -19649,7 +21377,13 @@
     "date": "2025. október 12.",
     "dateSort": "2025-10-12",
     "text": "Szent Mihály megosztott egy bejegyzést.\nKérjük, támogassák szavazatukkal óvodásaink rajzpályázatra készült alkotásait! Kattintsanak a képre és szavazzanak! \nKöszönjük!",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760212805_306",
@@ -19754,7 +21488,13 @@
         "driveId": "1yaJLRZvFKw2C7y_VmcJCRlD20P2u5Sne",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1760212280_307",
@@ -19859,7 +21599,13 @@
         "driveId": "196LAzGCnL-Rm5v09kTAFa3w4ycCK8O08",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759777699_308",
@@ -19886,7 +21632,13 @@
         "driveId": "1CFluB_D2g2FatiS1v84anA4t-a6hJqos",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759697590_309",
@@ -19913,7 +21665,13 @@
         "driveId": "18S9CpyBq5stbg1htVr50H3Wg1kNMGjSs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759520267_310",
@@ -20108,7 +21866,13 @@
         "driveId": "1Og0XsMwUcupsnAXYqOltnx8OcibDMizM",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759466317_311",
@@ -20177,7 +21941,13 @@
         "driveId": "1_W696Z2SAVWmGbEiZCll-sdTCy_8h5fs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759426454_2",
@@ -20185,7 +21955,13 @@
     "date": "2025. október 2.",
     "dateSort": "2025-10-02",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759427108_312",
@@ -20218,7 +21994,13 @@
         "driveId": "1V_mzYkU-nABSD6Xp-j6gDvXkPC3HU4MO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759426454_313",
@@ -20226,7 +22008,13 @@
     "date": "2025. október 2.",
     "dateSort": "2025-10-02",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759417132_314",
@@ -20307,7 +22095,13 @@
         "driveId": "1tjOTPc1FzYKGDB9Sl9Cm08q9pjlPKT2Z",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759333876_315",
@@ -20352,7 +22146,13 @@
         "driveId": "1ZDGvTT0VeBAw6eEoJmYLovWn9GdGQu5Q",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759332845_316",
@@ -20427,7 +22227,13 @@
         "driveId": "14NPUyraSfw9LxRK2sF4ir91A8ZePZuiP",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759318959_317",
@@ -20466,7 +22272,13 @@
         "driveId": "1Zoc0DXFjUx0NwR9Tn4NHTgMbsOugZKiO",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759300371_318",
@@ -20601,7 +22413,13 @@
         "driveId": "1SqhF8_AnCdKA-RdxDSDdGBQL0Lx71koX",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759294794_319",
@@ -20658,7 +22476,13 @@
         "driveId": "1mlF2vG11SVVapE9Y8E5YtpHmEkaGczB6",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759294130_320",
@@ -20727,7 +22551,13 @@
         "driveId": "1wGd1cQVoAT3iT1G-QgflESLkKypdaI0P",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759202413_321",
@@ -20772,7 +22602,13 @@
         "driveId": "1BO7S7FBavR1JkTfJcDc6qctqSI01lLFQ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759177252_322",
@@ -20847,7 +22683,13 @@
         "driveId": "1sDPw-LKCOUsEPLSYt6EaRGk9SJBLEWqg",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1759063585_323",
@@ -20892,7 +22734,13 @@
         "driveId": "1FXkNwpku677IkiJ9GuyM3TeUYx_MLufT",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758889206_324",
@@ -20900,7 +22748,13 @@
     "date": "2025. szeptember 26.",
     "dateSort": "2025-09-26",
     "text": "Szent Mihály új videót töltött fel.\n■Érik a szőlő...■\nA Magyar Dal Napját – Presser Gábor ötlete nyomán – 2008-ban rendezték meg először, azóta hagyományosan szeptember második vasárnapján ünnepeljük.\nEz alkalomból Illyés Adrienn énekkar vezetőnk megénekeltette az egész iskolát.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758888974_325",
@@ -20993,7 +22847,13 @@
         "driveId": "12iT3jteujn2-7ELeSnlphIDP8JwOGm-x",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758881913_326",
@@ -21008,7 +22868,13 @@
         "driveId": "1JUiHtWzqdtrZ1t2FRgvVWnuA4mwvQC4d",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758862049_327",
@@ -21029,7 +22895,13 @@
         "driveId": "1cru4DLc_a52B9P7fhiHj-spgeF0a-zWV",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758852965_328",
@@ -21086,7 +22958,13 @@
         "driveId": "1BV7VxelH9dN9jpMr61IL40yVpfIwez7b",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758660612_329",
@@ -21131,7 +23009,13 @@
         "driveId": "1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758621818_330",
@@ -21224,7 +23108,13 @@
         "driveId": "12AC4cvSR1cJBKQVlY3IUHb76wh1BK-7Q",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758613464_331",
@@ -21232,7 +23122,13 @@
     "date": "2025. szeptember 23.",
     "dateSort": "2025-09-23",
     "text": "Szent Mihály új videót töltött fel.\n🦜 Szuper őszi programmal indult a hét az óvodában 🦜\nImre István látogatott el hozzánk, akit a gyerekek csak “Madaras bácsinak” szólítottak. Elhozta nekünk kedvenc madarait: Marcit, a papagájt, Bogyót, a macska baglyot és Henriettát, a réti héját. Interaktív előadásban volt részünk a madarak társaságában. \nA gyerekek sok újdonságot tanulhattak meg a madarakról, megsimogathatták a papagájt és a baglyot, valamint az előadás végén a réti héjával egy bátorságpróbát is kiálltak.\n Az óvónénik sem maradtak ki a sorból! A vállaikon üldögéltek a madarak, illetve a karjaik között repült àt Henrietta, a réti héja. Ez volt az ő bátorságpróbájuk. \nNagyon izgalmas és érdekes program volt, teljesen elvarázsolta a résztvevőket a “Madaras bácsi”.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758601320_332",
@@ -21277,7 +23173,13 @@
         "driveId": "1zmTCEustbg48sOhd_QCZBc79GVnF-ATQ",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758558498_333",
@@ -21292,7 +23194,13 @@
         "driveId": "1SSBjqFWcmuItuMqLHkEvuMB71X9R82Yp",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758403343_334",
@@ -21349,7 +23257,13 @@
         "driveId": "1LhQPWkrfYUzTOAxYNMBbhwpl0vWX-WY8",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758173096_335",
@@ -21364,7 +23278,13 @@
         "driveId": "1QL8mvEjet55nzqX8J1LkvU_yQaGszHN-",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1758084876_336",
@@ -21421,7 +23341,13 @@
         "driveId": "1vRh7NxOG16Qfac2CNl6kOtZEfI1A3UL_",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1757997169_337",
@@ -21454,7 +23380,13 @@
         "driveId": "141zNJOPtiwhwZxxGxlo6Xue2s2miQEWc",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1757743351_1",
@@ -21462,7 +23394,13 @@
     "date": "2025. szeptember 13.",
     "dateSort": "2025-09-13",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1757743351_338",
@@ -21470,7 +23408,13 @@
     "date": "2025. szeptember 13.",
     "dateSort": "2025-09-13",
     "text": "Szent Mihály megosztott egy bejegyzést.",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1757478475_339",
@@ -21478,7 +23422,13 @@
     "date": "2025. szeptember 10.",
     "dateSort": "2025-09-10",
     "text": "Szent Mihály új videót töltött fel.\n●Táskaáldás●",
-    "images": []
+    "images": [],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1757303912_340",
@@ -21493,7 +23443,13 @@
         "driveId": "1nRL6ATuAXMMgq_8JVPLpwKGYj4orL5dB",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1756773546_341",
@@ -21508,7 +23464,13 @@
         "driveId": "17UMeZIeQe-YM3ObIP6S6oh5_wAVmje82",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "textColor": "#b45309",
+    "color": "#b45309",
+    "dropCap": true,
+    "dropCapStyle": "gradient",
+    "dropCapColor": "#b45309"
   },
   {
     "id": "fb_1756761086_342",
@@ -21518,159 +23480,159 @@
     "text": "Szent Mihály 25 új fényképet töltött fel.\nSzeptember 1-én nyílt a tanév a Szent Mihály Görögkatolikus Óvoda, Általános Iskola és Alapfokú Művészeti Iskolában. Az új iskolalelkész, Gaál Richárd bemutatkozását követően Keczán Szilárd igazgató köszöntötte a jelenlévőket. Majd Szilágyi Zoltán polgármester is köszöntötte a diákokat. Versmondás és énekkaros dallamok után megnyílt a 2025/2026-os tanév.",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=1qUZvH9q91jJITrmzgIuu0Wqf8tOnByzN",
         "thumbnail": "/api/img?id=1qUZvH9q91jJITrmzgIuu0Wqf8tOnByzN",
-        "driveId": "1qUZvH9q91jJITrmzgIuu0Wqf8tOnByzN",
-        "enabled": true
+        "driveId": "1qUZvH9q91jJITrmzgIuu0Wqf8tOnByzN"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1BHxvC0P0znhPwXLjS-VO7Cz-MNCMqByZ",
         "thumbnail": "/api/img?id=1BHxvC0P0znhPwXLjS-VO7Cz-MNCMqByZ",
-        "driveId": "1BHxvC0P0znhPwXLjS-VO7Cz-MNCMqByZ",
-        "enabled": true
+        "driveId": "1BHxvC0P0znhPwXLjS-VO7Cz-MNCMqByZ"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1fgsRtL0lmzApj53ZdRzULHOD4go810Kh",
         "thumbnail": "/api/img?id=1fgsRtL0lmzApj53ZdRzULHOD4go810Kh",
-        "driveId": "1fgsRtL0lmzApj53ZdRzULHOD4go810Kh",
-        "enabled": true
+        "driveId": "1fgsRtL0lmzApj53ZdRzULHOD4go810Kh"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1kdoJqmUcG3zUMYmM6KE-SsQBVLHywsSt",
         "thumbnail": "/api/img?id=1kdoJqmUcG3zUMYmM6KE-SsQBVLHywsSt",
-        "driveId": "1kdoJqmUcG3zUMYmM6KE-SsQBVLHywsSt",
-        "enabled": true
+        "driveId": "1kdoJqmUcG3zUMYmM6KE-SsQBVLHywsSt"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1HpYGfmhrZZEaqxC74PkniLvJf1oKmDg9",
         "thumbnail": "/api/img?id=1HpYGfmhrZZEaqxC74PkniLvJf1oKmDg9",
-        "driveId": "1HpYGfmhrZZEaqxC74PkniLvJf1oKmDg9",
-        "enabled": true
+        "driveId": "1HpYGfmhrZZEaqxC74PkniLvJf1oKmDg9"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=13pqaxjpYcBkhYg_EieDxqBXPlA4uc6QX",
         "thumbnail": "/api/img?id=13pqaxjpYcBkhYg_EieDxqBXPlA4uc6QX",
-        "driveId": "13pqaxjpYcBkhYg_EieDxqBXPlA4uc6QX",
-        "enabled": true
+        "driveId": "13pqaxjpYcBkhYg_EieDxqBXPlA4uc6QX"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1TeQywbp1ttWuVrbrvKgVupfKhhXzlkUc",
         "thumbnail": "/api/img?id=1TeQywbp1ttWuVrbrvKgVupfKhhXzlkUc",
-        "driveId": "1TeQywbp1ttWuVrbrvKgVupfKhhXzlkUc",
-        "enabled": true
+        "driveId": "1TeQywbp1ttWuVrbrvKgVupfKhhXzlkUc"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1-RnqEiFitJ2pA3hFFFwFLNb-iGl-0zdC",
         "thumbnail": "/api/img?id=1-RnqEiFitJ2pA3hFFFwFLNb-iGl-0zdC",
-        "driveId": "1-RnqEiFitJ2pA3hFFFwFLNb-iGl-0zdC",
-        "enabled": true
+        "driveId": "1-RnqEiFitJ2pA3hFFFwFLNb-iGl-0zdC"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1w9Ui3rObPwKSTGWFxPrxekJn5agyda4O",
         "thumbnail": "/api/img?id=1w9Ui3rObPwKSTGWFxPrxekJn5agyda4O",
-        "driveId": "1w9Ui3rObPwKSTGWFxPrxekJn5agyda4O",
-        "enabled": true
+        "driveId": "1w9Ui3rObPwKSTGWFxPrxekJn5agyda4O"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=14C4lzJwuH_4MX0k-mYAFJaZSLeZlFePf",
         "thumbnail": "/api/img?id=14C4lzJwuH_4MX0k-mYAFJaZSLeZlFePf",
-        "driveId": "14C4lzJwuH_4MX0k-mYAFJaZSLeZlFePf",
-        "enabled": true
+        "driveId": "14C4lzJwuH_4MX0k-mYAFJaZSLeZlFePf"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1JJMTwffcPYmjekvJxihk86GhEKRORFnP",
         "thumbnail": "/api/img?id=1JJMTwffcPYmjekvJxihk86GhEKRORFnP",
-        "driveId": "1JJMTwffcPYmjekvJxihk86GhEKRORFnP",
-        "enabled": true
+        "driveId": "1JJMTwffcPYmjekvJxihk86GhEKRORFnP"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1YevD0MG_waEAUYFnVpZEvBabSMwtCTIb",
         "thumbnail": "/api/img?id=1YevD0MG_waEAUYFnVpZEvBabSMwtCTIb",
-        "driveId": "1YevD0MG_waEAUYFnVpZEvBabSMwtCTIb",
-        "enabled": true
+        "driveId": "1YevD0MG_waEAUYFnVpZEvBabSMwtCTIb"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=12DhblxxIpxykDhyTtK4CAnGIR9X0EPh5",
         "thumbnail": "/api/img?id=12DhblxxIpxykDhyTtK4CAnGIR9X0EPh5",
-        "driveId": "12DhblxxIpxykDhyTtK4CAnGIR9X0EPh5",
-        "enabled": true
+        "driveId": "12DhblxxIpxykDhyTtK4CAnGIR9X0EPh5"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1dwtljMxJwboA_iXJTaXFJZ4d_8Pq8psQ",
         "thumbnail": "/api/img?id=1dwtljMxJwboA_iXJTaXFJZ4d_8Pq8psQ",
-        "driveId": "1dwtljMxJwboA_iXJTaXFJZ4d_8Pq8psQ",
-        "enabled": true
+        "driveId": "1dwtljMxJwboA_iXJTaXFJZ4d_8Pq8psQ"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1fqKPeSBFCc9K3BUk8k4WWpbWbYHwrznk",
         "thumbnail": "/api/img?id=1fqKPeSBFCc9K3BUk8k4WWpbWbYHwrznk",
-        "driveId": "1fqKPeSBFCc9K3BUk8k4WWpbWbYHwrznk",
-        "enabled": true
+        "driveId": "1fqKPeSBFCc9K3BUk8k4WWpbWbYHwrznk"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1wa-ny2LQmFJ6tAQN7R-dadXiBSb4YJSl",
         "thumbnail": "/api/img?id=1wa-ny2LQmFJ6tAQN7R-dadXiBSb4YJSl",
-        "driveId": "1wa-ny2LQmFJ6tAQN7R-dadXiBSb4YJSl",
-        "enabled": true
+        "driveId": "1wa-ny2LQmFJ6tAQN7R-dadXiBSb4YJSl"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1S-NVFVykP9161K6nu3QMp5TJ5t54BaPN",
         "thumbnail": "/api/img?id=1S-NVFVykP9161K6nu3QMp5TJ5t54BaPN",
-        "driveId": "1S-NVFVykP9161K6nu3QMp5TJ5t54BaPN",
-        "enabled": true
+        "driveId": "1S-NVFVykP9161K6nu3QMp5TJ5t54BaPN"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=11dSIVkO_puN8bOgVza_iUufZe-g3MKa_",
         "thumbnail": "/api/img?id=11dSIVkO_puN8bOgVza_iUufZe-g3MKa_",
-        "driveId": "11dSIVkO_puN8bOgVza_iUufZe-g3MKa_",
-        "enabled": true
+        "driveId": "11dSIVkO_puN8bOgVza_iUufZe-g3MKa_"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1CjP7tn-kFYQBqsYpys2QeTs8pEJmGxIA",
         "thumbnail": "/api/img?id=1CjP7tn-kFYQBqsYpys2QeTs8pEJmGxIA",
-        "driveId": "1CjP7tn-kFYQBqsYpys2QeTs8pEJmGxIA",
-        "enabled": true
+        "driveId": "1CjP7tn-kFYQBqsYpys2QeTs8pEJmGxIA"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1vBRj8ccjjwFYzYZabZ3VZ0NKq5ztZQ-q",
         "thumbnail": "/api/img?id=1vBRj8ccjjwFYzYZabZ3VZ0NKq5ztZQ-q",
-        "driveId": "1vBRj8ccjjwFYzYZabZ3VZ0NKq5ztZQ-q",
-        "enabled": true
+        "driveId": "1vBRj8ccjjwFYzYZabZ3VZ0NKq5ztZQ-q"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1PLT44v5Y5L3RNbHwyK06jQMR3gc0mIV_",
         "thumbnail": "/api/img?id=1PLT44v5Y5L3RNbHwyK06jQMR3gc0mIV_",
-        "driveId": "1PLT44v5Y5L3RNbHwyK06jQMR3gc0mIV_",
-        "enabled": true
+        "driveId": "1PLT44v5Y5L3RNbHwyK06jQMR3gc0mIV_"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=17cvQl8ZL6jZus8jnetXs-htUkLWJ6lc7",
         "thumbnail": "/api/img?id=17cvQl8ZL6jZus8jnetXs-htUkLWJ6lc7",
-        "driveId": "17cvQl8ZL6jZus8jnetXs-htUkLWJ6lc7",
-        "enabled": true
+        "driveId": "17cvQl8ZL6jZus8jnetXs-htUkLWJ6lc7"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1mTtwfUt4LBfj-QKHo-w4wq_rVa3BOQ-m",
         "thumbnail": "/api/img?id=1mTtwfUt4LBfj-QKHo-w4wq_rVa3BOQ-m",
-        "driveId": "1mTtwfUt4LBfj-QKHo-w4wq_rVa3BOQ-m",
-        "enabled": true
+        "driveId": "1mTtwfUt4LBfj-QKHo-w4wq_rVa3BOQ-m"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1Em66oCAcbeVMNwoee9JVEsrhXRQ9grhq",
         "thumbnail": "/api/img?id=1Em66oCAcbeVMNwoee9JVEsrhXRQ9grhq",
-        "driveId": "1Em66oCAcbeVMNwoee9JVEsrhXRQ9grhq",
-        "enabled": true
+        "driveId": "1Em66oCAcbeVMNwoee9JVEsrhXRQ9grhq"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1A0-3qBYFtlvm4O0jYQhyPSKnUKsWrpIs",
         "thumbnail": "/api/img?id=1A0-3qBYFtlvm4O0jYQhyPSKnUKsWrpIs",
-        "driveId": "1A0-3qBYFtlvm4O0jYQhyPSKnUKsWrpIs",
-        "enabled": true
+        "driveId": "1A0-3qBYFtlvm4O0jYQhyPSKnUKsWrpIs"
       }
     ],
     "textAlign": "justify",
     "dropCap": true,
-    "dropCapStyle": "gold",
+    "dropCapStyle": "gradient",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
