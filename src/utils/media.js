@@ -91,13 +91,19 @@ export function getEventImageGrid(count) {
   return { cols: 3, rows: 2, hero: false, single: false }; // 5-6
 }
 
-// ── Inline markdown renderelés (**bold**, _italic_) ─────────────────────────
+// ── Inline markdown renderelés (**bold**, _italic_), Iniciálé (Drop cap) & Bekezdéskezelés ──
 import React from 'react';
 
-export function renderMarkdown(text) {
+export function renderMarkdown(text, options = {}) {
   if (!text) return null;
-  const lines = text.split('\n');
-  return lines.map((line, li) => {
+  const {
+    dropCap = false,
+    dropCapColor = '#b45309',
+    indent = false,
+    paragraphSpacing = true,
+  } = (typeof options === 'object' && options !== null ? options : {});
+
+  const parseInline = (line, keyPrefix) => {
     const parts = [];
     let rest = line;
     let key = 0;
@@ -107,18 +113,83 @@ export function renderMarkdown(text) {
       const useBold = boldM && (!italicM || boldM[0].length <= italicM[0].length);
       const useItalic = italicM && (!boldM || italicM[0].length < boldM[0].length);
       if (useBold) {
-        if (boldM[1]) parts.push(React.createElement('span', { key: key++ }, boldM[1]));
-        parts.push(React.createElement('strong', { key: key++ }, boldM[2]));
+        if (boldM[1]) parts.push(React.createElement('span', { key: `${keyPrefix}_${key++}` }, boldM[1]));
+        parts.push(React.createElement('strong', { key: `${keyPrefix}_${key++}` }, boldM[2]));
         rest = rest.slice(boldM[0].length);
       } else if (useItalic) {
-        if (italicM[1]) parts.push(React.createElement('span', { key: key++ }, italicM[1]));
-        parts.push(React.createElement('em', { key: key++ }, italicM[2]));
+        if (italicM[1]) parts.push(React.createElement('span', { key: `${keyPrefix}_${key++}` }, italicM[1]));
+        parts.push(React.createElement('em', { key: `${keyPrefix}_${key++}` }, italicM[2]));
         rest = rest.slice(italicM[0].length);
       } else {
-        parts.push(React.createElement('span', { key: key++ }, rest));
+        parts.push(React.createElement('span', { key: `${keyPrefix}_${key++}` }, rest));
         rest = '';
       }
     }
-    return React.createElement(React.Fragment, { key: li }, ...parts, li < lines.length - 1 ? '\n' : null);
+    return parts;
+  };
+
+  // Ha nincs iniciálé és behúzás se kell, egyszerű vonal-alapú renderelés
+  if (!dropCap && !indent && !paragraphSpacing) {
+    const lines = text.split('\n');
+    return lines.map((line, li) => {
+      return React.createElement(React.Fragment, { key: li }, ...parseInline(line, `l_${li}`), li < lines.length - 1 ? '\n' : null);
+    });
+  }
+
+  // Bekezdés-alapú feldolgozás
+  const rawParagraphs = text.includes('\n\n')
+    ? text.split(/\n\s*\n/)
+    : text.split('\n');
+  const paragraphs = rawParagraphs.map(p => p.trim()).filter(Boolean);
+  if (paragraphs.length === 0) return null;
+
+  let dropCapUsed = false;
+
+  return paragraphs.map((para, pIdx) => {
+    let pContent = [];
+
+    if (dropCap && !dropCapUsed) {
+      const match = para.match(/^([„"']?[\p{L}0-9])/u);
+      if (match) {
+        const initial = match[1];
+        const remainder = para.slice(initial.length);
+        dropCapUsed = true;
+
+        const dropCapEl = React.createElement('span', {
+          key: `dropcap_${pIdx}`,
+          style: {
+            float: 'left',
+            fontSize: '3.15em',
+            lineHeight: 0.76,
+            fontFamily: "'Georgia', 'Palatino Linotype', 'Times New Roman', serif",
+            fontWeight: 900,
+            color: dropCapColor || '#b45309',
+            padding: '2px 6px 0 0',
+            marginRight: '2px',
+            textShadow: '0 1px 2px rgba(0,0,0,0.12)',
+            userSelect: 'none',
+          }
+        }, initial);
+
+        pContent = [dropCapEl, ...parseInline(remainder, `p_${pIdx}`)];
+      } else {
+        pContent = parseInline(para, `p_${pIdx}`);
+      }
+    } else {
+      pContent = parseInline(para, `p_${pIdx}`);
+    }
+
+    const hasDropCapHere = pIdx === 0 && dropCapUsed;
+    const textIndent = (hasDropCapHere) ? 0 : (indent ? '1.4em' : 0);
+    const marginTop = (pIdx > 0 && paragraphSpacing) ? '0.65em' : 0;
+
+    return React.createElement('div', {
+      key: `para_${pIdx}`,
+      style: {
+        textIndent,
+        marginTop,
+        ...(pIdx === paragraphs.length - 1 && dropCapUsed ? { minHeight: '2.8em' } : {})
+      }
+    }, ...pContent);
   });
 }

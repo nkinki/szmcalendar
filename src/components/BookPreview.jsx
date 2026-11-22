@@ -672,6 +672,10 @@ export function EventContent({ event, bookData }) {
   const textColor = event.textColor || event.color || '#1e293b';
   const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
+  const dropCap = Boolean(event.dropCap);
+  const dropCapColor = event.dropCapColor || '#b45309';
+  const indent = Boolean(event.indent);
+  const paragraphSpacing = event.paragraphSpacing ?? true;
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', padding: '6%', gap: '4%', boxSizing: 'border-box' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', paddingBottom: '3%', flexShrink: 0, background: '#fffcf5', padding: '0 2% 3%' }}>
@@ -730,7 +734,7 @@ export function EventContent({ event, bookData }) {
             whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
           }}>
-            {renderMarkdown(body)}
+            {renderMarkdown(body, { dropCap, dropCapColor, indent, paragraphSpacing })}
           </div>
         )}
       </div>

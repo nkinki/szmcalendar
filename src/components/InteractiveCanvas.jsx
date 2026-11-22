@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { RotateCcw, Type, Image as ImageIcon, Trash2, EyeOff, Eye, RefreshCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify } from 'lucide-react';
+import { RotateCcw, Type, Image as ImageIcon, Trash2, EyeOff, Eye, RefreshCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify, Sparkles, Indent } from 'lucide-react';
 import { fileToCompressedDataUrl } from '../utils/imageCompressor';
 
 // ── Default layout boxes for standard elements (% of 500x706 A4 canvas) ────────
@@ -618,6 +618,62 @@ export default function InteractiveCanvas({
                           </button>
                         );
                       })}
+                      {/* Iniciálé & Behúzás gyorskapcsolók */}
+                      {(() => {
+                        const eventObj = page?.eventId ? (bookData?.events || []).find(ev => ev.id === page.eventId) : null;
+                        const hasDropCap = Boolean(box.dropCap ?? eventObj?.dropCap);
+                        const hasIndent = Boolean(box.indent ?? eventObj?.indent);
+                        return (
+                          <>
+                            <button
+                              onClick={e => {
+                                e.stopPropagation();
+                                const nextVal = !hasDropCap;
+                                updateElementLayout(elemId, { ...box, dropCap: nextVal });
+                                if (page?.eventId) {
+                                  setBookData(prev => ({
+                                    ...prev,
+                                    events: (prev.events || []).map(ev => ev.id === page.eventId ? { ...ev, dropCap: nextVal } : ev)
+                                  }));
+                                }
+                              }}
+                              title={hasDropCap ? "Iniciálé kikapcsolása" : "Díszes kezdőbetű (Iniciálé) bekapcsolása"}
+                              style={{
+                                background: hasDropCap ? '#d97706' : 'rgba(255,255,255,0.06)',
+                                border: 'none', borderRadius: 4,
+                                color: hasDropCap ? '#fff' : '#94a3b8',
+                                padding: '2px 5px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3, fontSize: 9.5, fontWeight: 700
+                              }}
+                            >
+                              <Sparkles size={11} />
+                              <span>Iniciálé</span>
+                            </button>
+                            <button
+                              onClick={e => {
+                                e.stopPropagation();
+                                const nextVal = !hasIndent;
+                                updateElementLayout(elemId, { ...box, indent: nextVal });
+                                if (page?.eventId) {
+                                  setBookData(prev => ({
+                                    ...prev,
+                                    events: (prev.events || []).map(ev => ev.id === page.eventId ? { ...ev, indent: nextVal } : ev)
+                                  }));
+                                }
+                              }}
+                              title={hasIndent ? "Bekezdés behúzás kikapcsolása" : "Bekezdés behúzás (első sor beljebb) bekapcsolása"}
+                              style={{
+                                background: hasIndent ? '#7c3aed' : 'rgba(255,255,255,0.06)',
+                                border: 'none', borderRadius: 4,
+                                color: hasIndent ? '#fff' : '#94a3b8',
+                                padding: '2px 5px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3, fontSize: 9.5, fontWeight: 700
+                              }}
+                            >
+                              <Indent size={11} />
+                              <span>Behúzás</span>
+                            </button>
+                          </>
+                        );
+                      })()}
                     </div>
                   )}
                   <button

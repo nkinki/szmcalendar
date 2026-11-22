@@ -3,7 +3,7 @@
  * Görögkatolikus Általános Iskola stílussal & Interaktív Import Kezelővel
  */
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen, AlignLeft, AlignCenter, AlignRight, AlignJustify, Palette } from 'lucide-react';
+import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen, AlignLeft, AlignCenter, AlignRight, AlignJustify, Palette, Sparkles, Indent } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
 import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
 import { fileToCompressedDataUrl, fileToLogoDataUrl } from '../utils/imageCompressor';
@@ -2673,6 +2673,41 @@ function RightInspector({
 
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
+          {/* Iniciálé & Behúzás toggle gombok */}
+          <button
+            onClick={() => updateEventField('dropCap', !selectedEvent?.dropCap)}
+            style={{
+              ...btn('secondary', 'sm'),
+              padding: '6px 8px',
+              background: selectedEvent?.dropCap ? '#d97706' : 'transparent',
+              color: selectedEvent?.dropCap ? '#fff' : '#fbbf24',
+              borderColor: selectedEvent?.dropCap ? '#f59e0b' : '#2e2a45',
+              display: 'flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700
+            }}
+            title={selectedEvent?.dropCap ? "Iniciálé kikapcsolása" : "Díszes iniciálé kezdőbetű bekapcsolása"}
+          >
+            <Sparkles size={12} />
+            <span>Iniciálé</span>
+          </button>
+
+          <button
+            onClick={() => updateEventField('indent', !selectedEvent?.indent)}
+            style={{
+              ...btn('secondary', 'sm'),
+              padding: '6px 8px',
+              background: selectedEvent?.indent ? '#7c3aed' : 'transparent',
+              color: selectedEvent?.indent ? '#fff' : '#a78bfa',
+              borderColor: selectedEvent?.indent ? '#a78bfa' : '#2e2a45',
+              display: 'flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700
+            }}
+            title={selectedEvent?.indent ? "Bekezdés behúzás kikapcsolása" : "Bekezdés behúzás (első sor beljebb) bekapcsolása"}
+          >
+            <Indent size={12} />
+            <span>Behúzás</span>
+          </button>
+
+          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
+
           <button
             onClick={() => handleUndo?.()}
             disabled={!canUndo}
@@ -2787,6 +2822,44 @@ function RightInspector({
               </div>
             </div>
           </div>
+
+          {/* Iniciálé színe (ha be van kapcsolva az iniciálé) */}
+          {selectedEvent?.dropCap && (
+            <div style={{ gridColumn: 'span 2', paddingTop: 6, borderTop: '1px dashed #232035', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Sparkles size={11} /> Iniciálé színe:
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <input
+                  type="color"
+                  value={selectedEvent?.dropCapColor?.startsWith('#') ? selectedEvent.dropCapColor : '#b45309'}
+                  onChange={e => updateEventField('dropCapColor', e.target.value)}
+                  style={{ width: 28, height: 24, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                  title="Egyedi iniciálé szín választása"
+                />
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {[
+                    { c: '#b45309', t: 'Arany' },
+                    { c: '#1e1b4b', t: 'Sötétkék' },
+                    { c: '#991b1b', t: 'Bordó' },
+                    { c: '#166534', t: 'Zöld' },
+                    { c: '#1e293b', t: 'Sötétszürke' },
+                  ].map(item => (
+                    <button
+                      key={item.c}
+                      onClick={() => updateEventField('dropCapColor', item.c)}
+                      style={{
+                        width: 17, height: 17, borderRadius: '50%', background: item.c,
+                        border: selectedEvent?.dropCapColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                        cursor: 'pointer', padding: 0
+                      }}
+                      title={item.t}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <textarea
@@ -3496,6 +3569,9 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
   const currentAlign = layout.textAlign || selectedEvent?.textAlign || 'left';
   const currentColor = layout.color || selectedEvent?.textColor || selectedEvent?.color || '#1e293b';
   const currentBg = layout.background || selectedEvent?.bgColor || selectedEvent?.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
+  const hasDropCap = Boolean(layout.dropCap ?? selectedEvent?.dropCap);
+  const hasIndent = Boolean(layout.indent ?? selectedEvent?.indent);
+  const currentDropCapColor = layout.dropCapColor || selectedEvent?.dropCapColor || '#b45309';
 
   const handleAlignChange = (val) => {
     updateLayout('textAlign', val);
@@ -3523,6 +3599,36 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
       setBookData(prev => ({
         ...prev,
         events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, bgColor: val, background: val } : ev)
+      }));
+    }
+  };
+
+  const handleDropCapChange = (val) => {
+    updateLayout('dropCap', val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, dropCap: val } : ev)
+      }));
+    }
+  };
+
+  const handleIndentChange = (val) => {
+    updateLayout('indent', val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, indent: val } : ev)
+      }));
+    }
+  };
+
+  const handleDropCapColorChange = (col) => {
+    updateLayout('dropCapColor', col);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, dropCapColor: col } : ev)
       }));
     }
   };
@@ -3684,6 +3790,68 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
                   })}
                 </div>
               </div>
+
+              {/* Díszes Iniciálé & Bekezdés behúzás */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                <button
+                  onClick={() => handleDropCapChange(!hasDropCap)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                    padding: '5px 8px', borderRadius: 6, fontSize: 10.5, fontWeight: 700,
+                    border: hasDropCap ? '1.5px solid #f59e0b' : '1px solid #3730a3',
+                    background: hasDropCap ? '#d97706' : 'rgba(255,255,255,0.04)',
+                    color: hasDropCap ? '#fff' : '#fbbf24',
+                    cursor: 'pointer',
+                  }}
+                  title={hasDropCap ? "Iniciálé kikapcsolása" : "Díszes kezdőbetű bekapcsolása"}
+                >
+                  <Sparkles size={12} />
+                  <span>Iniciálé</span>
+                </button>
+
+                <button
+                  onClick={() => handleIndentChange(!hasIndent)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                    padding: '5px 8px', borderRadius: 6, fontSize: 10.5, fontWeight: 700,
+                    border: hasIndent ? '1.5px solid #a78bfa' : '1px solid #3730a3',
+                    background: hasIndent ? '#7c3aed' : 'rgba(255,255,255,0.04)',
+                    color: hasIndent ? '#fff' : '#c7d2fe',
+                    cursor: 'pointer',
+                  }}
+                  title={hasIndent ? "Bekezdés behúzás kikapcsolása" : "Bekezdés behúzás bekapcsolása"}
+                >
+                  <Indent size={12} />
+                  <span>Behúzás</span>
+                </button>
+              </div>
+
+              {hasDropCap && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 0', borderTop: '1px dashed #232035' }}>
+                  <span style={{ fontSize: 10, color: '#fbbf24', fontWeight: 600 }}>Iniciálé színe:</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <input
+                      type="color"
+                      value={currentDropCapColor.startsWith('#') ? currentDropCapColor : '#b45309'}
+                      onChange={e => handleDropCapColorChange(e.target.value)}
+                      style={{ width: 26, height: 22, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                    />
+                    <div style={{ display: 'flex', gap: 3 }}>
+                      {['#b45309', '#1e1b4b', '#991b1b', '#166534', '#1e293b'].map(c => (
+                        <button
+                          key={c}
+                          onClick={() => handleDropCapColorChange(c)}
+                          style={{
+                            width: 16, height: 16, borderRadius: '50%', background: c,
+                            border: currentDropCapColor === c ? '2px solid #f59e0b' : '1px solid #475569',
+                            cursor: 'pointer', padding: 0
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Betűszín */}
               <div>
@@ -4583,6 +4751,10 @@ function EventContent({ page, event, bookData }) {
         const bgColor = event.bgColor || event.background || textBox.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
         const isTransparent = bgColor === 'transparent';
         const borderLeft = isTransparent ? 'none' : (textBox.borderLeft || '3px solid #d97706');
+        const dropCap = Boolean(event.dropCap ?? textBox.dropCap);
+        const dropCapColor = event.dropCapColor || textBox.dropCapColor || '#b45309';
+        const indent = Boolean(event.indent ?? textBox.indent);
+        const paragraphSpacing = event.paragraphSpacing ?? true;
 
         return (
           <div style={{
@@ -4627,7 +4799,7 @@ function EventContent({ page, event, bookData }) {
                 wordBreak: 'break-word',
                 overflowY: 'auto',
               }}>
-                {renderMarkdown(body)}
+                {renderMarkdown(body, { dropCap, dropCapColor, indent, paragraphSpacing })}
               </div>
             )}
           </div>
@@ -4661,6 +4833,10 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
   const textColor = event.textColor || event.color || '#1e293b';
   const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
+  const dropCap = Boolean(event.dropCap);
+  const dropCapColor = event.dropCapColor || '#b45309';
+  const indent = Boolean(event.indent);
+  const paragraphSpacing = event.paragraphSpacing ?? true;
 
   return (
     <div
@@ -4738,7 +4914,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
           overflowY: 'auto',
           boxSizing: 'border-box',
         }}>
-          {renderMarkdown(body || event.text)}
+          {renderMarkdown(body || event.text, { dropCap, dropCapColor, indent, paragraphSpacing })}
         </div>
       </div>
     </div>
