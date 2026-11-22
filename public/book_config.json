@@ -124,6 +124,11 @@
           "zIndex": 5
         }
       }
+    },
+    "cover": {
+      "hidden": {
+        "logo": true
+      }
     }
   },
   "sortOrder": "asc"
