@@ -129,6 +129,28 @@
       "hidden": {
         "logo": true
       }
+    },
+    "fb_1756761086_342": {
+      "elements": {
+        "text": {
+          "x": 6,
+          "y": 60,
+          "w": 88,
+          "h": 32,
+          "zIndex": 1,
+          "fontSize": 11,
+          "textAlign": "justify",
+          "dropCap": true,
+          "dropCapStyle": "gold",
+          "dropCapSize": 3.2,
+          "dropCapSpacing": 4,
+          "dropCapOffsetY": 2,
+          "dropCapFont": "'Georgia', serif",
+          "dropCapColor": "#b45309",
+          "dropCapBg": "",
+          "color": "#b45309"
+        }
+      }
     }
   },
   "sortOrder": "asc"
