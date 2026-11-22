@@ -21667,6 +21667,17 @@
         "driveId": "1A0-3qBYFtlvm4O0jYQhyPSKnUKsWrpIs",
         "enabled": true
       }
-    ]
+    ],
+    "textAlign": "justify",
+    "dropCap": true,
+    "dropCapStyle": "gold",
+    "dropCapSize": 3.2,
+    "dropCapSpacing": 4,
+    "dropCapOffsetY": 2,
+    "dropCapFont": "'Georgia', serif",
+    "dropCapColor": "#b45309",
+    "dropCapBg": "",
+    "textColor": "#b45309",
+    "color": "#b45309"
   }
 ]
