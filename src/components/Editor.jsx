@@ -2823,39 +2823,132 @@ function RightInspector({
             </div>
           </div>
 
-          {/* Iniciálé színe (ha be van kapcsolva az iniciálé) */}
+          {/* Iniciálé Részletes Testreszabása (ha be van kapcsolva az iniciálé) */}
           {selectedEvent?.dropCap && (
-            <div style={{ gridColumn: 'span 2', paddingTop: 6, borderTop: '1px dashed #232035', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Sparkles size={11} /> Iniciálé színe:
-              </span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <input
-                  type="color"
-                  value={selectedEvent?.dropCapColor?.startsWith('#') ? selectedEvent.dropCapColor : '#b45309'}
-                  onChange={e => updateEventField('dropCapColor', e.target.value)}
-                  style={{ width: 28, height: 24, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
-                  title="Egyedi iniciálé szín választása"
-                />
-                <div style={{ display: 'flex', gap: 3 }}>
+            <div style={{ gridColumn: 'span 2', paddingTop: 8, borderTop: '1px dashed #232035', display: 'flex', flexDirection: 'column', gap: 7 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+              </div>
+
+              {/* Stílus választó */}
+              <div>
+                <label style={{ fontSize: 9.5, color: '#cbd5e1', fontWeight: 600, display: 'block', marginBottom: 3 }}>Díszítés & Stílus:</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 3 }}>
                   {[
-                    { c: '#b45309', t: 'Arany' },
-                    { c: '#1e1b4b', t: 'Sötétkék' },
-                    { c: '#991b1b', t: 'Bordó' },
-                    { c: '#166534', t: 'Zöld' },
-                    { c: '#1e293b', t: 'Sötétszürke' },
-                  ].map(item => (
-                    <button
-                      key={item.c}
-                      onClick={() => updateEventField('dropCapColor', item.c)}
-                      style={{
-                        width: 17, height: 17, borderRadius: '50%', background: item.c,
-                        border: selectedEvent?.dropCapColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
-                        cursor: 'pointer', padding: 0
-                      }}
-                      title={item.t}
-                    />
-                  ))}
+                    { id: 'gold', label: '🌟 Arany' },
+                    { id: 'gradient', label: '👑 Átmenet' },
+                    { id: 'box', label: '🔲 Keretes' },
+                    { id: 'badge', label: '⚪ Medál' },
+                    { id: 'shadow', label: '🪨 3D Mély' },
+                    { id: 'classic', label: '✒️ Letisztult' },
+                  ].map(st => {
+                    const isAct = (selectedEvent?.dropCapStyle || 'gold') === st.id;
+                    return (
+                      <button
+                        key={st.id}
+                        onClick={() => updateEventField('dropCapStyle', st.id)}
+                        style={{
+                          padding: '4px 2px', borderRadius: 5, fontSize: 9.5, fontWeight: isAct ? 700 : 500,
+                          border: isAct ? '1.5px solid #f59e0b' : '1px solid #3730a3',
+                          background: isAct ? '#d97706' : 'rgba(255,255,255,0.04)',
+                          color: isAct ? '#fff' : '#c7d2fe', cursor: 'pointer', textAlign: 'center'
+                        }}
+                      >
+                        {st.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Méret csúszka */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                  <span>Betűméret:</span>
+                  <span style={{ color: '#fbbf24', fontWeight: 700 }}>{selectedEvent?.dropCapSize ?? 3.2}x</span>
+                </div>
+                <input
+                  type="range" min="2.0" max="5.0" step="0.2"
+                  value={selectedEvent?.dropCapSize ?? 3.2}
+                  onChange={e => updateEventField('dropCapSize', Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#f59e0b' }}
+                />
+              </div>
+
+              {/* Távolság a szövegtől (közelebb / távolabb) */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                  <span>Távolság a szövegtől (közelebb/távolabb):</span>
+                  <span style={{ color: '#fbbf24', fontWeight: 700 }}>{selectedEvent?.dropCapSpacing ?? 4} px</span>
+                </div>
+                <input
+                  type="range" min="0" max="24" step="1"
+                  value={selectedEvent?.dropCapSpacing ?? 4}
+                  onChange={e => updateEventField('dropCapSpacing', Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#f59e0b' }}
+                />
+              </div>
+
+              {/* Függőleges eltolás */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                  <span>Függőleges illesztés (fel/le):</span>
+                  <span style={{ color: '#fbbf24', fontWeight: 700 }}>{(selectedEvent?.dropCapOffsetY ?? 2) > 0 ? `+${selectedEvent?.dropCapOffsetY ?? 2}` : (selectedEvent?.dropCapOffsetY ?? 2)} px</span>
+                </div>
+                <input
+                  type="range" min="-6" max="14" step="1"
+                  value={selectedEvent?.dropCapOffsetY ?? 2}
+                  onChange={e => updateEventField('dropCapOffsetY', Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#f59e0b' }}
+                />
+              </div>
+
+              {/* Betűtípus választó */}
+              <div>
+                <label style={{ fontSize: 9.5, color: '#cbd5e1', fontWeight: 600 }}>Iniciálé betűtípus:</label>
+                <select
+                  value={selectedEvent?.dropCapFont || "'Georgia', serif"}
+                  onChange={e => updateEventField('dropCapFont', e.target.value)}
+                  style={{ ...inputStyle, padding: '3px 6px', fontSize: 10.5 }}
+                >
+                  <option value="'Georgia', serif">Georgia (elegáns könyv)</option>
+                  <option value="'Palatino Linotype', 'Book Antiqua', serif">Palatino (ünnepi antikva)</option>
+                  <option value="'Times New Roman', serif">Times New Roman</option>
+                  <option value="'Cinzel', serif">Cinzel (klasszikus kőtábla)</option>
+                </select>
+              </div>
+
+              {/* Betűszín */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
+                <span style={{ fontSize: 9.5, color: '#fbbf24', fontWeight: 600 }}>Iniciálé betűszín:</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <input
+                    type="color"
+                    value={selectedEvent?.dropCapColor?.startsWith('#') ? selectedEvent.dropCapColor : '#b45309'}
+                    onChange={e => updateEventField('dropCapColor', e.target.value)}
+                    style={{ width: 26, height: 22, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                    title="Egyedi iniciálé szín választása"
+                  />
+                  <div style={{ display: 'flex', gap: 3 }}>
+                    {[
+                      { c: '#b45309', t: 'Arany' },
+                      { c: '#1e1b4b', t: 'Sötétkék' },
+                      { c: '#991b1b', t: 'Bordó' },
+                      { c: '#166534', t: 'Zöld' },
+                      { c: '#1e293b', t: 'Sötétszürke' },
+                    ].map(item => (
+                      <button
+                        key={item.c}
+                        onClick={() => updateEventField('dropCapColor', item.c)}
+                        style={{
+                          width: 16, height: 16, borderRadius: '50%', background: item.c,
+                          border: (selectedEvent?.dropCapColor || '#b45309') === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                          cursor: 'pointer', padding: 0
+                        }}
+                        title={item.t}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -3572,6 +3665,21 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
   const hasDropCap = Boolean(layout.dropCap ?? selectedEvent?.dropCap);
   const hasIndent = Boolean(layout.indent ?? selectedEvent?.indent);
   const currentDropCapColor = layout.dropCapColor || selectedEvent?.dropCapColor || '#b45309';
+  const currentDropCapSize = layout.dropCapSize ?? selectedEvent?.dropCapSize ?? 3.2;
+  const currentDropCapSpacing = layout.dropCapSpacing ?? selectedEvent?.dropCapSpacing ?? 4;
+  const currentDropCapOffsetY = layout.dropCapOffsetY ?? selectedEvent?.dropCapOffsetY ?? 2;
+  const currentDropCapStyle = layout.dropCapStyle || selectedEvent?.dropCapStyle || 'gold';
+  const currentDropCapFont = layout.dropCapFont || selectedEvent?.dropCapFont || "'Georgia', serif";
+
+  const handleDropCapFieldChange = (field, val) => {
+    updateLayout(field, val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, [field]: val } : ev)
+      }));
+    }
+  };
 
   const handleAlignChange = (val) => {
     updateLayout('textAlign', val);
@@ -3827,27 +3935,122 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
               </div>
 
               {hasDropCap && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 0', borderTop: '1px dashed #232035' }}>
-                  <span style={{ fontSize: 10, color: '#fbbf24', fontWeight: 600 }}>Iniciálé színe:</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, padding: '8px 10px', background: 'rgba(217,119,6,0.07)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 8 }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <Sparkles size={12} /> Iniciálé Részletes Testreszabása
+                  </div>
+
+                  {/* Stílus választó */}
+                  <div>
+                    <label style={{ fontSize: 9.5, color: '#cbd5e1', fontWeight: 600, display: 'block', marginBottom: 3 }}>Díszítés & Stílus:</label>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 3 }}>
+                      {[
+                        { id: 'gold', label: '🌟 Arany' },
+                        { id: 'gradient', label: '👑 Átmenet' },
+                        { id: 'box', label: '🔲 Keretes' },
+                        { id: 'badge', label: '⚪ Medál' },
+                        { id: 'shadow', label: '🪨 3D Mély' },
+                        { id: 'classic', label: '✒️ Letisztult' },
+                      ].map(st => {
+                        const isAct = currentDropCapStyle === st.id;
+                        return (
+                          <button
+                            key={st.id}
+                            onClick={() => handleDropCapFieldChange('dropCapStyle', st.id)}
+                            style={{
+                              padding: '4px 2px', borderRadius: 5, fontSize: 9.5, fontWeight: isAct ? 700 : 500,
+                              border: isAct ? '1.5px solid #f59e0b' : '1px solid #3730a3',
+                              background: isAct ? '#d97706' : 'rgba(255,255,255,0.04)',
+                              color: isAct ? '#fff' : '#c7d2fe', cursor: 'pointer', textAlign: 'center'
+                            }}
+                          >
+                            {st.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Méret csúszka */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                      <span>Betűméret:</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{currentDropCapSize}x</span>
+                    </div>
                     <input
-                      type="color"
-                      value={currentDropCapColor.startsWith('#') ? currentDropCapColor : '#b45309'}
-                      onChange={e => handleDropCapColorChange(e.target.value)}
-                      style={{ width: 26, height: 22, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                      type="range" min="2.0" max="5.0" step="0.2"
+                      value={currentDropCapSize}
+                      onChange={e => handleDropCapFieldChange('dropCapSize', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
                     />
-                    <div style={{ display: 'flex', gap: 3 }}>
-                      {['#b45309', '#1e1b4b', '#991b1b', '#166534', '#1e293b'].map(c => (
-                        <button
-                          key={c}
-                          onClick={() => handleDropCapColorChange(c)}
-                          style={{
-                            width: 16, height: 16, borderRadius: '50%', background: c,
-                            border: currentDropCapColor === c ? '2px solid #f59e0b' : '1px solid #475569',
-                            cursor: 'pointer', padding: 0
-                          }}
-                        />
-                      ))}
+                  </div>
+
+                  {/* Távolság a szövegtől (közelebb / távolabb) */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                      <span>Távolság a szövegtől (közelebb/távolabb):</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{currentDropCapSpacing} px</span>
+                    </div>
+                    <input
+                      type="range" min="0" max="24" step="1"
+                      value={currentDropCapSpacing}
+                      onChange={e => handleDropCapFieldChange('dropCapSpacing', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
+                    />
+                  </div>
+
+                  {/* Függőleges eltolás */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#cbd5e1' }}>
+                      <span>Függőleges illesztés (fel/le):</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{currentDropCapOffsetY > 0 ? `+${currentDropCapOffsetY}` : currentDropCapOffsetY} px</span>
+                    </div>
+                    <input
+                      type="range" min="-6" max="14" step="1"
+                      value={currentDropCapOffsetY}
+                      onChange={e => handleDropCapFieldChange('dropCapOffsetY', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
+                    />
+                  </div>
+
+                  {/* Betűtípus választó */}
+                  <div>
+                    <label style={{ fontSize: 9.5, color: '#cbd5e1', fontWeight: 600 }}>Betűtípus:</label>
+                    <select
+                      value={currentDropCapFont}
+                      onChange={e => handleDropCapFieldChange('dropCapFont', e.target.value)}
+                      style={{ ...inputStyle, padding: '3px 6px', fontSize: 10.5 }}
+                    >
+                      <option value="'Georgia', serif">Georgia (elegáns könyv)</option>
+                      <option value="'Palatino Linotype', 'Book Antiqua', serif">Palatino (ünnepi antikva)</option>
+                      <option value="'Times New Roman', serif">Times New Roman</option>
+                      <option value="'Cinzel', serif">Cinzel (klasszikus kőtábla)</option>
+                    </select>
+                  </div>
+
+                  {/* Betűszín */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
+                    <span style={{ fontSize: 9.5, color: '#fbbf24', fontWeight: 600 }}>Betűszín:</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <input
+                        type="color"
+                        value={currentDropCapColor.startsWith('#') ? currentDropCapColor : '#b45309'}
+                        onChange={e => handleDropCapFieldChange('dropCapColor', e.target.value)}
+                        style={{ width: 24, height: 20, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                      />
+                      <div style={{ display: 'flex', gap: 3 }}>
+                        {['#b45309', '#1e1b4b', '#991b1b', '#166534', '#1e293b'].map(c => (
+                          <button
+                            key={c}
+                            onClick={() => handleDropCapFieldChange('dropCapColor', c)}
+                            style={{
+                              width: 15, height: 15, borderRadius: '50%', background: c,
+                              border: currentDropCapColor === c ? '2px solid #f59e0b' : '1px solid #475569',
+                              cursor: 'pointer', padding: 0
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4753,6 +4956,12 @@ function EventContent({ page, event, bookData }) {
         const borderLeft = isTransparent ? 'none' : (textBox.borderLeft || '3px solid #d97706');
         const dropCap = Boolean(event.dropCap ?? textBox.dropCap);
         const dropCapColor = event.dropCapColor || textBox.dropCapColor || '#b45309';
+        const dropCapSize = event.dropCapSize ?? textBox.dropCapSize ?? 3.2;
+        const dropCapSpacing = event.dropCapSpacing ?? textBox.dropCapSpacing ?? 4;
+        const dropCapOffsetY = event.dropCapOffsetY ?? textBox.dropCapOffsetY ?? 2;
+        const dropCapStyle = event.dropCapStyle || textBox.dropCapStyle || 'gold';
+        const dropCapFont = event.dropCapFont || textBox.dropCapFont;
+        const dropCapBg = event.dropCapBg || textBox.dropCapBg;
         const indent = Boolean(event.indent ?? textBox.indent);
         const paragraphSpacing = event.paragraphSpacing ?? true;
 
@@ -4799,7 +5008,7 @@ function EventContent({ page, event, bookData }) {
                 wordBreak: 'break-word',
                 overflowY: 'auto',
               }}>
-                {renderMarkdown(body, { dropCap, dropCapColor, indent, paragraphSpacing })}
+                {renderMarkdown(body, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
               </div>
             )}
           </div>
@@ -4835,6 +5044,12 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
   const dropCap = Boolean(event.dropCap);
   const dropCapColor = event.dropCapColor || '#b45309';
+  const dropCapSize = event.dropCapSize ?? 3.2;
+  const dropCapSpacing = event.dropCapSpacing ?? 4;
+  const dropCapOffsetY = event.dropCapOffsetY ?? 2;
+  const dropCapStyle = event.dropCapStyle || 'gold';
+  const dropCapFont = event.dropCapFont || "'Georgia', serif";
+  const dropCapBg = event.dropCapBg;
   const indent = Boolean(event.indent);
   const paragraphSpacing = event.paragraphSpacing ?? true;
 
@@ -4914,7 +5129,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
           overflowY: 'auto',
           boxSizing: 'border-box',
         }}>
-          {renderMarkdown(body || event.text, { dropCap, dropCapColor, indent, paragraphSpacing })}
+          {renderMarkdown(body || event.text, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
         </div>
       </div>
     </div>

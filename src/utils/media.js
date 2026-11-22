@@ -99,6 +99,12 @@ export function renderMarkdown(text, options = {}) {
   const {
     dropCap = false,
     dropCapColor = '#b45309',
+    dropCapSize = 3.2,
+    dropCapSpacing = 4,
+    dropCapOffsetY = 2,
+    dropCapStyle = 'gold',
+    dropCapFont = "'Georgia', 'Palatino Linotype', 'Times New Roman', serif",
+    dropCapBg = '',
     indent = false,
     paragraphSpacing = true,
   } = (typeof options === 'object' && options !== null ? options : {});
@@ -155,20 +161,82 @@ export function renderMarkdown(text, options = {}) {
         const remainder = para.slice(initial.length);
         dropCapUsed = true;
 
+        const sizeEm = Number(dropCapSize) || 3.2;
+        const spacingPx = dropCapSpacing !== undefined ? Number(dropCapSpacing) : 4;
+        const offsetPx = dropCapOffsetY !== undefined ? Number(dropCapOffsetY) : 2;
+
+        let styleObj = {
+          float: 'left',
+          fontSize: `${sizeEm}em`,
+          lineHeight: dropCapStyle === 'badge' ? '1.15' : '0.78',
+          fontFamily: dropCapFont || "'Georgia', 'Palatino Linotype', 'Times New Roman', serif",
+          fontWeight: 900,
+          marginRight: `${spacingPx}px`,
+          marginTop: `${offsetPx}px`,
+          padding: '2px 4px 2px 0',
+          userSelect: 'none',
+        };
+
+        if (dropCapStyle === 'gradient') {
+          styleObj = {
+            ...styleObj,
+            background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 60%, #92400e 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.18))',
+          };
+        } else if (dropCapStyle === 'box') {
+          styleObj = {
+            ...styleObj,
+            color: dropCapColor || '#b45309',
+            border: `1.5px solid ${dropCapColor || '#d97706'}`,
+            background: dropCapBg || 'rgba(217, 119, 6, 0.08)',
+            borderRadius: 5,
+            padding: '3px 8px 3px 8px',
+            lineHeight: 0.9,
+            boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+          };
+        } else if (dropCapStyle === 'badge') {
+          styleObj = {
+            ...styleObj,
+            color: dropCapColor || '#ffffff',
+            border: '2px solid #f59e0b',
+            background: dropCapBg || 'linear-gradient(135deg, #b45309 0%, #d97706 100%)',
+            borderRadius: '50%',
+            width: '1.25em',
+            height: '1.25em',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            lineHeight: 1,
+            padding: 0,
+            boxShadow: '0 2px 8px rgba(180,83,9,0.3)',
+          };
+        } else if (dropCapStyle === 'shadow') {
+          styleObj = {
+            ...styleObj,
+            color: dropCapColor || '#1e1b4b',
+            textShadow: '2px 2px 0 #fbbf24, 3px 3px 0 #d97706, 4px 4px 6px rgba(0,0,0,0.15)',
+          };
+        } else if (dropCapStyle === 'classic') {
+          styleObj = {
+            ...styleObj,
+            color: dropCapColor || '#1e293b',
+            textShadow: 'none',
+          };
+        } else {
+          // 'gold' default
+          styleObj = {
+            ...styleObj,
+            color: dropCapColor || '#b45309',
+            textShadow: '0 1px 3px rgba(180,83,9,0.25), 0 0 1px #78350f',
+          };
+        }
+
         const dropCapEl = React.createElement('span', {
           key: `dropcap_${pIdx}`,
-          style: {
-            float: 'left',
-            fontSize: '3.15em',
-            lineHeight: 0.76,
-            fontFamily: "'Georgia', 'Palatino Linotype', 'Times New Roman', serif",
-            fontWeight: 900,
-            color: dropCapColor || '#b45309',
-            padding: '2px 6px 0 0',
-            marginRight: '2px',
-            textShadow: '0 1px 2px rgba(0,0,0,0.12)',
-            userSelect: 'none',
-          }
+          style: styleObj
         }, initial);
 
         pContent = [dropCapEl, ...parseInline(remainder, `p_${pIdx}`)];
@@ -188,7 +256,7 @@ export function renderMarkdown(text, options = {}) {
       style: {
         textIndent,
         marginTop,
-        ...(pIdx === paragraphs.length - 1 && dropCapUsed ? { minHeight: '2.8em' } : {})
+        ...(pIdx === paragraphs.length - 1 && dropCapUsed ? { minHeight: `${(Number(dropCapSize) || 3.2) * 0.9}em` } : {})
       }
     }, ...pContent);
   });

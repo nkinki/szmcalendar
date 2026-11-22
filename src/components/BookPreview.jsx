@@ -674,6 +674,12 @@ export function EventContent({ event, bookData }) {
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
   const dropCap = Boolean(event.dropCap);
   const dropCapColor = event.dropCapColor || '#b45309';
+  const dropCapSize = event.dropCapSize ?? 3.2;
+  const dropCapSpacing = event.dropCapSpacing ?? 4;
+  const dropCapOffsetY = event.dropCapOffsetY ?? 2;
+  const dropCapStyle = event.dropCapStyle || 'gold';
+  const dropCapFont = event.dropCapFont || "'Georgia', serif";
+  const dropCapBg = event.dropCapBg;
   const indent = Boolean(event.indent);
   const paragraphSpacing = event.paragraphSpacing ?? true;
   return (
@@ -734,7 +740,7 @@ export function EventContent({ event, bookData }) {
             whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
           }}>
-            {renderMarkdown(body, { dropCap, dropCapColor, indent, paragraphSpacing })}
+            {renderMarkdown(body, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
           </div>
         )}
       </div>
