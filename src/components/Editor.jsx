@@ -5184,7 +5184,7 @@ function EventContent({ page, event, bookData }) {
                     position: 'absolute', left: '50%', top: '50%',
                     width: `${event.imageZoom || 100}%`, height: `${event.imageZoom || 100}%`,
                     transform: 'translate(-50%,-50%)',
-                    objectFit: visibleImages.length === 1 ? 'contain' : 'cover', display: 'block'
+                    objectFit: 'cover', display: 'block'
                   }} />
               {event.imageBorder === true && (
                 <div style={{ position: 'absolute', inset: 0, borderRadius: 6, border: '2px solid #d97706', pointerEvents: 'none', zIndex: 2 }} />
@@ -5360,7 +5360,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
                   referrerPolicy="no-referrer"
                   style={{
                     width: '100%', height: '100%',
-                    objectFit: imgs.length === 1 ? 'contain' : 'cover',
+                    objectFit: 'cover',
                     display: 'block',
                   }}
                 />

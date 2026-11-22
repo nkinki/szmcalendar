@@ -707,7 +707,7 @@ export function EventContent({ event, bookData }) {
                 position: 'absolute', left: '50%', top: '50%',
                 width: `${event.imageZoom || 100}%`, height: `${event.imageZoom || 100}%`,
                 transform: 'translate(-50%, -50%)',
-                objectFit: grid.single ? 'contain' : 'cover',
+                objectFit: 'cover',
                 display: 'block',
               }} />
               {event.imageBorder === true && (
