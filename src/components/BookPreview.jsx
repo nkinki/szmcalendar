@@ -668,16 +668,16 @@ export function EventContent({ event, bookData }) {
     body = title;
     title = '';
   }
-  const textAlign = event.textAlign || 'left';
-  const textColor = event.textColor || event.color || '#1e293b';
+  const textAlign = event.textAlign || 'justify';
+  const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000') ? event.textColor : '#b45309';
   const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
-  const dropCap = Boolean(event.dropCap);
+  const dropCap = event.dropCap !== undefined ? Boolean(event.dropCap) : true;
   const dropCapColor = event.dropCapColor || '#b45309';
   const dropCapSize = event.dropCapSize ?? 3.2;
   const dropCapSpacing = event.dropCapSpacing ?? 4;
   const dropCapOffsetY = event.dropCapOffsetY ?? 2;
-  const dropCapStyle = event.dropCapStyle || 'gold';
+  const dropCapStyle = event.dropCapStyle || 'gradient';
   const dropCapFont = event.dropCapFont || "'Georgia', serif";
   const dropCapBg = event.dropCapBg;
   const indent = Boolean(event.indent);

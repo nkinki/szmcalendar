@@ -1800,7 +1800,7 @@ function RightInspector({
 
   const resetDropCapDefaults = () => {
     const defaults = {
-      dropCapStyle: 'gold',
+      dropCapStyle: 'gradient',
       dropCapSize: 3.2,
       dropCapSpacing: 4,
       dropCapOffsetY: 2,
@@ -1817,6 +1817,49 @@ function RightInspector({
     if (selectedPage && selectedElemId) {
       updateSelectedElemLayout(defaults);
     }
+  };
+
+  const handleUnifyAllTextStyles = () => {
+    if (!window.confirm('Biztosan egységesíted az ÖSSZES esemény szövegét?\n\n• Sorkizárt igazítás\n• Elegáns arany betűszín (#b45309)\n• Díszes iniciálé átmenet stílusban')) return;
+
+    setBookData(prev => {
+      const updatedEvents = (prev.events || []).map(ev => ({
+        ...ev,
+        textAlign: 'justify',
+        textColor: '#b45309',
+        color: '#b45309',
+        dropCap: true,
+        dropCapStyle: 'gradient',
+        dropCapColor: '#b45309',
+      }));
+
+      const updatedLayouts = { ...(prev.pageLayouts || {}) };
+      Object.keys(updatedLayouts).forEach(pid => {
+        const cur = updatedLayouts[pid];
+        if (cur?.elements?.text) {
+          updatedLayouts[pid] = {
+            ...cur,
+            elements: {
+              ...cur.elements,
+              text: {
+                ...cur.elements.text,
+                textAlign: 'justify',
+                color: '#b45309',
+                dropCap: true,
+                dropCapStyle: 'gradient',
+                dropCapColor: '#b45309',
+              }
+            }
+          };
+        }
+      });
+
+      return {
+        ...prev,
+        events: updatedEvents,
+        pageLayouts: updatedLayouts
+      };
+    });
   };
 
   // Ha custom szöveg elem van kijelölve → megmutatjuk a tulajdonságait bármelyik oldaltípusnál
@@ -2052,8 +2095,24 @@ function RightInspector({
           <Upload size={18} /> Adatok Importálása / Cseréje
         </button>
 
-        <Divider label="Projekt Kezelés" />
+        <Divider label="Projekt Kezelés & Stílusok" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <button
+            onClick={handleUnifyAllTextStyles}
+            style={{
+              ...btn('accent', 'md'),
+              justifyContent: 'center',
+              width: '100%',
+              background: 'linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%)',
+              border: '1px solid #f59e0b',
+              color: '#ffffff',
+              fontWeight: 800,
+              boxShadow: '0 2px 8px rgba(217,119,6,0.3)'
+            }}
+            title="Minden esemény szövegét egységesíti: sorkizárt igazítás, arany betűszín, átmenetes iniciálé"
+          >
+            <Sparkles size={16} /> Mindegyik Szöveg Egységesítése
+          </button>
           {onResetDefault && (
             <button onClick={onResetDefault} style={{ ...btn('secondary', 'md'), justifyContent: 'center', width: '100%' }}>
               <RotateCcw size={16} /> Minta Sablon Betöltése
@@ -2674,7 +2733,7 @@ function RightInspector({
             { id: 'right', icon: <AlignRight size={13} />, title: 'Jobbra igazítás' },
             { id: 'justify', icon: <AlignJustify size={13} />, title: 'Sorkizárt igazítás' },
           ].map(btnItem => {
-            const active = (selectedEvent?.textAlign || 'left') === btnItem.id;
+            const active = (selectedEvent?.textAlign || 'justify') === btnItem.id;
             return (
               <button
                 key={btnItem.id}
@@ -2696,21 +2755,26 @@ function RightInspector({
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
           {/* Iniciálé & Behúzás toggle gombok */}
-          <button
-            onClick={() => updateEventField('dropCap', !selectedEvent?.dropCap)}
-            style={{
-              ...btn('secondary', 'sm'),
-              padding: '6px 8px',
-              background: selectedEvent?.dropCap ? '#d97706' : 'transparent',
-              color: selectedEvent?.dropCap ? '#fff' : '#fbbf24',
-              borderColor: selectedEvent?.dropCap ? '#f59e0b' : '#2e2a45',
-              display: 'flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700
-            }}
-            title={selectedEvent?.dropCap ? "Iniciálé kikapcsolása" : "Díszes iniciálé kezdőbetű bekapcsolása"}
-          >
-            <Sparkles size={12} />
-            <span>Iniciálé</span>
-          </button>
+          {(() => {
+            const hasDropCap = selectedEvent?.dropCap !== undefined ? Boolean(selectedEvent.dropCap) : true;
+            return (
+              <button
+                onClick={() => updateEventField('dropCap', !hasDropCap)}
+                style={{
+                  ...btn('secondary', 'sm'),
+                  padding: '6px 8px',
+                  background: hasDropCap ? '#d97706' : 'transparent',
+                  color: hasDropCap ? '#fff' : '#fbbf24',
+                  borderColor: hasDropCap ? '#f59e0b' : '#2e2a45',
+                  display: 'flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700
+                }}
+                title={hasDropCap ? "Iniciálé kikapcsolása" : "Díszes iniciálé kezdőbetű bekapcsolása"}
+              >
+                <Sparkles size={12} />
+                <span>Iniciálé</span>
+              </button>
+            );
+          })()}
 
           <button
             onClick={() => updateEventField('indent', !selectedEvent?.indent)}
@@ -2758,6 +2822,26 @@ function RightInspector({
           </button>
         </div>
 
+        {/* Egységesítés gomb minden eseményre */}
+        <button
+          onClick={handleUnifyAllTextStyles}
+          style={{
+            ...btn('secondary', 'sm'),
+            width: '100%',
+            marginBottom: 8,
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, rgba(180,83,9,0.25) 0%, rgba(217,119,6,0.35) 100%)',
+            border: '1px solid #f59e0b',
+            color: '#fbbf24',
+            fontWeight: 800,
+            fontSize: 10.5,
+            padding: '7px 10px'
+          }}
+          title="Minden esemény szövegének egységesítése: sorkizárt igazítás, arany betűszín, átmenetes iniciálé"
+        >
+          <Sparkles size={13} /> Mindegyik Szöveg Egységesítése
+        </button>
+
         {/* Színek doboz: Betűszín & Háttérszín */}
         <div style={{
           display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8, padding: '8px 10px',
@@ -2767,21 +2851,21 @@ function RightInspector({
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
               <span style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700 }}>🔤 Betűszín</span>
-              <span style={{ fontSize: 9, color: '#94a3b8' }}>{selectedEvent?.textColor || '#1e293b'}</span>
+              <span style={{ fontSize: 9, color: '#94a3b8' }}>{(selectedEvent?.textColor && selectedEvent?.textColor !== '#1e293b' && selectedEvent?.textColor !== '#000000') ? selectedEvent.textColor : '#b45309'}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <input
                 type="color"
-                value={selectedEvent?.textColor?.startsWith('#') ? selectedEvent.textColor : '#1e293b'}
+                value={(selectedEvent?.textColor && selectedEvent?.textColor !== '#1e293b' && selectedEvent?.textColor !== '#000000') ? selectedEvent.textColor : '#b45309'}
                 onChange={e => updateEventField('textColor', e.target.value)}
                 style={{ width: 28, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
                 title="Egyedi betűszín választása"
               />
               <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
                 {[
-                  { c: '#1e293b', t: 'Sötét (alap)' },
+                  { c: '#b45309', t: 'Arany (alap)' },
+                  { c: '#1e293b', t: 'Sötét' },
                   { c: '#1e1b4b', t: 'Sötétkék' },
-                  { c: '#b45309', t: 'Arany' },
                   { c: '#dc2626', t: 'Piros' },
                   { c: '#ffffff', t: 'Fehér' },
                 ].map(item => (
@@ -2846,7 +2930,7 @@ function RightInspector({
           </div>
 
           {/* Iniciálé Részletes Testreszabása (ha be van kapcsolva az iniciálé) */}
-          {selectedEvent?.dropCap && (
+          {(selectedEvent?.dropCap !== undefined ? Boolean(selectedEvent.dropCap) : true) && (
             <div style={{ gridColumn: 'span 2', paddingTop: 8, borderTop: '1px dashed #232035', display: 'flex', flexDirection: 'column', gap: 7 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ fontSize: 10.5, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 5 }}>
@@ -2888,7 +2972,7 @@ function RightInspector({
                     { id: 'shadow', label: '🪨 3D Mély' },
                     { id: 'classic', label: '✒️ Letisztult' },
                   ].map(st => {
-                    const isAct = (selectedEvent?.dropCapStyle || 'gold') === st.id;
+                    const isAct = (selectedEvent?.dropCapStyle || 'gradient') === st.id;
                     return (
                       <button
                         key={st.id}
@@ -2997,6 +3081,22 @@ function RightInspector({
                   </div>
                 </div>
               </div>
+
+              {/* Egységesítés gomb minden eseményre */}
+              <button
+                type="button"
+                onClick={handleUnifyAllTextStyles}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  width: '100%', marginTop: 8, padding: '7px 10px', borderRadius: 6,
+                  background: 'linear-gradient(135deg, rgba(180,83,9,0.25) 0%, rgba(217,119,6,0.35) 100%)',
+                  border: '1px solid #f59e0b', color: '#fbbf24',
+                  fontWeight: 800, fontSize: 10.5, cursor: 'pointer'
+                }}
+                title="Minden esemény szövegét egységesíti: sorkizárt igazítás, arany betűszín, átmenetes iniciálé"
+              >
+                <Sparkles size={13} /> Mindegyik Szöveg Egységesítése
+              </button>
             </div>
           )}
         </div>
@@ -3705,16 +3805,18 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
   const isText   = elemId === 'text' || elemId === 'quote' || elemId === 'title' || elemId.includes('text');
   const pageId   = selectedPage?.id;
 
-  const currentAlign = layout.textAlign || selectedEvent?.textAlign || 'left';
-  const currentColor = layout.color || selectedEvent?.textColor || selectedEvent?.color || '#1e293b';
+  const currentAlign = layout.textAlign || selectedEvent?.textAlign || 'justify';
+  const currentColor = (layout.color && layout.color !== '#1e293b' && layout.color !== '#000000')
+    ? layout.color
+    : ((selectedEvent?.textColor && selectedEvent?.textColor !== '#1e293b' && selectedEvent?.textColor !== '#000000') ? selectedEvent.textColor : '#b45309');
   const currentBg = layout.background || selectedEvent?.bgColor || selectedEvent?.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
-  const hasDropCap = Boolean(layout.dropCap ?? selectedEvent?.dropCap);
+  const hasDropCap = layout.dropCap !== undefined ? Boolean(layout.dropCap) : (selectedEvent?.dropCap !== undefined ? Boolean(selectedEvent.dropCap) : true);
   const hasIndent = Boolean(layout.indent ?? selectedEvent?.indent);
   const currentDropCapColor = layout.dropCapColor || selectedEvent?.dropCapColor || '#b45309';
   const currentDropCapSize = layout.dropCapSize ?? selectedEvent?.dropCapSize ?? 3.2;
   const currentDropCapSpacing = layout.dropCapSpacing ?? selectedEvent?.dropCapSpacing ?? 4;
   const currentDropCapOffsetY = layout.dropCapOffsetY ?? selectedEvent?.dropCapOffsetY ?? 2;
-  const currentDropCapStyle = layout.dropCapStyle || selectedEvent?.dropCapStyle || 'gold';
+  const currentDropCapStyle = layout.dropCapStyle || selectedEvent?.dropCapStyle || 'gradient';
   const currentDropCapFont = layout.dropCapFont || selectedEvent?.dropCapFont || "'Georgia', serif";
 
   const handleDropCapFieldChange = (field, val) => {
@@ -3729,7 +3831,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 
   const handleResetDropCap = () => {
     const defaults = {
-      dropCapStyle: 'gold',
+      dropCapStyle: 'gradient',
       dropCapSize: 3.2,
       dropCapSpacing: 4,
       dropCapOffsetY: 2,
@@ -3745,6 +3847,51 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
         ...prev,
         events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, ...defaults } : ev)
       }));
+    }
+  };
+
+  const handleUnifyAllTextStyles = () => {
+    if (!window.confirm('Biztosan egységesíted az ÖSSZES esemény szövegét?\n\n• Sorkizárt igazítás\n• Elegáns arany betűszín (#b45309)\n• Díszes iniciálé átmenet stílusban')) return;
+
+    if (setBookData) {
+      setBookData(prev => {
+        const updatedEvents = (prev.events || []).map(ev => ({
+          ...ev,
+          textAlign: 'justify',
+          textColor: '#b45309',
+          color: '#b45309',
+          dropCap: true,
+          dropCapStyle: 'gradient',
+          dropCapColor: '#b45309',
+        }));
+
+        const updatedLayouts = { ...(prev.pageLayouts || {}) };
+        Object.keys(updatedLayouts).forEach(pid => {
+          const cur = updatedLayouts[pid];
+          if (cur?.elements?.text) {
+            updatedLayouts[pid] = {
+              ...cur,
+              elements: {
+                ...cur.elements,
+                text: {
+                  ...cur.elements.text,
+                  textAlign: 'justify',
+                  color: '#b45309',
+                  dropCap: true,
+                  dropCapStyle: 'gradient',
+                  dropCapColor: '#b45309',
+                }
+              }
+            };
+          }
+        });
+
+        return {
+          ...prev,
+          events: updatedEvents,
+          pageLayouts: updatedLayouts
+        };
+      });
     }
   };
 
@@ -4158,16 +4305,16 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <input
                     type="color"
-                    value={currentColor.startsWith('#') ? currentColor : '#1e293b'}
+                    value={currentColor.startsWith('#') ? currentColor : '#b45309'}
                     onChange={e => handleColorChange(e.target.value)}
                     style={{ width: 34, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
                     title="Egyedi betűszín választása"
                   />
                   <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                     {[
+                      { c: '#b45309', t: 'Arany (alap)' },
                       { c: '#1e293b', t: 'Sötét' },
                       { c: '#1e1b4b', t: 'Sötétkék' },
-                      { c: '#b45309', t: 'Arany' },
                       { c: '#dc2626', t: 'Piros' },
                       { c: '#166534', t: 'Zöld' },
                       { c: '#ffffff', t: 'Fehér' },
@@ -4234,6 +4381,22 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
                   </div>
                 </div>
               </div>
+
+              {/* Egységesítés gomb minden eseményre */}
+              <button
+                type="button"
+                onClick={handleUnifyAllTextStyles}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  width: '100%', marginTop: 8, padding: '7px 10px', borderRadius: 6,
+                  background: 'linear-gradient(135deg, rgba(180,83,9,0.25) 0%, rgba(217,119,6,0.35) 100%)',
+                  border: '1px solid #f59e0b', color: '#fbbf24',
+                  fontWeight: 800, fontSize: 10.5, cursor: 'pointer'
+                }}
+                title="Minden esemény szövegét egységesíti: sorkizárt igazítás, arany betűszín, átmenetes iniciálé"
+              >
+                <Sparkles size={13} /> Mindegyik Szöveg Egységesítése
+              </button>
             </div>
           )}
 
@@ -5040,17 +5203,19 @@ function EventContent({ page, event, bookData }) {
           title = '';
         }
 
-        const textAlign = event.textAlign || textBox.textAlign || 'left';
-        const textColor = event.textColor || event.color || textBox.color || '#1e293b';
+        const textAlign = event.textAlign || textBox.textAlign || 'justify';
+        const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000')
+          ? event.textColor
+          : (textBox.color && textBox.color !== '#1e293b' && textBox.color !== '#000000' ? textBox.color : '#b45309');
         const bgColor = event.bgColor || event.background || textBox.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
         const isTransparent = bgColor === 'transparent';
         const borderLeft = isTransparent ? 'none' : (textBox.borderLeft || '3px solid #d97706');
-        const dropCap = Boolean(event.dropCap ?? textBox.dropCap);
+        const dropCap = event.dropCap !== undefined ? Boolean(event.dropCap) : (textBox.dropCap !== undefined ? Boolean(textBox.dropCap) : true);
         const dropCapColor = event.dropCapColor || textBox.dropCapColor || '#b45309';
         const dropCapSize = event.dropCapSize ?? textBox.dropCapSize ?? 3.2;
         const dropCapSpacing = event.dropCapSpacing ?? textBox.dropCapSpacing ?? 4;
         const dropCapOffsetY = event.dropCapOffsetY ?? textBox.dropCapOffsetY ?? 2;
-        const dropCapStyle = event.dropCapStyle || textBox.dropCapStyle || 'gold';
+        const dropCapStyle = event.dropCapStyle || textBox.dropCapStyle || 'gradient';
         const dropCapFont = event.dropCapFont || textBox.dropCapFont;
         const dropCapBg = event.dropCapBg || textBox.dropCapBg;
         const indent = Boolean(event.indent ?? textBox.indent);
@@ -5129,16 +5294,16 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
     title = '';
   }
   const hasDate = showDate && Boolean(event.date && event.date.trim());
-  const textAlign = event.textAlign || 'left';
-  const textColor = event.textColor || event.color || '#1e293b';
+  const textAlign = event.textAlign || 'justify';
+  const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000') ? event.textColor : '#b45309';
   const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
   const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
-  const dropCap = Boolean(event.dropCap);
+  const dropCap = event.dropCap !== undefined ? Boolean(event.dropCap) : true;
   const dropCapColor = event.dropCapColor || '#b45309';
   const dropCapSize = event.dropCapSize ?? 3.2;
   const dropCapSpacing = event.dropCapSpacing ?? 4;
   const dropCapOffsetY = event.dropCapOffsetY ?? 2;
-  const dropCapStyle = event.dropCapStyle || 'gold';
+  const dropCapStyle = event.dropCapStyle || 'gradient';
   const dropCapFont = event.dropCapFont || "'Georgia', serif";
   const dropCapBg = event.dropCapBg;
   const indent = Boolean(event.indent);

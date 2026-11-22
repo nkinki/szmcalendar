@@ -591,7 +591,7 @@ export default function InteractiveCanvas({
                         { id: 'justify', icon: <AlignJustify size={11} />, title: 'Sorkizárt igazítás' },
                       ].map(a => {
                         const eventObj = page?.eventId ? (bookData?.events || []).find(ev => ev.id === page.eventId) : null;
-                        const currentAlign = box.textAlign || eventObj?.textAlign || 'left';
+                        const currentAlign = box.textAlign || eventObj?.textAlign || 'justify';
                         const isActive = currentAlign === a.id;
                         return (
                           <button
@@ -621,7 +621,7 @@ export default function InteractiveCanvas({
                       {/* Iniciálé & Behúzás gyorskapcsolók */}
                       {(() => {
                         const eventObj = page?.eventId ? (bookData?.events || []).find(ev => ev.id === page.eventId) : null;
-                        const hasDropCap = Boolean(box.dropCap ?? eventObj?.dropCap);
+                        const hasDropCap = box.dropCap !== undefined ? Boolean(box.dropCap) : (eventObj?.dropCap !== undefined ? Boolean(eventObj.dropCap) : true);
                         const hasIndent = Boolean(box.indent ?? eventObj?.indent);
                         return (
                           <>
@@ -653,7 +653,7 @@ export default function InteractiveCanvas({
                                 onClick={e => {
                                   e.stopPropagation();
                                   const dropDefaults = {
-                                    dropCapStyle: 'gold',
+                                    dropCapStyle: 'gradient',
                                     dropCapSize: 3.2,
                                     dropCapSpacing: 4,
                                     dropCapOffsetY: 2,

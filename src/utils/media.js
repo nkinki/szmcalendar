@@ -91,18 +91,32 @@ export function getEventImageGrid(count) {
   return { cols: 3, rows: 2, hero: false, single: false }; // 5-6
 }
 
+// Elsőbbségi egységes szövegstílus (sorkizárt, arany betű, átmenetes iniciálé)
+export function applyUnifiedTextStyles(events) {
+  if (!Array.isArray(events)) return [];
+  return events.map(ev => ({
+    ...ev,
+    textAlign: 'justify',
+    textColor: '#b45309',
+    color: '#b45309',
+    dropCap: true,
+    dropCapStyle: 'gradient',
+    dropCapColor: '#b45309',
+  }));
+}
+
 // ── Inline markdown renderelés (**bold**, _italic_), Iniciálé (Drop cap) & Bekezdéskezelés ──
 import React from 'react';
 
 export function renderMarkdown(text, options = {}) {
   if (!text) return null;
   const {
-    dropCap = false,
+    dropCap = true,
     dropCapColor = '#b45309',
     dropCapSize = 3.2,
     dropCapSpacing = 4,
     dropCapOffsetY = 2,
-    dropCapStyle = 'gold',
+    dropCapStyle = 'gradient',
     dropCapFont = "'Georgia', 'Palatino Linotype', 'Times New Roman', serif",
     dropCapBg = '',
     indent = false,

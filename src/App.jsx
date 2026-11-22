@@ -4,7 +4,7 @@ import BookPreview from './components/BookPreview';
 import PrintBook from './components/PrintBook';
 import AlbumFlipbook from './components/AlbumFlipbook';
 import AdminLogin from './components/AdminLogin';
-import { repairBookData, STORAGE_KEY } from './utils/media';
+import { repairBookData, STORAGE_KEY, applyUnifiedTextStyles } from './utils/media';
 import { isAdminLoggedIn, adminLogout } from './utils/driveSync';
 import { compressBookDataImages } from './utils/imageCompressor';
 import JSZip from 'jszip';
@@ -57,6 +57,9 @@ function App() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = repairBookData(JSON.parse(saved));
+        if (parsed.events) {
+          parsed.events = applyUnifiedTextStyles(parsed.events);
+        }
         return {
           ...DEFAULT_BOOK,
           ...parsed,
@@ -66,7 +69,10 @@ function App() {
         };
       }
     } catch {}
-    return DEFAULT_BOOK;
+    return {
+      ...DEFAULT_BOOK,
+      events: applyUnifiedTextStyles(DEFAULT_BOOK.events)
+    };
   });
 
   useEffect(() => {
@@ -118,6 +124,9 @@ function App() {
         if (parsed) {
           const adminEvents = parsed.events || [];
           if (adminEvents.length >= serverEvents.length) {
+            if (parsed.events) {
+              parsed.events = applyUnifiedTextStyles(parsed.events);
+            }
             setBookData(prev => ({ ...baseMerged, ...prev, ...parsed }));
             return;
           } else {
@@ -128,6 +137,9 @@ function App() {
 
       // Szerver adatok betöltése
       const repaired = repairBookData(baseMerged);
+      if (repaired?.events) {
+        repaired.events = applyUnifiedTextStyles(repaired.events);
+      }
       setBookData(repaired);
     } catch (err) {
       console.warn('JSON betöltés sikertelen:', err.message);
