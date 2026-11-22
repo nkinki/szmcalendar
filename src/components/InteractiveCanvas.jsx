@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { RotateCcw, Type, Image as ImageIcon, Trash2, EyeOff, Eye, RefreshCcw } from 'lucide-react';
+import { RotateCcw, Type, Image as ImageIcon, Trash2, EyeOff, Eye, RefreshCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify } from 'lucide-react';
 import { fileToCompressedDataUrl } from '../utils/imageCompressor';
 
 // ── Default layout boxes for standard elements (% of 500x706 A4 canvas) ────────
@@ -582,6 +582,44 @@ export default function InteractiveCanvas({
                   onMouseDown={e => e.stopPropagation()}
                 >
                   <span style={{ fontSize: 9, color: '#a5b4fc', fontWeight: 700, marginRight: 2 }}>{elemId}</span>
+                  {elemId === 'text' && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginRight: 4, paddingRight: 4, borderRight: '1px solid #334155' }}>
+                      {[
+                        { id: 'left', icon: <AlignLeft size={11} />, title: 'Balra igazítás' },
+                        { id: 'center', icon: <AlignCenter size={11} />, title: 'Középre igazítás' },
+                        { id: 'right', icon: <AlignRight size={11} />, title: 'Jobbra igazítás' },
+                        { id: 'justify', icon: <AlignJustify size={11} />, title: 'Sorkizárt igazítás' },
+                      ].map(a => {
+                        const eventObj = page?.eventId ? (bookData?.events || []).find(ev => ev.id === page.eventId) : null;
+                        const currentAlign = box.textAlign || eventObj?.textAlign || 'left';
+                        const isActive = currentAlign === a.id;
+                        return (
+                          <button
+                            key={a.id}
+                            onClick={e => {
+                              e.stopPropagation();
+                              updateElementLayout(elemId, { ...box, textAlign: a.id });
+                              if (page?.eventId) {
+                                setBookData(prev => ({
+                                  ...prev,
+                                  events: (prev.events || []).map(ev => ev.id === page.eventId ? { ...ev, textAlign: a.id } : ev)
+                                }));
+                              }
+                            }}
+                            title={a.title}
+                            style={{
+                              background: isActive ? '#7c3aed' : 'rgba(255,255,255,0.06)',
+                              border: 'none', borderRadius: 4,
+                              color: isActive ? '#fff' : '#94a3b8',
+                              padding: '2px 4px', cursor: 'pointer', display: 'flex', alignItems: 'center'
+                            }}
+                          >
+                            {a.icon}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                   <button
                     onClick={e => { e.stopPropagation(); toggleHideElement(elemId); }}
                     title={isHidden ? 'Megjelenítés' : 'Elrejtés'}

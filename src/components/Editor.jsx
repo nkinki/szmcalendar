@@ -3,7 +3,7 @@
  * Görögkatolikus Általános Iskola stílussal & Interaktív Import Kezelővel
  */
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen } from 'lucide-react';
+import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen, AlignLeft, AlignCenter, AlignRight, AlignJustify, Palette } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
 import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
 import { fileToCompressedDataUrl, fileToLogoDataUrl } from '../utils/imageCompressor';
@@ -1877,7 +1877,23 @@ function RightInspector({
                 <option value="left">Bal</option>
                 <option value="center">Közép</option>
                 <option value="right">Jobb</option>
+                <option value="justify">Sorkizárt</option>
               </select>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div>
+              <label style={labelStyle}>Háttérszín</label>
+              <input type="color" value={elem.background && elem.background.startsWith('#') ? elem.background : '#ffffff'}
+                onChange={e => updateProp('background', e.target.value)}
+                style={{ width: '100%', height: 36, borderRadius: 6, border: '1px solid #2e2a45', background: '#0e0c1a', cursor: 'pointer' }} />
+            </div>
+            <div>
+              <label style={labelStyle}>Háttér átlátszó</label>
+              <button onClick={() => updateProp('background', 'transparent')} style={{ ...btn('secondary', 'sm'), width: '100%', height: 36, justifyContent: 'center' }}>
+                Átlátszó
+              </button>
             </div>
           </div>
 
@@ -2629,6 +2645,34 @@ function RightInspector({
 
           <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
 
+          {/* Szövegigazítás gombok */}
+          {[
+            { id: 'left', icon: <AlignLeft size={13} />, title: 'Balra igazítás' },
+            { id: 'center', icon: <AlignCenter size={13} />, title: 'Középre igazítás' },
+            { id: 'right', icon: <AlignRight size={13} />, title: 'Jobbra igazítás' },
+            { id: 'justify', icon: <AlignJustify size={13} />, title: 'Sorkizárt igazítás' },
+          ].map(btnItem => {
+            const active = (selectedEvent?.textAlign || 'left') === btnItem.id;
+            return (
+              <button
+                key={btnItem.id}
+                onClick={() => updateEventField('textAlign', btnItem.id)}
+                style={{
+                  ...btn('secondary', 'sm'),
+                  padding: '6px 8px',
+                  background: active ? '#7c3aed' : 'transparent',
+                  color: active ? '#fff' : '#94a3b8',
+                  borderColor: active ? '#a78bfa' : '#2e2a45',
+                }}
+                title={btnItem.title}
+              >
+                {btnItem.icon}
+              </button>
+            );
+          })}
+
+          <div style={{ width: 1, height: 24, background: '#2e2a45', margin: '0 4px' }} />
+
           <button
             onClick={() => handleUndo?.()}
             disabled={!canUndo}
@@ -2655,6 +2699,94 @@ function RightInspector({
           >
             <X size={12} /> Törlés
           </button>
+        </div>
+
+        {/* Színek doboz: Betűszín & Háttérszín */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8, padding: '8px 10px',
+          background: '#101025', border: '1px solid #232035', borderRadius: 8
+        }}>
+          {/* Betűszín */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700 }}>🔤 Betűszín</span>
+              <span style={{ fontSize: 9, color: '#94a3b8' }}>{selectedEvent?.textColor || '#1e293b'}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <input
+                type="color"
+                value={selectedEvent?.textColor?.startsWith('#') ? selectedEvent.textColor : '#1e293b'}
+                onChange={e => updateEventField('textColor', e.target.value)}
+                style={{ width: 28, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                title="Egyedi betűszín választása"
+              />
+              <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                {[
+                  { c: '#1e293b', t: 'Sötét (alap)' },
+                  { c: '#1e1b4b', t: 'Sötétkék' },
+                  { c: '#b45309', t: 'Arany' },
+                  { c: '#dc2626', t: 'Piros' },
+                  { c: '#ffffff', t: 'Fehér' },
+                ].map(item => (
+                  <button
+                    key={item.c}
+                    onClick={() => updateEventField('textColor', item.c)}
+                    style={{
+                      width: 17, height: 17, borderRadius: '50%', background: item.c,
+                      border: selectedEvent?.textColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                      cursor: 'pointer', padding: 0
+                    }}
+                    title={item.t}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Háttérszín */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700 }}>🎨 Háttérszín</span>
+              <button
+                onClick={() => updateEventField('bgColor', 'linear-gradient(135deg,#fffcf5,#fef9c3)')}
+                style={{ fontSize: 9, color: '#a78bfa', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                title="Alapértelmezett krémszín"
+              >
+                Alapérték
+              </button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <input
+                type="color"
+                value={selectedEvent?.bgColor?.startsWith('#') ? selectedEvent.bgColor : '#fffcf5'}
+                onChange={e => updateEventField('bgColor', e.target.value)}
+                style={{ width: 28, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                title="Egyedi háttérszín választása"
+              />
+              <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                {[
+                  { c: '#ffffff', t: 'Fehér' },
+                  { c: '#fefce8', t: 'Pergamen sárga' },
+                  { c: '#eff6ff', t: 'Halványkék' },
+                  { c: '#f0fdf4', t: 'Halványzöld' },
+                  { c: 'transparent', t: 'Átlátszó (fehér oldal)' },
+                  { c: '#1e1b4b', t: 'Sötétkék' },
+                ].map(item => (
+                  <button
+                    key={item.c}
+                    onClick={() => updateEventField('bgColor', item.c)}
+                    style={{
+                      width: 17, height: 17, borderRadius: '50%',
+                      background: item.c === 'transparent' ? 'repeating-conic-gradient(#808080 0% 25%, white 0% 50%) 50% / 6px 6px' : item.c,
+                      border: selectedEvent?.bgColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                      cursor: 'pointer', padding: 0
+                    }}
+                    title={item.t}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <textarea
@@ -3358,7 +3490,42 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 
   const isLogo   = elemId === 'logo';
   const isHeader = elemId === 'header' || elemId === 'title';
+  const isText   = elemId === 'text' || elemId === 'quote' || elemId === 'title' || elemId.includes('text');
   const pageId   = selectedPage?.id;
+
+  const currentAlign = layout.textAlign || selectedEvent?.textAlign || 'left';
+  const currentColor = layout.color || selectedEvent?.textColor || selectedEvent?.color || '#1e293b';
+  const currentBg = layout.background || selectedEvent?.bgColor || selectedEvent?.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
+
+  const handleAlignChange = (val) => {
+    updateLayout('textAlign', val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, textAlign: val } : ev)
+      }));
+    }
+  };
+
+  const handleColorChange = (val) => {
+    updateLayout('color', val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, textColor: val, color: val } : ev)
+      }));
+    }
+  };
+
+  const handleBgChange = (val) => {
+    updateLayout('background', val);
+    if (selectedEvent && setBookData) {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === selectedEvent.id ? { ...ev, bgColor: val, background: val } : ev)
+      }));
+    }
+  };
 
   const currentHeaderText = pageId && bookData?.pageLayouts?.[pageId]?.headerText != null
     ? bookData.pageLayouts[pageId].headerText
@@ -3481,6 +3648,133 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
         </div>
       ) : (
         <>
+          {isText && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 0', borderTop: '1px dashed #2e2a45', borderBottom: '1px dashed #2e2a45' }}>
+              {/* Igazítás */}
+              <div>
+                <label style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700, display: 'block', marginBottom: 4 }}>
+                  📐 Szöveg igazítása:
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
+                  {[
+                    { id: 'left', icon: <AlignLeft size={13} />, label: 'Balra' },
+                    { id: 'center', icon: <AlignCenter size={13} />, label: 'Közép' },
+                    { id: 'right', icon: <AlignRight size={13} />, label: 'Jobbra' },
+                    { id: 'justify', icon: <AlignJustify size={13} />, label: 'Sorkizárt' },
+                  ].map(btnItem => {
+                    const active = currentAlign === btnItem.id;
+                    return (
+                      <button
+                        key={btnItem.id}
+                        onClick={() => handleAlignChange(btnItem.id)}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
+                          padding: '5px 4px', borderRadius: 6, fontSize: 10.5, fontWeight: active ? 700 : 500,
+                          border: active ? '1.5px solid #f59e0b' : '1px solid #3730a3',
+                          background: active ? '#7c3aed' : 'rgba(255,255,255,0.04)',
+                          color: active ? '#fff' : '#c7d2fe',
+                          cursor: 'pointer',
+                        }}
+                        title={btnItem.label}
+                      >
+                        {btnItem.icon}
+                        <span>{btnItem.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Betűszín */}
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <label style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700 }}>
+                    🔤 Betűszín:
+                  </label>
+                  <span style={{ fontSize: 9.5, color: '#94a3b8' }}>{currentColor}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <input
+                    type="color"
+                    value={currentColor.startsWith('#') ? currentColor : '#1e293b'}
+                    onChange={e => handleColorChange(e.target.value)}
+                    style={{ width: 34, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                    title="Egyedi betűszín választása"
+                  />
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    {[
+                      { c: '#1e293b', t: 'Sötét' },
+                      { c: '#1e1b4b', t: 'Sötétkék' },
+                      { c: '#b45309', t: 'Arany' },
+                      { c: '#dc2626', t: 'Piros' },
+                      { c: '#166534', t: 'Zöld' },
+                      { c: '#ffffff', t: 'Fehér' },
+                    ].map(item => (
+                      <button
+                        key={item.c}
+                        onClick={() => handleColorChange(item.c)}
+                        style={{
+                          width: 19, height: 19, borderRadius: '50%', background: item.c,
+                          border: currentColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                          cursor: 'pointer', padding: 0,
+                        }}
+                        title={item.t}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Háttérszín */}
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <label style={{ fontSize: 10.5, color: '#fbbf24', fontWeight: 700 }}>
+                    🎨 Háttérszín:
+                  </label>
+                  <button
+                    onClick={() => handleBgChange('linear-gradient(135deg,#fffcf5,#fef9c3)')}
+                    style={{ fontSize: 9.5, color: '#a78bfa', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    title="Alapértelmezett krémszín"
+                  >
+                    Alapérték
+                  </button>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <input
+                    type="color"
+                    value={currentBg.startsWith('#') ? currentBg : '#fffcf5'}
+                    onChange={e => handleBgChange(e.target.value)}
+                    style={{ width: 34, height: 26, borderRadius: 6, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                    title="Egyedi háttérszín választása"
+                  />
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    {[
+                      { c: 'linear-gradient(135deg,#fffcf5,#fef9c3)', t: 'Krémszín (Alap)', isGrad: true },
+                      { c: '#ffffff', t: 'Fehér' },
+                      { c: '#fefce8', t: 'Pergamen sárga' },
+                      { c: '#eff6ff', t: 'Halványkék' },
+                      { c: '#f0fdf4', t: 'Halványzöld' },
+                      { c: 'transparent', t: 'Átlátszó (fehér oldal)' },
+                      { c: '#1e1b4b', t: 'Sötétkék' },
+                    ].map(item => (
+                      <button
+                        key={item.t}
+                        onClick={() => handleBgChange(item.c)}
+                        style={{
+                          width: 19, height: 19, borderRadius: '50%',
+                          background: item.isGrad ? item.c : item.c === 'transparent' ? 'repeating-conic-gradient(#808080 0% 25%, white 0% 50%) 50% / 6px 6px' : item.c,
+                          border: currentBg === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                          cursor: 'pointer', padding: 0,
+                        }}
+                        title={item.t}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {(layout.fontSize !== undefined || isHeader) && (
             <div>
               <label style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>Betűméret: {layout.fontSize || 14}px</label>
@@ -3731,13 +4025,33 @@ function PrincipalContent({ page, bookData }) {
         position: 'absolute',
         left: `${quoteBox.x}%`, top: `${quoteBox.y}%`, width: `${quoteBox.w}%`, height: `${quoteBox.h}%`,
         zIndex: quoteBox.zIndex || 1,
-        padding: 10, borderLeft: '4px solid #d97706', background: 'linear-gradient(135deg, #fffcf5 0%, #fef9c3 100%)', borderRadius: '0 8px 8px 0', border: '1px solid #fef08a', borderLeftWidth: 4, overflow: 'hidden', boxSizing: 'border-box'
+        padding: 10,
+        background: quoteBox.background || 'linear-gradient(135deg, #fffcf5 0%, #fef9c3 100%)',
+        borderLeft: quoteBox.background === 'transparent' ? 'none' : '4px solid #d97706',
+        borderRadius: '0 8px 8px 0',
+        border: quoteBox.background === 'transparent' ? 'none' : '1px solid #fef08a',
+        borderLeftWidth: quoteBox.background === 'transparent' ? 0 : 4,
+        overflow: 'hidden', boxSizing: 'border-box'
       }}>
-        <div style={{ fontSize: `${quoteBox.fontSize || 10.5}px`, lineHeight: 1.6, color: '#1e293b', fontStyle: 'italic', overflowY: 'auto', maxHeight: '82%', whiteSpace: 'pre-wrap' }}>
+        <div style={{
+          fontSize: `${quoteBox.fontSize || 10.5}px`,
+          lineHeight: 1.6,
+          color: quoteBox.color || '#1e293b',
+          textAlign: quoteBox.textAlign || 'left',
+          textJustify: quoteBox.textAlign === 'justify' ? 'inter-word' : undefined,
+          fontStyle: 'italic',
+          overflowY: 'auto',
+          maxHeight: '82%',
+          whiteSpace: 'pre-wrap'
+        }}>
           {bookData.principalQuote || 'Az igazgatói köszöntő szövegének megadásához használd a jobb oldali panelt...'}
         </div>
         {bookData.principalName && (
-          <div style={{ fontSize: 9.5, fontWeight: 800, color: '#b45309', marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div style={{
+            fontSize: 9.5, fontWeight: 800, color: '#b45309', marginTop: 6,
+            display: 'flex', alignItems: 'center', gap: 4,
+            justifyContent: quoteBox.textAlign === 'right' ? 'flex-end' : quoteBox.textAlign === 'center' ? 'center' : 'flex-start'
+          }}>
             {bookData.showPrincipalCross && <ByzantineCross size={12} color="#b45309" />}
             {bookData.showPrincipalCross && ' — '}
             {bookData.principalName}
@@ -4257,30 +4571,68 @@ function EventContent({ page, event, bookData }) {
         );
       })()}
 
-      <div style={{
-        position: 'absolute',
-        left: `${textBox.x}%`, top: `${textBox.y}%`, width: `${textBox.w}%`, height: `${textBox.h}%`,
-        zIndex: textBox.zIndex || 1,
-        display: 'flex', flexDirection: 'column', gap: 6, overflow: 'hidden', padding: 6, boxSizing: 'border-box'
-      }}>
-        {title && (
-          <div style={{ flexShrink: 0, textAlign: 'center' }}>
-            <div style={{ fontSize: `${(textBox.fontSize || 10.5) + 1.5}px`, fontWeight: 800, color: '#1e1b4b', lineHeight: 1.3 }}>{title}</div>
-            <div style={{ width: 46, height: 2, background: 'linear-gradient(90deg,#d97706,#f59e0b)', margin: '4px auto 0', borderRadius: 2 }} />
-          </div>
-        )}
-        {body && (
+      {(() => {
+        let { title, body } = splitEventTitle(event.text);
+        if (!body && title.length > 80) {
+          body = title;
+          title = '';
+        }
+
+        const textAlign = event.textAlign || textBox.textAlign || 'left';
+        const textColor = event.textColor || event.color || textBox.color || '#1e293b';
+        const bgColor = event.bgColor || event.background || textBox.background || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
+        const isTransparent = bgColor === 'transparent';
+        const borderLeft = isTransparent ? 'none' : (textBox.borderLeft || '3px solid #d97706');
+
+        return (
           <div style={{
-            flex: 1, minHeight: 0,
-            background: 'linear-gradient(135deg,#fffcf5,#fef9c3)', borderLeft: '3px solid #d97706',
-            borderRadius: '0 8px 8px 0', padding: '8px 10px',
-            fontSize: event.fontSize ? `${event.fontSize}pt` : `${textBox.fontSize || 10.5}px`, lineHeight: event.lineHeight || 1.7, color: '#1e293b',
-            whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowY: 'auto',
+            position: 'absolute',
+            left: `${textBox.x}%`, top: `${textBox.y}%`, width: `${textBox.w}%`, height: `${textBox.h}%`,
+            zIndex: textBox.zIndex || 1,
+            display: 'flex', flexDirection: 'column', gap: 6, overflow: 'hidden', padding: 6, boxSizing: 'border-box'
           }}>
-            {renderMarkdown(body)}
+            {title && (
+              <div style={{
+                flexShrink: 0,
+                textAlign: textAlign === 'justify' ? 'left' : textAlign,
+              }}>
+                <div style={{
+                  fontSize: `${(textBox.fontSize || 10.5) + 1.5}px`,
+                  fontWeight: 800,
+                  color: (textColor !== '#1e293b' && textColor !== '#000000') ? textColor : '#1e1b4b',
+                  lineHeight: 1.3
+                }}>
+                  {title}
+                </div>
+                <div style={{
+                  width: 46, height: 2, background: 'linear-gradient(90deg,#d97706,#f59e0b)',
+                  margin: textAlign === 'right' ? '4px 0 0 auto' : (textAlign === 'left' || textAlign === 'justify') ? '4px 0 0 0' : '4px auto 0',
+                  borderRadius: 2
+                }} />
+              </div>
+            )}
+            {body && (
+              <div style={{
+                flex: 1, minHeight: 0,
+                background: bgColor,
+                borderLeft: borderLeft,
+                borderRadius: '0 8px 8px 0',
+                padding: '8px 10px',
+                fontSize: event.fontSize ? `${event.fontSize}pt` : `${textBox.fontSize || 10.5}px`,
+                lineHeight: event.lineHeight || 1.7,
+                color: textColor,
+                textAlign: textAlign,
+                textJustify: textAlign === 'justify' ? 'inter-word' : undefined,
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                overflowY: 'auto',
+              }}>
+                {renderMarkdown(body)}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        );
+      })()}
 
       <div style={{
         position: 'absolute',
@@ -4299,8 +4651,16 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
   if (!event) return null;
   const allVisibleImgs = getVisibleEventImages(event);
   const imgs = allVisibleImgs.slice(0, maxImages);
-  const { title, body } = splitEventTitle(event.text);
+  let { title, body } = splitEventTitle(event.text);
+  if (!body && title.length > 80) {
+    body = title;
+    title = '';
+  }
   const hasDate = showDate && Boolean(event.date && event.date.trim());
+  const textAlign = event.textAlign || 'left';
+  const textColor = event.textColor || event.color || '#1e293b';
+  const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
+  const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
 
   return (
     <div
@@ -4364,13 +4724,15 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
 
         <div style={{
           flex: 1, minHeight: 0,
-          background: 'linear-gradient(135deg,#fffcf5,#fef9c3)',
-          borderLeft: '3px solid #d97706',
+          background: bgColor,
+          borderLeft: borderLeft,
           borderRadius: '0 6px 6px 0',
           padding: '4px 8px',
           fontSize: event.fontSize ? `${Math.max(6, event.fontSize - 1)}pt` : '7pt',
           lineHeight: event.lineHeight ? Math.min(1.45, event.lineHeight) : 1.35,
-          color: '#1e293b',
+          color: textColor,
+          textAlign: textAlign,
+          textJustify: textAlign === 'justify' ? 'inter-word' : undefined,
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
           overflowY: 'auto',

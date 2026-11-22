@@ -663,7 +663,15 @@ export function EventContent({ event, bookData }) {
     return getEventImageGrid(count); // 'grid', 'auto', or unset
   }
   const grid = getGridByLayout(event.imageLayout, imgs.length);
-  const { title, body } = splitEventTitle(event.text);
+  let { title, body } = splitEventTitle(event.text);
+  if (!body && title.length > 80) {
+    body = title;
+    title = '';
+  }
+  const textAlign = event.textAlign || 'left';
+  const textColor = event.textColor || event.color || '#1e293b';
+  const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';
+  const borderLeft = bgColor === 'transparent' ? 'none' : '3px solid #d97706';
   return (
     <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', padding: '6%', gap: '4%', boxSizing: 'border-box' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f59e0b', paddingBottom: '3%', flexShrink: 0, background: '#fffcf5', padding: '0 2% 3%' }}>
@@ -701,18 +709,25 @@ export function EventContent({ event, bookData }) {
       )}
       <div style={{ flex: '1 1 auto', minHeight: 0, display: 'flex', flexDirection: 'column', gap: '2%', overflow: 'auto' }}>
         {title && (
-          <div style={{ flexShrink: 0, textAlign: 'center' }}>
-            <div style={{ fontSize: '8.5pt', fontWeight: 800, color: '#1e1b4b', lineHeight: 1.2 }}>{title}</div>
-            <div style={{ width: 40, height: 2, background: 'linear-gradient(90deg,#d97706,#f59e0b)', margin: '2px auto 0', borderRadius: 2 }} />
+          <div style={{ flexShrink: 0, textAlign: textAlign === 'justify' ? 'left' : textAlign }}>
+            <div style={{ fontSize: '8.5pt', fontWeight: 800, color: (textColor !== '#1e293b' && textColor !== '#000000') ? textColor : '#1e1b4b', lineHeight: 1.2 }}>{title}</div>
+            <div style={{
+              width: 40, height: 2, background: 'linear-gradient(90deg,#d97706,#f59e0b)',
+              margin: textAlign === 'right' ? '2px 0 0 auto' : (textAlign === 'left' || textAlign === 'justify') ? '2px 0 0 0' : '2px auto 0',
+              borderRadius: 2
+            }} />
           </div>
         )}
         {body && (
           <div style={{
-            background: 'linear-gradient(135deg,#fffcf5,#fef9c3)', borderLeft: '3px solid #d97706',
+            background: bgColor, borderLeft: borderLeft,
             borderRadius: '0 8px 8px 0', padding: '5px 8px',
             fontSize: event.fontSize ? `${event.fontSize}pt` : '6.5pt',
             lineHeight: event.lineHeight || 1.55,
-            color: '#1e293b', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+            color: textColor,
+            textAlign: textAlign,
+            textJustify: textAlign === 'justify' ? 'inter-word' : undefined,
+            whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
           }}>
             {renderMarkdown(body)}
