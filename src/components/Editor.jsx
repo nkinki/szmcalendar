@@ -3648,7 +3648,40 @@ function RightInspector({
                 />
               </div>
 
-              {/* 📸 KÉPEK KIVÁLASZTÁSA AZ ÖSSZEVONT LAPON (MAX 2-3 KÉP) */}
+              {/* Képarány / Szélesség állító csúszka */}
+            {evImages.length > 0 && activeCount > 0 && (
+              <div style={{ background: '#110e20', border: '1px solid #2e2a45', borderRadius: 6, padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <label style={{ fontSize: 10.5, color: '#f59e0b', fontWeight: 700, margin: 0 }}>
+                    ↔️ Kép szélesség aránya: {ev.imageWidthPercent ? `${ev.imageWidthPercent}%` : `${activeCount === 1 ? 38 : activeCount === 2 ? 44 : 48}% (alapértelmezett)`}
+                  </label>
+                  {ev.imageWidthPercent && (
+                    <button
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'imageWidthPercent', undefined)}
+                      style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: 10, cursor: 'pointer', textDecoration: 'underline' }}
+                    >
+                      Visszaállítás
+                    </button>
+                  )}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 9.5, color: '#64748b' }}>Keskeny (20%)</span>
+                  <input
+                    type="range"
+                    min="20"
+                    max="75"
+                    step="1"
+                    value={ev.imageWidthPercent || (activeCount === 1 ? 38 : activeCount === 2 ? 44 : 48)}
+                    onChange={e => updateSubEvent(ev.id, 'imageWidthPercent', Number(e.target.value))}
+                    style={{ flex: 1, accentColor: '#f59e0b', cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: 9.5, color: '#64748b' }}>Széles (75%)</span>
+                </div>
+              </div>
+            )}
+
+            {/* 📸 KÉPEK KIVÁLASZTÁSA AZ ÖSSZEVONT LAPON (MAX 2-3 KÉP) */}
               {evImages.length > 0 && (
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
@@ -5342,7 +5375,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
       <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '3%', overflow: 'hidden' }}>
         {imgs.length > 0 && (
           <div style={{
-            width: imgs.length === 1 ? '38%' : imgs.length === 2 ? '44%' : '48%',
+            width: event.imageWidthPercent ? `${event.imageWidthPercent}%` : (imgs.length === 1 ? '38%' : imgs.length === 2 ? '44%' : '48%'),
             flexShrink: 0,
             borderRadius: 5,
             overflow: 'hidden',
