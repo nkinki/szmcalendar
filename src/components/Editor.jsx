@@ -2604,6 +2604,34 @@ function RightInspector({
       });
     };
 
+    const handleClearSingleEventTitle = () => {
+      if (!selectedEvent) return;
+      const split = splitEventTitle(selectedEvent.text || '');
+      if (split.title && split.body && (selectedEvent.title === undefined || selectedEvent.title.trim().toLowerCase() === split.title.trim().toLowerCase())) {
+        setLocalText(split.body);
+        setBookData(prev => ({
+          ...prev,
+          events: (prev.events || []).map(e => e.id === selectedEvent.id ? { ...e, title: '', text: split.body } : e)
+        }));
+      } else {
+        updateEventField('title', '');
+      }
+    };
+
+    const handleSingleEventTitleChange = (newTitle) => {
+      if (!selectedEvent) return;
+      const split = splitEventTitle(selectedEvent.text || '');
+      if (selectedEvent.title === undefined && split.title && split.body) {
+        setLocalText(split.body);
+        setBookData(prev => ({
+          ...prev,
+          events: (prev.events || []).map(e => e.id === selectedEvent.id ? { ...e, title: newTitle, text: split.body } : e)
+        }));
+      } else {
+        updateEventField('title', newTitle);
+      }
+    };
+
     return (
       <div style={panelStyle}>
         <div style={panelHeaderStyle}>Esemény szerkesztése</div>
@@ -2622,13 +2650,11 @@ function RightInspector({
           />
         )}
 
-        {/* Fejléc és Dátum kiemelt szerkesztő doboz */}
-        <div style={{ background: '#121024', border: '1.5px solid #d97706', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 4 }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: 6 }}>
-            📌 Oldal teteje (Fejléc egy sorban)
+        {/* Közös Fejléc doboz (Iskola neve) */}
+        <div style={{ background: '#121024', border: '1px solid #7c3aed', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: '#c084fc', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            📌 Fejléc (Iskola neve)
           </div>
-          
-          <label style={{ ...labelStyle, marginTop: 4, fontSize: 11 }}>Fejléc szöveg (bal oldal):</label>
           <input
             value={currentHeaderText}
             onChange={e => handleHeaderTextChange(e.target.value)}
@@ -2636,10 +2662,58 @@ function RightInspector({
             placeholder={bookData.schoolName || "Iskola neve..."}
             title="Hagyd üresen az alapértelmezett iskola névhez, vagy írj be egyedi fejlécet"
           />
+        </div>
 
+        {/* Esemény adatai kártya — pontosan mint az összekapcsolt lapon */}
+        <div style={{ background: '#181528', border: '1px solid #2e2a45', borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Esemény adatai</span>
+            <span style={{ fontSize: 10, color: '#94a3b8' }}>ID: {selectedEvent?.id?.slice(-6)}</span>
+          </div>
+
+          {/* Cikk címe (fejléc) */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+              <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Cikk címe (fejléc)</label>
+              {(selectedEvent?.title !== undefined ? Boolean(selectedEvent.title) : Boolean(splitEventTitle(selectedEvent?.text || '').title)) ? (
+                <button
+                  type="button"
+                  onClick={handleClearSingleEventTitle}
+                  style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
+                  title="Cím törlése (ne jelenjen meg cím a cikk tetején)"
+                >
+                  <Trash2 size={11} /> Törlés
+                </button>
+              ) : (
+                <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs cím (üres)</span>
+              )}
+            </div>
+            <input
+              value={selectedEvent?.title !== undefined ? selectedEvent.title : (splitEventTitle(selectedEvent?.text || '').title || '')}
+              onChange={e => handleSingleEventTitleChange(e.target.value)}
+              placeholder="Üresen hagyva nincs cím..."
+              style={inputStyle}
+            />
+          </div>
+
+          {/* Dátum és Tanév */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 8 }}>
             <div>
-              <label style={{ ...labelStyle, marginTop: 4, color: '#f59e0b', fontSize: 11 }}>📅 Dátum (jobb oldal):</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>📅 Dátum</label>
+                {selectedEvent?.date ? (
+                  <button
+                    type="button"
+                    onClick={() => updateEventField('date', '')}
+                    style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
+                    title="Dátum törlése erről a cikkről"
+                  >
+                    <Trash2 size={11} /> Törlés
+                  </button>
+                ) : (
+                  <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs dátum</span>
+                )}
+              </div>
               <input
                 value={selectedEvent?.date || ''}
                 onChange={e => updateEventField('date', e.target.value)}
@@ -2648,7 +2722,7 @@ function RightInspector({
               />
             </div>
             <div>
-              <label style={{ ...labelStyle, marginTop: 4, fontSize: 11 }}>Tanév:</label>
+              <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Tanév</label>
               <input
                 value={selectedEvent?.schoolYear || ''}
                 onChange={e => updateEventField('schoolYear', e.target.value)}
@@ -2657,31 +2731,6 @@ function RightInspector({
               />
             </div>
           </div>
-        </div>
-
-        {/* Cikk címe (külön szerkeszthető és törölhető) */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
-            <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Cikk címe (szöveg feletti cím)</label>
-            {(selectedEvent?.title !== undefined ? Boolean(selectedEvent.title) : Boolean(splitEventTitle(selectedEvent?.text || '').title)) ? (
-              <button
-                type="button"
-                onClick={() => updateEventField('title', '')}
-                style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
-                title="Cím törlése (ne jelenjen meg külön cím a szöveg felett)"
-              >
-                <Trash2 size={11} /> Törlés
-              </button>
-            ) : (
-              <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs cím (üres)</span>
-            )}
-          </div>
-          <input
-            value={selectedEvent?.title !== undefined ? selectedEvent.title : (splitEventTitle(selectedEvent?.text || '').title || '')}
-            onChange={e => updateEventField('title', e.target.value)}
-            placeholder="Üresen hagyva nincs külön cím a szöveg felett..."
-            style={inputStyle}
-          />
         </div>
 
         <label style={labelStyle}>Esemény szövege</label>
@@ -3510,6 +3559,34 @@ function RightInspector({
       }));
     };
 
+    const handleClearSubEventTitle = (eventId) => {
+      const ev = (bookData.events || []).find(e => e.id === eventId);
+      if (!ev) return;
+      const split = splitEventTitle(ev.text || '');
+      if (split.title && split.body && (ev.title === undefined || ev.title.trim().toLowerCase() === split.title.trim().toLowerCase())) {
+        setBookData(prev => ({
+          ...prev,
+          events: (prev.events || []).map(e => e.id === eventId ? { ...e, title: '', text: split.body } : e)
+        }));
+      } else {
+        updateSubEvent(eventId, 'title', '');
+      }
+    };
+
+    const handleSubEventTitleChange = (eventId, newTitle) => {
+      const ev = (bookData.events || []).find(e => e.id === eventId);
+      if (!ev) return;
+      const split = splitEventTitle(ev.text || '');
+      if (ev.title === undefined && split.title && split.body) {
+        setBookData(prev => ({
+          ...prev,
+          events: (prev.events || []).map(e => e.id === eventId ? { ...e, title: newTitle, text: split.body } : e)
+        }));
+      } else {
+        updateSubEvent(eventId, 'title', newTitle);
+      }
+    };
+
     const resetSubEventDropCap = (eventId) => {
       setBookData(prev => ({
         ...prev,
@@ -3733,7 +3810,7 @@ function RightInspector({
                   {(ev.title !== undefined ? Boolean(ev.title) : Boolean(splitEventTitle(ev.text || '').title)) ? (
                     <button
                       type="button"
-                      onClick={() => updateSubEvent(ev.id, 'title', '')}
+                      onClick={() => handleClearSubEventTitle(ev.id)}
                       style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
                       title="Cím törlése (ne jelenjen meg cím a cikk tetején)"
                     >
@@ -3745,7 +3822,7 @@ function RightInspector({
                 </div>
                 <input
                   value={ev.title !== undefined ? ev.title : (splitEventTitle(ev.text || '').title || '')}
-                  onChange={e => updateSubEvent(ev.id, 'title', e.target.value)}
+                  onChange={e => handleSubEventTitleChange(ev.id, e.target.value)}
                   placeholder="Üresen hagyva nincs cím..."
                   style={inputStyle}
                 />
