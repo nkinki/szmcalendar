@@ -85,7 +85,7 @@ function App() {
       // 1) Mindig lekérjük a legfrissebb book_config.json-t (igazgató neve, idézet, tanárok, osztályok)
       let serverConfig = null;
       try {
-        const cfgRes = await fetch('/book_config.json?v=' + Date.now());
+        const cfgRes = await fetch('/book_config.json?v=' + Date.now(), { cache: 'no-store' });
         if (cfgRes.ok) {
           const cfgText = await cfgRes.text();
           if (cfgText.trim().startsWith('{')) {
@@ -97,7 +97,7 @@ function App() {
       }
 
       // 2) Mindig betöltjük a /book_events.json-t
-      const res = await fetch('/book_events.json?v=' + Date.now());
+      const res = await fetch('/book_events.json?v=' + Date.now(), { cache: 'no-store' });
       const text = await res.text();
       let serverEvents = [];
       if (text.trim().startsWith('[')) {
@@ -111,36 +111,18 @@ function App() {
         events: Array.isArray(serverEvents) && serverEvents.length > 0 ? serverEvents : DEFAULT_BOOK.events,
       };
 
-      // 3) Admin mentés prioritása (ha van helyi frissebb admin mentés localStorage-ban)
-      const adminSaved = localStorage.getItem(ADMIN_STORAGE_KEY);
-      if (adminSaved) {
-        let parsed;
-        try {
-          parsed = repairBookData(JSON.parse(adminSaved));
-        } catch (e) {
-          localStorage.removeItem(ADMIN_STORAGE_KEY);
-          parsed = null;
-        }
-        if (parsed) {
-          const adminEvents = parsed.events || [];
-          if (adminEvents.length >= serverEvents.length) {
-            if (parsed.events) {
-              parsed.events = applyUnifiedTextStyles(parsed.events);
-            }
-            setBookData(prev => ({ ...baseMerged, ...prev, ...parsed }));
-            return;
-          } else {
-            localStorage.removeItem(ADMIN_STORAGE_KEY);
-          }
-        }
-      }
-
-      // Szerver adatok betöltése
+      // Szerver adatok betöltése — a közzétett szerver adat az abszolút forrás
       const repaired = repairBookData(baseMerged);
       if (repaired?.events) {
         repaired.events = applyUnifiedTextStyles(repaired.events);
       }
       setBookData(repaired);
+
+      // Frissítjük / szinkronizáljuk a helyi tárhelyet is a legfrissebb szerver adatra
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(repaired));
+        localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(repaired));
+      } catch {}
     } catch (err) {
       console.warn('JSON betöltés sikertelen:', err.message);
     } finally {
