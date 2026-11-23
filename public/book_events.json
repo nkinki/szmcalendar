@@ -23186,105 +23186,88 @@
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 22.",
     "dateSort": "2025-09-22",
-    "text": "Szent Mihály egy új fényképet töltött fel.\n■Origami szakkör indult az alsó tagozatosoknak■\nPocsai Emese tanító néni „Noé bárkája\" címmel indított origami szakkört a Szent Mihályos kisdiákok körében. \nAz origami fejleszti a kézügyességet, összehangolja a szem és a kéz munkáját, így hat a bal és a jobb agyfélteke működésére, segíti a tájékozódást, irányok észlelését, térérzékelést, ismerteti az alapvető geometriai formákat és fogalmakat, végül fejleszti a kreativitást, a memóriát és a gondolkodást! \nCélja, hogy egy vagy több darab papírból pusztán hajtogatással formáljunk meg valamit, minden segédeszköz nélkül. \nAz origami jelképe a darumadár.",
+    "text": "\nPocsai Emese tanító néni „Noé bárkája\" címmel indított origami szakkört a Szent Mihályos kisdiákok körében. \nAz origami fejleszti a kézügyességet, összehangolja a szem és a kéz munkáját, így hat a bal és a jobb agyfélteke működésére, segíti a tájékozódást, irányok észlelését, térérzékelést, ismerteti az alapvető geometriai formákat és fogalmakat, végül fejleszti a kreativitást, a memóriát és a gondolkodást! \nCélja, hogy egy vagy több darab papírból pusztán hajtogatással formáljunk meg valamit, minden segédeszköz nélkül. \nAz origami jelképe a darumadár.",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1SSBjqFWcmuItuMqLHkEvuMB71X9R82Yp",
         "thumbnail": "/api/img?id=1SSBjqFWcmuItuMqLHkEvuMB71X9R82Yp",
-        "driveId": "1SSBjqFWcmuItuMqLHkEvuMB71X9R82Yp",
-        "enabled": true
+        "driveId": "1SSBjqFWcmuItuMqLHkEvuMB71X9R82Yp"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309"
+    "dropCapStyle": "box",
+    "dropCapColor": "#b45309",
+    "title": "",
+    "imageWidthPercent": 55
   },
   {
     "id": "fb_1758403343_334",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 20.",
     "dateSort": "2025-09-20",
-    "text": "Szent Mihály 8 új fényképet töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nA DEAC Stadion adott helyett a múlt szombaton a Katolikus És Protestáns Lelkészek Futballmérkőzésének, melynek félidejében iskolánk diákjai 11-es rugó versenyen vettek részt. Nem jöttünk haza üres kézzel most sem.\nDemján Szilvia",
+    "text": "\nA DEAC Stadion adott helyett a múlt szombaton a Katolikus És Protestáns Lelkészek Futballmérkőzésének, melynek félidejében iskolánk diákjai 11-es rugó versenyen vettek részt. Nem jöttünk haza üres kézzel most sem.\nDemján Szilvia",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=1eEVBuJbto54_ZIVqPs9ammR85UeMB47l",
         "thumbnail": "/api/img?id=1eEVBuJbto54_ZIVqPs9ammR85UeMB47l",
-        "driveId": "1eEVBuJbto54_ZIVqPs9ammR85UeMB47l",
-        "enabled": true
+        "driveId": "1eEVBuJbto54_ZIVqPs9ammR85UeMB47l"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1gF9RI23CM_3j1sX9bnytR2KTqr-tbI4p",
         "thumbnail": "/api/img?id=1gF9RI23CM_3j1sX9bnytR2KTqr-tbI4p",
-        "driveId": "1gF9RI23CM_3j1sX9bnytR2KTqr-tbI4p",
-        "enabled": true
+        "driveId": "1gF9RI23CM_3j1sX9bnytR2KTqr-tbI4p"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1w6M2RX6q97T7HAnEKsexyRijTPMEbxIg",
         "thumbnail": "/api/img?id=1w6M2RX6q97T7HAnEKsexyRijTPMEbxIg",
-        "driveId": "1w6M2RX6q97T7HAnEKsexyRijTPMEbxIg",
-        "enabled": true
+        "driveId": "1w6M2RX6q97T7HAnEKsexyRijTPMEbxIg"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1h_cd0Oo2Ucrog-0ec0_sgiHWeUrgeWXK",
         "thumbnail": "/api/img?id=1h_cd0Oo2Ucrog-0ec0_sgiHWeUrgeWXK",
-        "driveId": "1h_cd0Oo2Ucrog-0ec0_sgiHWeUrgeWXK",
-        "enabled": true
+        "driveId": "1h_cd0Oo2Ucrog-0ec0_sgiHWeUrgeWXK"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1znRjAELEuQjzfnih7JMB01ct6Cz-5Lzh",
         "thumbnail": "/api/img?id=1znRjAELEuQjzfnih7JMB01ct6Cz-5Lzh",
-        "driveId": "1znRjAELEuQjzfnih7JMB01ct6Cz-5Lzh",
-        "enabled": true
+        "driveId": "1znRjAELEuQjzfnih7JMB01ct6Cz-5Lzh"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1yVK9Re5xZqSoqkrfP08D_psj37CjpmoX",
         "thumbnail": "/api/img?id=1yVK9Re5xZqSoqkrfP08D_psj37CjpmoX",
-        "driveId": "1yVK9Re5xZqSoqkrfP08D_psj37CjpmoX",
-        "enabled": true
+        "driveId": "1yVK9Re5xZqSoqkrfP08D_psj37CjpmoX"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1AFWM8CCKAL-HxSG5BdpVGzJSADr5fJhH",
         "thumbnail": "/api/img?id=1AFWM8CCKAL-HxSG5BdpVGzJSADr5fJhH",
-        "driveId": "1AFWM8CCKAL-HxSG5BdpVGzJSADr5fJhH",
-        "enabled": true
+        "driveId": "1AFWM8CCKAL-HxSG5BdpVGzJSADr5fJhH"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1LhQPWkrfYUzTOAxYNMBbhwpl0vWX-WY8",
         "thumbnail": "/api/img?id=1LhQPWkrfYUzTOAxYNMBbhwpl0vWX-WY8",
-        "driveId": "1LhQPWkrfYUzTOAxYNMBbhwpl0vWX-WY8",
-        "enabled": true
+        "driveId": "1LhQPWkrfYUzTOAxYNMBbhwpl0vWX-WY8"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309"
-  },
-  {
-    "id": "fb_1758173096_335",
-    "schoolYear": "2025/2026",
-    "date": "2025. szeptember 18.",
-    "dateSort": "2025-09-18",
-    "text": "Szent Mihály egy új fényképet töltött fel.",
-    "images": [
-      {
-        "url": "/api/img?id=1QL8mvEjet55nzqX8J1LkvU_yQaGszHN-",
-        "thumbnail": "/api/img?id=1QL8mvEjet55nzqX8J1LkvU_yQaGszHN-",
-        "driveId": "1QL8mvEjet55nzqX8J1LkvU_yQaGszHN-",
-        "enabled": true
-      }
-    ],
-    "textAlign": "justify",
-    "textColor": "#b45309",
-    "color": "#b45309",
-    "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309"
+    "dropCapStyle": "box",
+    "dropCapColor": "#b45309",
+    "imageWidthPercent": 67,
+    "title": ""
   },
   {
     "id": "fb_1758084876_336",
