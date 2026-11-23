@@ -1628,7 +1628,7 @@ function CenterEditor({
           page={page}
           bookData={bookData}
           setBookData={setBookData}
-          renderContent={() => <PageContent page={page} bookData={bookData} />}
+          renderContent={() => <PageContent page={page} bookData={bookData} setBookData={setBookData} />}
           selectedEvent={selectedEvent}
           editingText={editingText}
           localText={localText}
@@ -3547,6 +3547,60 @@ function RightInspector({
           />
         </div>
 
+        {/* ↕️ CIKKEK MAGASSÁGÁNAK ELOSZLÁSA (KÉT CIKK ESETÉN) */}
+        {!is3 && count === 2 && (
+          <div style={{ background: '#181528', border: '1px solid #334155', borderRadius: 8, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b' }}>
+                ↕️ Cikkek magasság aránya:
+              </span>
+              <span style={{ fontSize: 10, color: '#38bdf8', fontWeight: 700 }}>
+                {pageLayout?.splitRatio !== undefined ? `${pageLayout.splitRatio}% / ${100 - pageLayout.splitRatio}%` : '50% / 50% (egyenlő)'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 9.5, color: '#94a3b8' }}>1. cikk {pageLayout?.splitRatio || 50}%</span>
+              <input
+                type="range"
+                min="20"
+                max="80"
+                step="1"
+                value={pageLayout?.splitRatio !== undefined ? pageLayout.splitRatio : 50}
+                onChange={e => {
+                  const val = Number(e.target.value);
+                  setBookData(prev => {
+                    const layouts = prev.pageLayouts || {};
+                    const current = layouts[pageId] || {};
+                    return { ...prev, pageLayouts: { ...layouts, [pageId]: { ...current, splitRatio: val } } };
+                  });
+                }}
+                style={{ flex: 1, accentColor: '#f59e0b', cursor: 'pointer' }}
+              />
+              <span style={{ fontSize: 9.5, color: '#94a3b8' }}>2. cikk {100 - (pageLayout?.splitRatio || 50)}%</span>
+            </div>
+            {pageLayout?.splitRatio !== undefined && pageLayout.splitRatio !== 50 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setBookData(prev => {
+                    const layouts = prev.pageLayouts || {};
+                    const current = layouts[pageId] || {};
+                    const updated = { ...current };
+                    delete updated.splitRatio;
+                    return { ...prev, pageLayouts: { ...layouts, [pageId]: updated } };
+                  });
+                }}
+                style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: 10, cursor: 'pointer', textAlign: 'right', textDecoration: 'underline' }}
+              >
+                Visszaállítás 50/50-re
+              </button>
+            )}
+            <div style={{ fontSize: 9.5, color: '#64748b', fontStyle: 'italic' }}>
+              💡 Tipp: A lapon a díszes keresztes elválasztó vonalat egérrel közvetlenül is húzhatod fel-le!
+            </div>
+          </div>
+        )}
+
         {/* 📅 DÁTUM MEGJELENÍTÉSE AZ ÖSSZEVONT OLDALON */}
         <div style={{ background: '#181528', border: '1px solid #334155', borderRadius: 8, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -4504,7 +4558,7 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 // ══════════════════════════════════════════════════════════════════════════════
 // PAGE CONTENT RENDERERS (GÖRÖGKATOLIKUS ISKOLA DESIGN)
 // ══════════════════════════════════════════════════════════════════════════════
-export function PageContent({ page, bookData, onSelectEvent, selectedEventId }) {
+export function PageContent({ page, bookData, onSelectEvent, selectedEventId, setBookData }) {
   if (!page) return null;
   let content = null;
   if (page.type === 'cover')      content = <CoverContent page={page} bookData={bookData} />;
@@ -4521,7 +4575,7 @@ export function PageContent({ page, bookData, onSelectEvent, selectedEventId }) 
     content = <EventContent page={page} event={event} bookData={bookData} />;
   }
   else if (page.type === 'dual_event') {
-    content = <DualEventContent page={page} bookData={bookData} onSelectEvent={onSelectEvent} selectedEventId={selectedEventId} />;
+    content = <DualEventContent page={page} bookData={bookData} onSelectEvent={onSelectEvent} selectedEventId={selectedEventId} setBookData={setBookData} />;
   }
   else {
     content = <div style={{ width: '100%', height: '100%', background: '#fff' }} />;
@@ -5343,7 +5397,7 @@ function EventContent({ page, event, bookData }) {
 }
 
 // ── 8. KÉT VAGY HÁROM RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2-3 CIKK / LAP) ──
-function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, showDate = true }) {
+function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, showDate = true, flexRatio = 1 }) {
   if (!event) return null;
   const allVisibleImgs = getVisibleEventImages(event);
   const imgs = allVisibleImgs.slice(0, maxImages);
@@ -5372,7 +5426,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
     <div
       onClick={onSelect}
       style={{
-        flex: 1, minHeight: 0,
+        flex: `${flexRatio} 1 0`, minHeight: 0,
         display: 'flex', flexDirection: 'column',
         background: '#fff',
         borderRadius: 6,
@@ -5455,24 +5509,69 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
   );
 }
 
-export function DualEventContent({ page, bookData, onSelectEvent, selectedEventId }) {
+export function DualEventContent({ page, bookData, onSelectEvent, selectedEventId, setBookData }) {
   const events = page.events || [page.event1, page.event2, page.event3].filter(Boolean);
   const count = events.length;
   const is3 = count >= 3;
   const maxImgs = is3 ? 2 : 3;
 
-  const dateMode = bookData?.pageLayouts?.[page.id]?.dateDisplay || 'auto';
+  const pageLayout = bookData?.pageLayouts?.[page.id] || {};
+  const dateMode = pageLayout?.dateDisplay || 'auto';
+  const splitRatio = pageLayout?.splitRatio !== undefined ? pageLayout.splitRatio : 50;
+
+  // Húzható elválasztó kezelője (drag resizer a keresztes vonalon)
+  const containerRef = useRef(null);
+  const draggingRef = useRef(false);
+
+  const handleDividerMouseDown = (e) => {
+    if (!setBookData) return;
+    e.preventDefault();
+    e.stopPropagation();
+    draggingRef.current = true;
+
+    const onMouseMove = (moveEvent) => {
+      if (!draggingRef.current || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const relativeY = moveEvent.clientY - rect.top;
+      const percent = Math.round((relativeY / rect.height) * 100);
+      const clamped = Math.max(20, Math.min(80, percent));
+
+      setBookData(prev => {
+        const layouts = prev.pageLayouts || {};
+        const current = layouts[page.id] || {};
+        return {
+          ...prev,
+          pageLayouts: {
+            ...layouts,
+            [page.id]: { ...current, splitRatio: clamped }
+          }
+        };
+      });
+    };
+
+    const onMouseUp = () => {
+      draggingRef.current = false;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  };
 
   return (
-    <div style={{
-      width: '100%', height: '100%',
-      background: '#fff',
-      display: 'flex', flexDirection: 'column',
-      padding: is3 ? '2.5% 3.5%' : '3.5% 4.5%',
-      boxSizing: 'border-box',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%', height: '100%',
+        background: '#fff',
+        display: 'flex', flexDirection: 'column',
+        padding: is3 ? '2.5% 3.5%' : '3.5% 4.5%',
+        boxSizing: 'border-box',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
       {/* Fő fejléc */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -5501,13 +5600,35 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
           showDate = !isDuplicate;
         }
 
+        // Két cikk esetén dinamikus magasság arány flex-szel
+        const flexRatio = (!is3 && count === 2)
+          ? (idx === 0 ? splitRatio : (100 - splitRatio))
+          : 1;
+
         return (
           <React.Fragment key={ev.id || idx}>
             {idx > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: is3 ? '0.8% 0' : '1.2% 0', flexShrink: 0 }}>
-                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
-                <ByzantineCross size={is3 ? 10 : 12} color="#f59e0b" />
-                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
+              <div
+                onMouseDown={handleDividerMouseDown}
+                title={setBookData ? "Húzd az egérrel fel-le a cikkek magasságának arányos változtatásához!" : undefined}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  margin: is3 ? '0.8% 0' : '1.2% 0',
+                  padding: '2px 0',
+                  flexShrink: 0,
+                  cursor: setBookData ? 'row-resize' : 'default',
+                  userSelect: 'none',
+                }}
+              >
+                <div style={{ flex: 1, height: 1.5, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  background: '#fef3c7', borderRadius: '50%', width: is3 ? 14 : 18, height: is3 ? 14 : 18,
+                  border: '1px solid #f59e0b', boxShadow: '0 1px 3px rgba(245,158,11,0.2)'
+                }}>
+                  <ByzantineCross size={is3 ? 9 : 11} color="#b45309" />
+                </span>
+                <div style={{ flex: 1, height: 1.5, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
               </div>
             )}
             <HalfEventCard
@@ -5517,6 +5638,7 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
               isSelected={selectedEventId === ev.id}
               maxImages={maxImgs}
               showDate={showDate}
+              flexRatio={flexRatio}
             />
           </React.Fragment>
         );
