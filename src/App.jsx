@@ -44,6 +44,16 @@ export const DEFAULT_BOOK = {
 
   // Tanévek eseményei:
   events: [],
+
+  // Összevont oldalak (két vagy több cikk egy lapon):
+  mergedGroups: [
+    ['fb_1757997169_337', 'fb_1758084876_336'],
+    ['fb_1758403343_334', 'fb_1758558498_333'],
+  ],
+  dualPairs: [
+    ['fb_1757997169_337', 'fb_1758084876_336'],
+    ['fb_1758403343_334', 'fb_1758558498_333'],
+  ],
 };
 
 function App() {
@@ -104,10 +114,47 @@ function App() {
         serverEvents = JSON.parse(text);
       }
 
+      // Összevont csoportok (mergedGroups / dualPairs) kinyerése a szerverről vagy tartalék forrásokból
+      let serverMergedGroups = serverConfig?.mergedGroups || serverConfig?.dualPairs || [];
+      if (!Array.isArray(serverMergedGroups) || serverMergedGroups.length === 0) {
+        // 1. Megpróbáljuk a helyi tárhelyből (ha a felhasználó épp most állította be)
+        try {
+          const localRaw = localStorage.getItem(ADMIN_STORAGE_KEY) || localStorage.getItem(STORAGE_KEY);
+          if (localRaw) {
+            const localData = JSON.parse(localRaw);
+            const localGroups = localData?.mergedGroups || localData?.dualPairs;
+            if (Array.isArray(localGroups) && localGroups.length > 0) {
+              serverMergedGroups = localGroups;
+            }
+          }
+        } catch {}
+
+        // 2. Tartalék: pageLayouts 'merged_' kezdetű kulcsaiból rekonstruáljuk
+        if ((!Array.isArray(serverMergedGroups) || serverMergedGroups.length === 0) && serverConfig?.pageLayouts) {
+          const derived = [];
+          const allEvts = Array.isArray(serverEvents) && serverEvents.length > 0 ? serverEvents : (DEFAULT_BOOK.events || []);
+          const allIds = allEvts.map(e => e.id).filter(Boolean);
+          for (const key of Object.keys(serverConfig.pageLayouts)) {
+            if (key.startsWith('merged_')) {
+              const raw = key.replace('merged_', '');
+              const matched = allIds.filter(id => raw.includes(id));
+              if (matched.length >= 2) {
+                derived.push(matched);
+              }
+            }
+          }
+          if (derived.length > 0) {
+            serverMergedGroups = derived;
+          }
+        }
+      }
+
       // Alap szerver állapot összefésülése
       const baseMerged = {
         ...DEFAULT_BOOK,
         ...(serverConfig || {}),
+        mergedGroups: serverMergedGroups.length > 0 ? serverMergedGroups : (DEFAULT_BOOK.mergedGroups || []),
+        dualPairs: serverMergedGroups.length > 0 ? serverMergedGroups : (DEFAULT_BOOK.dualPairs || []),
         events: Array.isArray(serverEvents) && serverEvents.length > 0 ? serverEvents : DEFAULT_BOOK.events,
       };
 
@@ -155,6 +202,8 @@ function App() {
         graduationPages: [],
         events: [],
         pageLayouts: {},
+        mergedGroups: [],
+        dualPairs: [],
       };
       try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(ADMIN_STORAGE_KEY); } catch {}
       setBookData(EMPTY_BOOK);
@@ -183,6 +232,8 @@ function App() {
         graduationPages: compressedBook.graduationPages,
         pageLayouts: compressedBook.pageLayouts,
         sortOrder: compressedBook.sortOrder || 'desc',
+        mergedGroups: compressedBook.mergedGroups || compressedBook.dualPairs || [],
+        dualPairs: compressedBook.dualPairs || compressedBook.mergedGroups || [],
       };
 
       const res = await fetch('/api/save', {
