@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Printer, ZoomIn, ZoomOut, Search } from 'lucide-react';
 import { PageContent, renderSchoolLogo, getMergedGroups } from './Editor';
-import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, renderMarkdown } from '../utils/media';
+import { getVisibleEventImages, normalizeEventImages, cleanEventText, getEventImageGrid, splitEventTitle, getEventTitleAndBody, renderMarkdown } from '../utils/media';
 
 // Inline helper — nem importálunk InteractiveCanvas-t (körkörös import elkerülése)
 function isElemHiddenLocal(page, elemId, bookData) {
@@ -663,11 +663,7 @@ export function EventContent({ event, bookData }) {
     return getEventImageGrid(count); // 'grid', 'auto', or unset
   }
   const grid = getGridByLayout(event.imageLayout, imgs.length);
-  let { title, body } = splitEventTitle(event.text);
-  if (!body && title.length > 80) {
-    body = title;
-    title = '';
-  }
+  const { title, body } = getEventTitleAndBody(event);
   const textAlign = event.textAlign || 'justify';
   const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000') ? event.textColor : '#b45309';
   const bgColor = event.bgColor || 'linear-gradient(135deg,#fffcf5,#fef9c3)';

@@ -5,7 +5,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Upload, Plus, X, Printer, Eye, Home, Trash2, RotateCcw, Layers, Check, Search, FileCode, Sliders, Download, FolderOpen, MoreHorizontal, Save, BookOpen, AlignLeft, AlignCenter, AlignRight, AlignJustify, Palette, Sparkles, Indent } from 'lucide-react';
 import InteractiveCanvas, { getElemBox, isElemHidden } from './InteractiveCanvas';
-import { repairBookData, cleanEventText, splitEventTitle, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
+import { repairBookData, cleanEventText, splitEventTitle, getEventTitleAndBody, STORAGE_KEY, getVisibleEventImages, renderMarkdown } from '../utils/media';
 import { fileToCompressedDataUrl, fileToLogoDataUrl } from '../utils/imageCompressor';
 
 // ── Byzantine Cross Icon (Görögkatolikus Kereszt) ───────────────────────────
@@ -2659,6 +2659,31 @@ function RightInspector({
           </div>
         </div>
 
+        {/* Cikk címe (külön szerkeszthető és törölhető) */}
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+            <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Cikk címe (szöveg feletti cím)</label>
+            {(selectedEvent?.title !== undefined ? Boolean(selectedEvent.title) : Boolean(splitEventTitle(selectedEvent?.text || '').title)) ? (
+              <button
+                type="button"
+                onClick={() => updateEventField('title', '')}
+                style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
+                title="Cím törlése (ne jelenjen meg külön cím a szöveg felett)"
+              >
+                <Trash2 size={11} /> Törlés
+              </button>
+            ) : (
+              <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs cím (üres)</span>
+            )}
+          </div>
+          <input
+            value={selectedEvent?.title !== undefined ? selectedEvent.title : (splitEventTitle(selectedEvent?.text || '').title || '')}
+            onChange={e => updateEventField('title', e.target.value)}
+            placeholder="Üresen hagyva nincs külön cím a szöveg felett..."
+            style={inputStyle}
+          />
+        </div>
+
         <label style={labelStyle}>Esemény szövege</label>
         
         {/* Text Formatting Toolbar */}
@@ -3485,6 +3510,23 @@ function RightInspector({
       }));
     };
 
+    const resetSubEventDropCap = (eventId) => {
+      setBookData(prev => ({
+        ...prev,
+        events: (prev.events || []).map(ev => ev.id === eventId ? {
+          ...ev,
+          dropCap: true,
+          dropCapStyle: 'gradient',
+          dropCapSize: 3.2,
+          dropCapSpacing: 4,
+          dropCapOffsetY: 2,
+          dropCapFont: "'Georgia', serif",
+          dropCapColor: '#b45309',
+          dropCapBg: ''
+        } : ev)
+      }));
+    };
+
     const toggleSubEventImage = (eventId, imgIdx) => {
       setBookData(prev => ({
         ...prev,
@@ -3684,6 +3726,32 @@ function RightInspector({
                 <span style={{ fontSize: 10, color: '#94a3b8' }}>ID: {ev.id.slice(-6)}</span>
               </div>
 
+              {/* Cikk címe */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                  <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Cikk címe (fejléc)</label>
+                  {(ev.title !== undefined ? Boolean(ev.title) : Boolean(splitEventTitle(ev.text || '').title)) ? (
+                    <button
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'title', '')}
+                      style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 10.5, cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center', gap: 3 }}
+                      title="Cím törlése (ne jelenjen meg cím a cikk tetején)"
+                    >
+                      <Trash2 size={11} /> Törlés
+                    </button>
+                  ) : (
+                    <span style={{ fontSize: 9.5, color: '#94a3b8', fontStyle: 'italic' }}>Nincs cím (üres)</span>
+                  )}
+                </div>
+                <input
+                  value={ev.title !== undefined ? ev.title : (splitEventTitle(ev.text || '').title || '')}
+                  onChange={e => updateSubEvent(ev.id, 'title', e.target.value)}
+                  placeholder="Üresen hagyva nincs cím..."
+                  style={inputStyle}
+                />
+              </div>
+
+              {/* Dátum */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
                   <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Dátum</label>
@@ -3708,6 +3776,7 @@ function RightInspector({
                 />
               </div>
 
+              {/* Szöveg */}
               <div>
                 <label style={{ ...labelStyle, marginTop: 0, fontSize: 11 }}>Szöveg</label>
                 <textarea
@@ -3716,6 +3785,323 @@ function RightInspector({
                   style={{ ...inputStyle, minHeight: 65, resize: 'vertical', fontSize: 12 }}
                 />
               </div>
+
+              {/* Formázás és Iniciálé eszköztár */}
+              <div style={{
+                display: 'flex', flexWrap: 'wrap', gap: 4, padding: 5,
+                background: '#101025', border: '1px solid #232035', borderRadius: 6
+              }}>
+                {/* Szövegigazítás gombok */}
+                {[
+                  { id: 'left', icon: <AlignLeft size={12} />, title: 'Balra igazítás' },
+                  { id: 'center', icon: <AlignCenter size={12} />, title: 'Középre igazítás' },
+                  { id: 'right', icon: <AlignRight size={12} />, title: 'Jobbra igazítás' },
+                  { id: 'justify', icon: <AlignJustify size={12} />, title: 'Sorkizárt igazítás' },
+                ].map(btnItem => {
+                  const active = (ev.textAlign || 'justify') === btnItem.id;
+                  return (
+                    <button
+                      key={btnItem.id}
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'textAlign', btnItem.id)}
+                      style={{
+                        ...btn('secondary', 'sm'),
+                        padding: '3px 6px',
+                        background: active ? '#7c3aed' : 'transparent',
+                        color: active ? '#fff' : '#94a3b8',
+                        borderColor: active ? '#a78bfa' : '#2e2a45',
+                      }}
+                      title={btnItem.title}
+                    >
+                      {btnItem.icon}
+                    </button>
+                  );
+                })}
+
+                <div style={{ width: 1, height: 18, background: '#2e2a45', margin: '0 2px' }} />
+
+                {/* Iniciálé be/ki gomb */}
+                {(() => {
+                  const hasDropCap = ev.dropCap !== undefined ? Boolean(ev.dropCap) : true;
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'dropCap', !hasDropCap)}
+                      style={{
+                        ...btn('secondary', 'sm'),
+                        padding: '3px 7px',
+                        background: hasDropCap ? '#7c3aed' : 'transparent',
+                        color: hasDropCap ? '#fff' : '#a78bfa',
+                        borderColor: hasDropCap ? '#a78bfa' : '#2e2a45',
+                        display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700
+                      }}
+                      title={hasDropCap ? "Iniciálé kikapcsolása" : "Díszes iniciálé kezdőbetű bekapcsolása"}
+                    >
+                      <Sparkles size={11} />
+                      <span>Iniciálé</span>
+                    </button>
+                  );
+                })()}
+
+                {/* Behúzás be/ki gomb */}
+                <button
+                  type="button"
+                  onClick={() => updateSubEvent(ev.id, 'indent', !ev.indent)}
+                  style={{
+                    ...btn('secondary', 'sm'),
+                    padding: '3px 7px',
+                    background: ev.indent ? '#7c3aed' : 'transparent',
+                    color: ev.indent ? '#fff' : '#a78bfa',
+                    borderColor: ev.indent ? '#a78bfa' : '#2e2a45',
+                    display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700
+                  }}
+                  title={ev.indent ? "Bekezdés behúzás kikapcsolása" : "Bekezdés behúzás bekapcsolása"}
+                >
+                  <Indent size={11} />
+                  <span>Behúzás</span>
+                </button>
+              </div>
+
+              {/* Színek doboz: Betűszín & Háttérszín */}
+              <div style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, padding: '6px 8px',
+                background: '#101025', border: '1px solid #232035', borderRadius: 6
+              }}>
+                {/* Betűszín */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                    <span style={{ fontSize: 10, color: '#fbbf24', fontWeight: 700 }}>🔤 Betűszín</span>
+                    <span style={{ fontSize: 8.5, color: '#94a3b8' }}>{(ev.textColor && ev.textColor !== '#1e293b' && ev.textColor !== '#000000') ? ev.textColor : '#b45309'}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <input
+                      type="color"
+                      value={(ev.textColor && ev.textColor !== '#1e293b' && ev.textColor !== '#000000') ? ev.textColor : '#b45309'}
+                      onChange={e => updateSubEvent(ev.id, 'textColor', e.target.value)}
+                      style={{ width: 22, height: 20, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                      title="Egyedi betűszín választása"
+                    />
+                    <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                      {[
+                        { c: '#b45309', t: 'Arany' },
+                        { c: '#1e293b', t: 'Sötét' },
+                        { c: '#1e1b4b', t: 'Sötétkék' },
+                        { c: '#dc2626', t: 'Piros' },
+                      ].map(item => (
+                        <button
+                          key={item.c}
+                          type="button"
+                          onClick={() => updateSubEvent(ev.id, 'textColor', item.c)}
+                          style={{
+                            width: 14, height: 14, borderRadius: '50%', background: item.c,
+                            border: ev.textColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                            cursor: 'pointer', padding: 0
+                          }}
+                          title={item.t}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Háttérszín */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                    <span style={{ fontSize: 10, color: '#fbbf24', fontWeight: 700 }}>🎨 Háttér</span>
+                    <button
+                      type="button"
+                      onClick={() => updateSubEvent(ev.id, 'bgColor', 'linear-gradient(135deg,#fffcf5,#fef9c3)')}
+                      style={{ fontSize: 8.5, color: '#a78bfa', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                      title="Alapértelmezett krémszín"
+                    >
+                      Alap
+                    </button>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <input
+                      type="color"
+                      value={ev.bgColor?.startsWith('#') ? ev.bgColor : '#fffcf5'}
+                      onChange={e => updateSubEvent(ev.id, 'bgColor', e.target.value)}
+                      style={{ width: 22, height: 20, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                      title="Egyedi háttérszín választása"
+                    />
+                    <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                      {[
+                        { c: '#ffffff', t: 'Fehér' },
+                        { c: '#fefce8', t: 'Pergamen' },
+                        { c: '#eff6ff', t: 'Kék' },
+                        { c: 'transparent', t: 'Átlátszó' },
+                      ].map(item => (
+                        <button
+                          key={item.c}
+                          type="button"
+                          onClick={() => updateSubEvent(ev.id, 'bgColor', item.c)}
+                          style={{
+                            width: 14, height: 14, borderRadius: '50%',
+                            background: item.c === 'transparent' ? 'repeating-conic-gradient(#808080 0% 25%, white 0% 50%) 50% / 6px 6px' : item.c,
+                            border: ev.bgColor === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                            cursor: 'pointer', padding: 0
+                          }}
+                          title={item.t}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Iniciálé Részletes Testreszabása (ha be van kapcsolva az iniciálé) */}
+              {(ev.dropCap !== undefined ? Boolean(ev.dropCap) : true) && (
+                <div style={{ background: '#121022', border: '1px dashed #d97706', borderRadius: 6, padding: '7px 9px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Sparkles size={11} /> Iniciálé Testreszabása
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => resetSubEventDropCap(ev.id)}
+                      title="Iniciálé beállítások visszaállítása alapértelmezettre"
+                      style={{
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid #334155',
+                        borderRadius: 4,
+                        color: '#94a3b8',
+                        padding: '1px 6px',
+                        fontSize: 9,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 3,
+                      }}
+                    >
+                      <RotateCcw size={9} /> Alaphelyzet
+                    </button>
+                  </div>
+
+                  {/* Stílus választó */}
+                  <div>
+                    <label style={{ fontSize: 9, color: '#cbd5e1', fontWeight: 600, display: 'block', marginBottom: 2 }}>Díszítés & Stílus:</label>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 3 }}>
+                      {[
+                        { id: 'gold', label: '🌟 Arany' },
+                        { id: 'gradient', label: '👑 Átmenet' },
+                        { id: 'box', label: '🔲 Keretes' },
+                        { id: 'badge', label: '⚪ Medál' },
+                        { id: 'shadow', label: '🪨 3D Mély' },
+                        { id: 'classic', label: '✒️ Letisztult' },
+                      ].map(st => {
+                        const isAct = (ev.dropCapStyle || 'gradient') === st.id;
+                        return (
+                          <button
+                            key={st.id}
+                            type="button"
+                            onClick={() => updateSubEvent(ev.id, 'dropCapStyle', st.id)}
+                            style={{
+                              padding: '3px 2px', borderRadius: 4, fontSize: 9, fontWeight: isAct ? 700 : 500,
+                              border: isAct ? '1.5px solid #f59e0b' : '1px solid #3730a3',
+                              background: isAct ? '#d97706' : 'rgba(255,255,255,0.04)',
+                              color: isAct ? '#fff' : '#c7d2fe', cursor: 'pointer', textAlign: 'center'
+                            }}
+                          >
+                            {st.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Méret csúszka */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: '#cbd5e1' }}>
+                      <span>Betűméret:</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{ev.dropCapSize ?? 3.2}x</span>
+                    </div>
+                    <input
+                      type="range" min="2.0" max="5.0" step="0.2"
+                      value={ev.dropCapSize ?? 3.2}
+                      onChange={e => updateSubEvent(ev.id, 'dropCapSize', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
+                    />
+                  </div>
+
+                  {/* Távolság a szövegtől */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: '#cbd5e1' }}>
+                      <span>Távolság a szövegtől:</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{ev.dropCapSpacing ?? 4} px</span>
+                    </div>
+                    <input
+                      type="range" min="0" max="24" step="1"
+                      value={ev.dropCapSpacing ?? 4}
+                      onChange={e => updateSubEvent(ev.id, 'dropCapSpacing', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
+                    />
+                  </div>
+
+                  {/* Függőleges eltolás */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: '#cbd5e1' }}>
+                      <span>Függőleges illesztés:</span>
+                      <span style={{ color: '#fbbf24', fontWeight: 700 }}>{(ev.dropCapOffsetY ?? 2) > 0 ? `+${ev.dropCapOffsetY ?? 2}` : (ev.dropCapOffsetY ?? 2)} px</span>
+                    </div>
+                    <input
+                      type="range" min="-6" max="14" step="1"
+                      value={ev.dropCapOffsetY ?? 2}
+                      onChange={e => updateSubEvent(ev.id, 'dropCapOffsetY', Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#f59e0b' }}
+                    />
+                  </div>
+
+                  {/* Betűtípus választó */}
+                  <div>
+                    <label style={{ fontSize: 9, color: '#cbd5e1', fontWeight: 600 }}>Iniciálé betűtípus:</label>
+                    <select
+                      value={ev.dropCapFont || "'Georgia', serif"}
+                      onChange={e => updateSubEvent(ev.id, 'dropCapFont', e.target.value)}
+                      style={{ ...inputStyle, padding: '2px 5px', fontSize: 10 }}
+                    >
+                      <option value="'Georgia', serif">Georgia (elegáns könyv)</option>
+                      <option value="'Palatino Linotype', 'Book Antiqua', serif">Palatino (ünnepi antikva)</option>
+                      <option value="'Times New Roman', serif">Times New Roman</option>
+                      <option value="'Cinzel', serif">Cinzel (klasszikus kőtábla)</option>
+                    </select>
+                  </div>
+
+                  {/* Betűszín */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
+                    <span style={{ fontSize: 9, color: '#fbbf24', fontWeight: 600 }}>Iniciálé szín:</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <input
+                        type="color"
+                        value={ev.dropCapColor?.startsWith('#') ? ev.dropCapColor : '#b45309'}
+                        onChange={e => updateSubEvent(ev.id, 'dropCapColor', e.target.value)}
+                        style={{ width: 22, height: 20, borderRadius: 4, border: '1px solid #4338ca', background: 'transparent', cursor: 'pointer', padding: 0 }}
+                        title="Egyedi iniciálé szín választása"
+                      />
+                      <div style={{ display: 'flex', gap: 2 }}>
+                        {[
+                          { c: '#b45309', t: 'Arany' },
+                          { c: '#1e1b4b', t: 'Sötétkék' },
+                          { c: '#991b1b', t: 'Bordó' },
+                          { c: '#166534', t: 'Zöld' },
+                        ].map(item => (
+                          <button
+                            key={item.c}
+                            type="button"
+                            onClick={() => updateSubEvent(ev.id, 'dropCapColor', item.c)}
+                            style={{
+                              width: 14, height: 14, borderRadius: '50%', background: item.c,
+                              border: (ev.dropCapColor || '#b45309') === item.c ? '2px solid #f59e0b' : '1px solid #475569',
+                              cursor: 'pointer', padding: 0
+                            }}
+                            title={item.t}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Képarány / Szélesség állító csúszka */}
             {evImages.length > 0 && activeCount > 0 && (
@@ -5129,7 +5515,7 @@ function DividerContent({ page, schoolYear, bookData }) {
 function EventContent({ page, event, bookData }) {
   if (!event) return <div style={{ width: '100%', height: '100%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: '8pt' }}>Esemény nem található</div>;
   const visibleImages = getVisibleEventImages(event);
-  const { title, body } = splitEventTitle(event.text);
+  const { title, body } = getEventTitleAndBody(event);
 
   const headerBox = getElemBox(page, 'header', bookData);
   const logoBox   = getElemBox(page, 'logo', bookData);
@@ -5308,11 +5694,7 @@ function EventContent({ page, event, bookData }) {
       })()}
 
       {(() => {
-        let { title, body } = splitEventTitle(event.text);
-        if (!body && title.length > 80) {
-          body = title;
-          title = '';
-        }
+        const { title, body } = getEventTitleAndBody(event);
 
         const textAlign = event.textAlign || textBox.textAlign || 'justify';
         const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000')
@@ -5401,11 +5783,7 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
   if (!event) return null;
   const allVisibleImgs = getVisibleEventImages(event);
   const imgs = allVisibleImgs.slice(0, maxImages);
-  let { title, body } = splitEventTitle(event.text);
-  if (!body && title.length > 80) {
-    body = title;
-    title = '';
-  }
+  const { title, body } = getEventTitleAndBody(event);
   const hasDate = showDate && Boolean(event.date && event.date.trim());
   const textAlign = event.textAlign || 'justify';
   const textColor = (event.textColor && event.textColor !== '#1e293b' && event.textColor !== '#000000') ? event.textColor : '#b45309';

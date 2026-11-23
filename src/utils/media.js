@@ -79,6 +79,35 @@ export function splitEventTitle(text) {
   return { title: lines[0], body: lines.slice(1).join('\n') };
 }
 
+// Cím és törzsszöveg intelligens feloldása:
+// Ha az eseménynek explicit event.title értéke van (akár üres string is):
+//   - Ha event.title üres string: nincs cím, és a teljes szöveg a törzsben (body) marad (nem olvassa be a posztot címnek!)
+//   - Ha event.title nem üres: az lesz a cím, a törzsből levágja a duplikált első sort (ha az megegyezik a címmel)
+// Ha nincs explicit event.title: a meglévő splitEventTitle logika fut le.
+export function getEventTitleAndBody(event) {
+  if (!event) return { title: '', body: '' };
+  const rawText = event.text || '';
+
+  if (event.title !== undefined) {
+    const title = (event.title || '').trim();
+    if (!title) {
+      return { title: '', body: rawText };
+    }
+    const lines = rawText.split('\n');
+    if (lines.length > 0 && lines[0].trim().toLowerCase() === title.toLowerCase()) {
+      return { title, body: lines.slice(1).join('\n').trim() };
+    }
+    return { title, body: rawText };
+  }
+
+  let { title, body } = splitEventTitle(rawText);
+  if (!body && title.length > 80) {
+    body = title;
+    title = '';
+  }
+  return { title, body };
+}
+
 // Consistent, nice-looking image grid geometry for event pages (1-6 images).
 // single=true → the lone photo is shown whole (objectFit: contain), never
 // cropped or stretched; grids use cover (crop) which is standard for tiles.
