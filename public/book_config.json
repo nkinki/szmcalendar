@@ -161,6 +161,7 @@
       "dateDisplay": "none"
     }
   },
+  "sortOrder": "asc",
   "mergedGroups": [
     [
       "fb_1757997169_337",
@@ -180,6 +181,5 @@
       "fb_1758403343_334",
       "fb_1758558498_333"
     ]
-  ],
-  "sortOrder": "asc"
+  ]
 }
