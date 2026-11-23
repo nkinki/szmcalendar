@@ -128,9 +128,15 @@ export function applyUnifiedTextStyles(events) {
     textAlign: 'justify',
     textColor: '#b45309',
     color: '#b45309',
-    dropCap: true,
-    dropCapStyle: 'gradient',
-    dropCapColor: '#b45309',
+    dropCap: ev.dropCap !== undefined ? ev.dropCap : true,
+    // NE írjuk felül a felhasználó által beállított iniciálé stílust:
+    dropCapStyle: ev.dropCapStyle || 'gradient',
+    dropCapColor: ev.dropCapColor || '#b45309',
+    dropCapSize: ev.dropCapSize !== undefined ? ev.dropCapSize : 3.2,
+    dropCapSpacing: ev.dropCapSpacing !== undefined ? ev.dropCapSpacing : 4,
+    dropCapOffsetY: ev.dropCapOffsetY !== undefined ? ev.dropCapOffsetY : 2,
+    dropCapFont: ev.dropCapFont || "'Georgia', serif",
+    dropCapBg: ev.dropCapBg !== undefined ? ev.dropCapBg : '',
   }));
 }
 
