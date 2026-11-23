@@ -5998,15 +5998,9 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
                   userSelect: 'none',
                 }}
               >
-                <div style={{ flex: 1, height: 1.5, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  background: '#fef3c7', borderRadius: '50%', width: is3 ? 14 : 18, height: is3 ? 14 : 18,
-                  border: '1px solid #f59e0b', boxShadow: '0 1px 3px rgba(245,158,11,0.2)'
-                }}>
-                  <ByzantineCross size={is3 ? 9 : 11} color="#b45309" />
-                </span>
-                <div style={{ flex: 1, height: 1.5, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #f59e0b)' }} />
+                <ByzantineCross size={is3 ? 10 : 12} color="#f59e0b" />
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
               </div>
             )}
             <HalfEventCard
