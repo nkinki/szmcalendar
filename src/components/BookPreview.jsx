@@ -739,6 +739,7 @@ export function EventContent({ event, bookData }) {
             textJustify: textAlign === 'justify' ? 'inter-word' : undefined,
             whiteSpace: 'pre-wrap', wordBreak: 'break-word',
             flex: '1 1 0', minHeight: 0, overflowY: 'auto',
+            scrollbarWidth: 'none', msOverflowStyle: 'none',
           }}>
             {renderMarkdown(body, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
           </div>

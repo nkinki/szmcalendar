@@ -4491,23 +4491,32 @@ function ElementAdjusterCard({ elemId, layout, updateLayout, onClose, bookData, 
 // ══════════════════════════════════════════════════════════════════════════════
 export function PageContent({ page, bookData, onSelectEvent, selectedEventId }) {
   if (!page) return null;
-  if (page.type === 'cover')      return <CoverContent page={page} bookData={bookData} />;
-  if (page.type === 'principal')  return <PrincipalContent page={page} bookData={bookData} />;
-  if (page.type === 'teachers')   return <TeachersContent page={page} bookData={bookData} />;
-  if (page.type === 'class') {
+  let content = null;
+  if (page.type === 'cover')      content = <CoverContent page={page} bookData={bookData} />;
+  else if (page.type === 'principal')  content = <PrincipalContent page={page} bookData={bookData} />;
+  else if (page.type === 'teachers')   content = <TeachersContent page={page} bookData={bookData} />;
+  else if (page.type === 'class') {
     const cls = (bookData.classes || []).find(c => c.id === page.classId);
-    return <ClassContent page={page} classData={cls} bookData={bookData} />;
+    content = <ClassContent page={page} classData={cls} bookData={bookData} />;
   }
-  if (page.type === 'graduation') return <GradContent page={page} grad={page.data} bookData={bookData} />;
-  if (page.type === 'divider')    return <DividerContent page={page} schoolYear={page.schoolYear} bookData={bookData} />;
-  if (page.type === 'event') {
+  else if (page.type === 'graduation') content = <GradContent page={page} grad={page.data} bookData={bookData} />;
+  else if (page.type === 'divider')    content = <DividerContent page={page} schoolYear={page.schoolYear} bookData={bookData} />;
+  else if (page.type === 'event') {
     const event = (bookData.events || []).find(e => e.id === page.eventId);
-    return <EventContent page={page} event={event} bookData={bookData} />;
+    content = <EventContent page={page} event={event} bookData={bookData} />;
   }
-  if (page.type === 'dual_event') {
-    return <DualEventContent page={page} bookData={bookData} onSelectEvent={onSelectEvent} selectedEventId={selectedEventId} />;
+  else if (page.type === 'dual_event') {
+    content = <DualEventContent page={page} bookData={bookData} onSelectEvent={onSelectEvent} selectedEventId={selectedEventId} />;
   }
-  return <div style={{ width: '100%', height: '100%', background: '#fff' }} />;
+  else {
+    content = <div style={{ width: '100%', height: '100%', background: '#fff' }} />;
+  }
+
+  return (
+    <div className="page-sheet" data-page-sheet="true" style={{ width: '100%', height: '100%' }}>
+      {content}
+    </div>
+  );
 }
 
 // ── Oldalak szöveg labelje ──────────────────────────────────────────────────
@@ -5296,6 +5305,8 @@ function EventContent({ page, event, bookData }) {
                 whiteSpace: 'pre-wrap',
                 wordBreak: 'break-word',
                 overflowY: 'auto',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
               }}>
                 {renderMarkdown(body, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
               </div>
@@ -5416,6 +5427,8 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
           overflowY: 'auto',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           boxSizing: 'border-box',
         }}>
           {renderMarkdown(body || event.text, { dropCap, dropCapColor, dropCapSize, dropCapSpacing, dropCapOffsetY, dropCapStyle, dropCapFont, dropCapBg, indent, paragraphSpacing })}
