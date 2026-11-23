@@ -3552,17 +3552,17 @@ function RightInspector({
           <div style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>📅 Dátumok az oldalon:</span>
             <span style={{ fontSize: 9.5, color: '#94a3b8' }}>
-              {activeDateMode === 'first_only' ? 'Csak a felsőnél' : activeDateMode === 'all' ? 'Mindegyiknél' : 'Azonosnál csak 1x'}
+              {activeDateMode === 'none' ? 'Kikapcsolva (nincs dátum)' : activeDateMode === 'first_only' ? 'Csak a felsőnél' : activeDateMode === 'all' ? 'Mindegyiknél' : 'Azonosnál csak 1x'}
             </span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 4 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4 }}>
             <button
               type="button"
               onClick={() => setPageDateMode('auto')}
               style={{
                 ...btn('secondary', 'sm'),
                 fontSize: 10,
-                padding: '4px 6px',
+                padding: '4px 4px',
                 borderColor: activeDateMode === 'auto' ? '#f59e0b' : '#334155',
                 background: activeDateMode === 'auto' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
                 color: activeDateMode === 'auto' ? '#fbbf24' : '#94a3b8'
@@ -3577,7 +3577,7 @@ function RightInspector({
               style={{
                 ...btn('secondary', 'sm'),
                 fontSize: 10,
-                padding: '4px 6px',
+                padding: '4px 4px',
                 borderColor: activeDateMode === 'first_only' ? '#f59e0b' : '#334155',
                 background: activeDateMode === 'first_only' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
                 color: activeDateMode === 'first_only' ? '#fbbf24' : '#94a3b8'
@@ -3592,7 +3592,7 @@ function RightInspector({
               style={{
                 ...btn('secondary', 'sm'),
                 fontSize: 10,
-                padding: '4px 6px',
+                padding: '4px 4px',
                 borderColor: activeDateMode === 'all' ? '#f59e0b' : '#334155',
                 background: activeDateMode === 'all' ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
                 color: activeDateMode === 'all' ? '#fbbf24' : '#94a3b8'
@@ -3600,6 +3600,21 @@ function RightInspector({
               title="Mindegyik cikknél megjelenik a saját dátuma"
             >
               Mindegyiknél
+            </button>
+            <button
+              type="button"
+              onClick={() => setPageDateMode('none')}
+              style={{
+                ...btn('secondary', 'sm'),
+                fontSize: 10,
+                padding: '4px 4px',
+                borderColor: activeDateMode === 'none' ? '#ef4444' : '#334155',
+                background: activeDateMode === 'none' ? 'rgba(239, 68, 68, 0.18)' : 'transparent',
+                color: activeDateMode === 'none' ? '#fca5a5' : '#94a3b8'
+              }}
+              title="Egyik cikknél se jelenjen meg dátum badge ezen az oldalon"
+            >
+              ✕ Kikapcsolva
             </button>
           </div>
         </div>
