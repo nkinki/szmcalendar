@@ -5385,17 +5385,19 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
         outlineOffset: -1,
       }}
     >
-      {/* Fejléc dátummal */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5%', borderBottom: '1px solid #fef08a', paddingBottom: '0.8%' }}>
-        <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: hasDate ? '72%' : '100%' }}>
-          {title || event.date || 'Esemény'}
-        </span>
-        {hasDate && (
-          <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, background: '#fef3c7', padding: '1px 6px', borderRadius: 4, flexShrink: 0 }}>
-            {event.date}
+      {/* Fejléc dátummal (ha van cím vagy dátum) */}
+      {(Boolean(title) || hasDate) && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5%', borderBottom: '1px solid #fef08a', paddingBottom: '0.8%' }}>
+          <span style={{ fontSize: '7.5pt', fontWeight: 800, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: hasDate ? '72%' : '100%' }}>
+            {title || ''}
           </span>
-        )}
-      </div>
+          {hasDate && (
+            <span style={{ fontSize: '6.5pt', color: '#b45309', fontWeight: 700, background: '#fef3c7', padding: '1px 6px', borderRadius: 4, flexShrink: 0 }}>
+              {event.date}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Törzs: Kép + Szöveg egymás mellett */}
       <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '3%', overflow: 'hidden' }}>
