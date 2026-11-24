@@ -3518,7 +3518,7 @@ function RightInspector({
     const events = eventIds.map(id => (bookData.events || []).find(e => e.id === id)).filter(Boolean);
     const count = events.length;
     const is3 = count >= 3;
-    const maxImgs = is3 ? 2 : 3;
+    const maxImgs = is3 ? 2 : 4;
 
     const currentHeaderText = bookData?.pageLayouts?.[pageId]?.headerText != null
       ? bookData.pageLayouts[pageId].headerText
@@ -4180,12 +4180,55 @@ function RightInspector({
                 </div>
               )}
 
-              {/* Képarány / Szélesség állító csúszka */}
+              {/* Képarány / Szélesség & Elrendezés állítás */}
             {evImages.length > 0 && activeCount > 0 && (
-              <div style={{ background: '#110e20', border: '1px solid #2e2a45', borderRadius: 6, padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ background: '#110e20', border: '1px solid #2e2a45', borderRadius: 6, padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {/* Több kép elrendezési iránya */}
+                {activeCount > 1 && (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, paddingBottom: 4, borderBottom: '1px solid #1e1b4b' }}>
+                    <label style={{ fontSize: 10, color: '#cbd5e1', fontWeight: 600, margin: 0 }}>
+                      Képek iránya:
+                    </label>
+                    <div style={{ display: 'flex', gap: 3 }}>
+                      <button
+                        type="button"
+                        onClick={() => updateSubEvent(ev.id, 'dualImageDirection', 'column')}
+                        style={{
+                          ...btn('secondary', 'sm'),
+                          fontSize: 9.5,
+                          padding: '3px 8px',
+                          color: (ev.dualImageDirection || 'column') === 'column' ? '#fbbf24' : '#94a3b8',
+                          borderColor: (ev.dualImageDirection || 'column') === 'column' ? '#d97706' : '#334155',
+                          background: (ev.dualImageDirection || 'column') === 'column' ? 'rgba(245,158,11,0.2)' : 'transparent',
+                          fontWeight: (ev.dualImageDirection || 'column') === 'column' ? 700 : 500
+                        }}
+                        title="Képek egymás alatt kis kockákban (alapértelmezett, 2-3 képhez ajánlott)"
+                      >
+                        ⬇️ Kockák (egymás alatt)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => updateSubEvent(ev.id, 'dualImageDirection', 'row')}
+                        style={{
+                          ...btn('secondary', 'sm'),
+                          fontSize: 9.5,
+                          padding: '3px 8px',
+                          color: ev.dualImageDirection === 'row' ? '#fbbf24' : '#94a3b8',
+                          borderColor: ev.dualImageDirection === 'row' ? '#d97706' : '#334155',
+                          background: ev.dualImageDirection === 'row' ? 'rgba(245,158,11,0.2)' : 'transparent',
+                          fontWeight: ev.dualImageDirection === 'row' ? 700 : 500
+                        }}
+                        title="Képek egymás mellett vízszintesen"
+                      >
+                        ➡️ Egymás mellett
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <label style={{ fontSize: 10.5, color: '#f59e0b', fontWeight: 700, margin: 0 }}>
-                    ↔️ Kép szélesség aránya: {ev.imageWidthPercent ? `${ev.imageWidthPercent}%` : `${activeCount === 1 ? 38 : activeCount === 2 ? 44 : 48}% (alapértelmezett)`}
+                    ↔️ Kép szélesség aránya: {ev.imageWidthPercent ? `${ev.imageWidthPercent}%` : `${activeCount === 1 ? 38 : (ev.dualImageDirection === 'row' ? (activeCount === 2 ? 44 : 48) : (activeCount === 2 ? 34 : 30))}% (alapértelmezett)`}
                   </label>
                   {ev.imageWidthPercent && (
                     <button
@@ -4204,7 +4247,7 @@ function RightInspector({
                     min="20"
                     max="75"
                     step="1"
-                    value={ev.imageWidthPercent || (activeCount === 1 ? 38 : activeCount === 2 ? 44 : 48)}
+                    value={ev.imageWidthPercent || (activeCount === 1 ? 38 : (ev.dualImageDirection === 'row' ? (activeCount === 2 ? 44 : 48) : (activeCount === 2 ? 34 : 30)))}
                     onChange={e => updateSubEvent(ev.id, 'imageWidthPercent', Number(e.target.value))}
                     style={{ flex: 1, accentColor: '#f59e0b', cursor: 'pointer' }}
                   />
@@ -5856,7 +5899,7 @@ function EventContent({ page, event, bookData }) {
 }
 
 // ── 8. KÉT VAGY HÁROM RÖVID ESEMÉNY EGY OLDALON (HELYTAKARÉKOS 2-3 CIKK / LAP) ──
-function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, showDate = true, flexRatio = 1 }) {
+function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 4, showDate = true, flexRatio = 1 }) {
   if (!event) return null;
   const allVisibleImgs = getVisibleEventImages(event);
   const imgs = allVisibleImgs.slice(0, maxImages);
@@ -5912,28 +5955,54 @@ function HalfEventCard({ event, bookData, onSelect, isSelected, maxImages = 3, s
       <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '3%', overflow: 'hidden' }}>
         {imgs.length > 0 && (
           <div style={{
-            width: event.imageWidthPercent ? `${event.imageWidthPercent}%` : (imgs.length === 1 ? '38%' : imgs.length === 2 ? '44%' : '48%'),
+            width: event.imageWidthPercent
+              ? `${event.imageWidthPercent}%`
+              : (imgs.length === 1 ? '38%' : (event.dualImageDirection === 'row' ? (imgs.length === 2 ? '44%' : '48%') : (imgs.length === 2 ? '34%' : '30%'))),
             flexShrink: 0,
             borderRadius: 5,
             overflow: 'hidden',
             border: '1px solid #fef08a',
             background: '#f8fafc',
             display: 'flex',
-            gap: 2,
+            flexDirection: event.dualImageDirection === 'row' ? 'row' : 'column',
+            gap: 3,
             position: 'relative',
+            padding: imgs.length > 1 && event.dualImageDirection !== 'row' ? 2 : 0,
+            boxSizing: 'border-box',
           }}>
             {imgs.map((img, i) => (
-              <div key={i} style={{ flex: 1, height: '100%', position: 'relative', overflow: 'hidden' }}>
+              <div
+                key={i}
+                style={{
+                  flex: 1,
+                  minHeight: 0,
+                  minWidth: 0,
+                  width: '100%',
+                  height: '100%',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderRadius: 3,
+                  background: '#f1f5f9',
+                }}
+              >
                 <img
                   src={img.thumbnail || img.url}
                   alt=""
                   referrerPolicy="no-referrer"
                   style={{
-                    width: '100%', height: '100%',
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    width: `${event.imageZoom || 100}%`,
+                    height: `${event.imageZoom || 100}%`,
+                    transform: 'translate(-50%, -50%)',
                     objectFit: 'cover',
                     display: 'block',
                   }}
                 />
+                {event.imageBorder === true && (
+                  <div style={{ position: 'absolute', inset: 0, border: '2px solid #d97706', borderRadius: 3, pointerEvents: 'none', zIndex: 2 }} />
+                )}
               </div>
             ))}
           </div>
@@ -5968,7 +6037,7 @@ export function DualEventContent({ page, bookData, onSelectEvent, selectedEventI
   const events = page.events || [page.event1, page.event2, page.event3].filter(Boolean);
   const count = events.length;
   const is3 = count >= 3;
-  const maxImgs = is3 ? 2 : 3;
+  const maxImgs = is3 ? 2 : 4;
 
   const pageLayout = bookData?.pageLayouts?.[page.id] || {};
   const dateMode = pageLayout?.dateDisplay || 'auto';
