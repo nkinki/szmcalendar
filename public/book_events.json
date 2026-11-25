@@ -24283,127 +24283,110 @@
     "dropCapBg": ""
   },
   {
-    "id": "fb_1758889206_324",
-    "schoolYear": "2025/2026",
-    "date": "2025. szeptember 26.",
-    "dateSort": "2025-09-26",
-    "text": "Szent Mihály új videót töltött fel.\n■Érik a szőlő...■\nA Magyar Dal Napját – Presser Gábor ötlete nyomán – 2008-ban rendezték meg először, azóta hagyományosan szeptember második vasárnapján ünnepeljük.\nEz alkalomból Illyés Adrienn énekkar vezetőnk megénekeltette az egész iskolát.",
-    "images": [],
-    "textAlign": "justify",
-    "textColor": "#b45309",
-    "color": "#b45309",
-    "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309",
-    "dropCapSize": 3.2,
-    "dropCapSpacing": 4,
-    "dropCapOffsetY": 2,
-    "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
-  },
-  {
     "id": "fb_1758888974_325",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 26.",
     "dateSort": "2025-09-26",
-    "text": "Szent Mihály 14 új fényképet töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nAz Európai Diáksport Nap alkalmából közös zenés torna mellett,  rendhagyó testnevelés órák zajlottak a Szent Mihály Görögkatolikus Általános Iskolában.",
+    "text": "Az Európai Diáksport Nap alkalmából közös zenés torna mellett,  rendhagyó testnevelés órák zajlottak a Szent Mihály Görögkatolikus Általános Iskolában.",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1v8vEM5wWiEisC-ZbIoY2fifWpdLxWqx3",
         "thumbnail": "/api/img?id=1v8vEM5wWiEisC-ZbIoY2fifWpdLxWqx3",
-        "driveId": "1v8vEM5wWiEisC-ZbIoY2fifWpdLxWqx3",
-        "enabled": true
+        "driveId": "1v8vEM5wWiEisC-ZbIoY2fifWpdLxWqx3"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1W6f6pSmEr3bI-d-VFUHACGQDFCTLXHJ9",
         "thumbnail": "/api/img?id=1W6f6pSmEr3bI-d-VFUHACGQDFCTLXHJ9",
-        "driveId": "1W6f6pSmEr3bI-d-VFUHACGQDFCTLXHJ9",
-        "enabled": true
+        "driveId": "1W6f6pSmEr3bI-d-VFUHACGQDFCTLXHJ9"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1HscEbwcU0GVOoE5gKUY3OEHSyomrIUgM",
         "thumbnail": "/api/img?id=1HscEbwcU0GVOoE5gKUY3OEHSyomrIUgM",
-        "driveId": "1HscEbwcU0GVOoE5gKUY3OEHSyomrIUgM",
-        "enabled": true
+        "driveId": "1HscEbwcU0GVOoE5gKUY3OEHSyomrIUgM"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=16Dbe4Za7PEmbN_nsizgUkpnj81B6EOev",
         "thumbnail": "/api/img?id=16Dbe4Za7PEmbN_nsizgUkpnj81B6EOev",
-        "driveId": "16Dbe4Za7PEmbN_nsizgUkpnj81B6EOev",
-        "enabled": true
+        "driveId": "16Dbe4Za7PEmbN_nsizgUkpnj81B6EOev"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1He9hT0vhM0iQxFYT-8aKufWMFln3GB49",
         "thumbnail": "/api/img?id=1He9hT0vhM0iQxFYT-8aKufWMFln3GB49",
-        "driveId": "1He9hT0vhM0iQxFYT-8aKufWMFln3GB49",
-        "enabled": true
+        "driveId": "1He9hT0vhM0iQxFYT-8aKufWMFln3GB49"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=19QIhOFx2TgfLBiYiVJDXGT0P3F-2BnU-",
         "thumbnail": "/api/img?id=19QIhOFx2TgfLBiYiVJDXGT0P3F-2BnU-",
-        "driveId": "19QIhOFx2TgfLBiYiVJDXGT0P3F-2BnU-",
-        "enabled": true
+        "driveId": "19QIhOFx2TgfLBiYiVJDXGT0P3F-2BnU-"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1sPGudJJO_ClMC5In5GfIfFH6ezGM-nEf",
         "thumbnail": "/api/img?id=1sPGudJJO_ClMC5In5GfIfFH6ezGM-nEf",
-        "driveId": "1sPGudJJO_ClMC5In5GfIfFH6ezGM-nEf",
-        "enabled": true
+        "driveId": "1sPGudJJO_ClMC5In5GfIfFH6ezGM-nEf"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1vlORubpMqFpxLFzThimIMExA2CLKL4_y",
         "thumbnail": "/api/img?id=1vlORubpMqFpxLFzThimIMExA2CLKL4_y",
-        "driveId": "1vlORubpMqFpxLFzThimIMExA2CLKL4_y",
-        "enabled": true
+        "driveId": "1vlORubpMqFpxLFzThimIMExA2CLKL4_y"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=164rlXAxftJ_sb0k_c-x8-ZTomNdyvyty",
         "thumbnail": "/api/img?id=164rlXAxftJ_sb0k_c-x8-ZTomNdyvyty",
-        "driveId": "164rlXAxftJ_sb0k_c-x8-ZTomNdyvyty",
-        "enabled": true
+        "driveId": "164rlXAxftJ_sb0k_c-x8-ZTomNdyvyty"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1DkxvDNXQ9Z_RcCOFPJn-emWNnVPa6jQE",
         "thumbnail": "/api/img?id=1DkxvDNXQ9Z_RcCOFPJn-emWNnVPa6jQE",
-        "driveId": "1DkxvDNXQ9Z_RcCOFPJn-emWNnVPa6jQE",
-        "enabled": true
+        "driveId": "1DkxvDNXQ9Z_RcCOFPJn-emWNnVPa6jQE"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1oG6cIZtEH8S07DDvY2yS_L4DCpw4lBkt",
         "thumbnail": "/api/img?id=1oG6cIZtEH8S07DDvY2yS_L4DCpw4lBkt",
-        "driveId": "1oG6cIZtEH8S07DDvY2yS_L4DCpw4lBkt",
-        "enabled": true
+        "driveId": "1oG6cIZtEH8S07DDvY2yS_L4DCpw4lBkt"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=10rUoSBZ5jsgjYLbSLM69SPKxQuKj9e7m",
         "thumbnail": "/api/img?id=10rUoSBZ5jsgjYLbSLM69SPKxQuKj9e7m",
-        "driveId": "10rUoSBZ5jsgjYLbSLM69SPKxQuKj9e7m",
-        "enabled": true
+        "driveId": "10rUoSBZ5jsgjYLbSLM69SPKxQuKj9e7m"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1fI4jftBTF013Oh6aUo6HhMXdMI4zDblm",
         "thumbnail": "/api/img?id=1fI4jftBTF013Oh6aUo6HhMXdMI4zDblm",
-        "driveId": "1fI4jftBTF013Oh6aUo6HhMXdMI4zDblm",
-        "enabled": true
+        "driveId": "1fI4jftBTF013Oh6aUo6HhMXdMI4zDblm"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=12iT3jteujn2-7ELeSnlphIDP8JwOGm-x",
         "thumbnail": "/api/img?id=12iT3jteujn2-7ELeSnlphIDP8JwOGm-x",
-        "driveId": "12iT3jteujn2-7ELeSnlphIDP8JwOGm-x",
-        "enabled": true
+        "driveId": "12iT3jteujn2-7ELeSnlphIDP8JwOGm-x"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "imageWidthPercent": 64,
+    "title": ""
   },
   {
     "id": "fb_1758881913_326",
@@ -24696,79 +24679,61 @@
     "title": ""
   },
   {
-    "id": "fb_1758613464_331",
-    "schoolYear": "2025/2026",
-    "date": "2025. szeptember 23.",
-    "dateSort": "2025-09-23",
-    "text": "Szent Mihály új videót töltött fel.\n🦜 Szuper őszi programmal indult a hét az óvodában 🦜\nImre István látogatott el hozzánk, akit a gyerekek csak “Madaras bácsinak” szólítottak. Elhozta nekünk kedvenc madarait: Marcit, a papagájt, Bogyót, a macska baglyot és Henriettát, a réti héját. Interaktív előadásban volt részünk a madarak társaságában. \nA gyerekek sok újdonságot tanulhattak meg a madarakról, megsimogathatták a papagájt és a baglyot, valamint az előadás végén a réti héjával egy bátorságpróbát is kiálltak.\n Az óvónénik sem maradtak ki a sorból! A vállaikon üldögéltek a madarak, illetve a karjaik között repült àt Henrietta, a réti héja. Ez volt az ő bátorságpróbájuk. \nNagyon izgalmas és érdekes program volt, teljesen elvarázsolta a résztvevőket a “Madaras bácsi”.",
-    "images": [],
-    "textAlign": "justify",
-    "textColor": "#b45309",
-    "color": "#b45309",
-    "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309",
-    "dropCapSize": 3.2,
-    "dropCapSpacing": 4,
-    "dropCapOffsetY": 2,
-    "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
-  },
-  {
     "id": "fb_1758601320_332",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 23.",
     "dateSort": "2025-09-23",
-    "text": "Szent Mihály 6 új fényképet töltött fel.\n■Két keréken vagy két lábon■\nAutómentes napot szerveztek a nyíradonyi Szent Mihály Görögkatolikus Általános iskolában szeptember 22-én, hétfőn. \nAz intézmény Diákönkormányzatát segítő pedagógus, Pocsai Emese felhívására ezen a napon mutatta meg számos tanítványunk, hogy autó helyett is van sokféle lehetőség az iskolába jutásra: gyaloglás, kerékpár, görkorcsolya, roller, gördeszka, tömegközlekedés. \nMiért is fontos ez? Mert így  csökkentjük a környezetterhelést, egészségesebben, aktívabban kezdhetjük a napot. Ő maga is, ha teheti, kislányával, kerékpárral érkezik az iskolába. A kezdeményezés célja, hogy erősítsük a közösséget, megmozgassuk a szülőket, munkatársakat és jó példát mutassunk egymásnak. \nAkik ma csatlakoztak a kezdeményezéshez, azok egy nyereménysorsoláson vehettek részt. Hasznos kerékpár tartozékokat lehetett kapni ajándékba: a prizma, lakat, csengő, kormányvédő, hátsó lámpa, medálok. \nKöszönet a támogatónak: a nyíradonyi Vas- Műszaki Boltnak.",
+    "text": "Autómentes napot szerveztek a nyíradonyi Szent Mihály Görögkatolikus Általános iskolában szeptember 22-én, hétfőn.\nAz intézmény Diákönkormányzatát segítő pedagógus, Pocsai Emese felhívására ezen a napon mutatta meg számos tanítványunk, hogy autó helyett is van sokféle lehetőség az iskolába jutásra: gyaloglás, kerékpár, görkorcsolya, roller, gördeszka, tömegközlekedés.\nMiért is fontos ez? Mert így  csökkentjük a környezetterhelést, egészségesebben, aktívabban kezdhetjük a napot. Ő maga is, ha teheti, kislányával, kerékpárral érkezik az iskolába. A kezdeményezés célja, hogy erősítsük a közösséget, megmozgassuk a szülőket, munkatársakat és jó példát mutassunk egymásnak.\nAkik ma csatlakoztak a kezdeményezéshez, azok egy nyereménysorsoláson vehettek részt. Hasznos kerékpár tartozékokat lehetett kapni ajándékba: a prizma, lakat, csengő, kormányvédő, hátsó lámpa, medálok.\nKöszönet a támogatónak: a nyíradonyi Vas- Műszaki Boltnak.",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=19RY8oeveHYS0BXnNb4We36pHKpQf8Ia2",
         "thumbnail": "/api/img?id=19RY8oeveHYS0BXnNb4We36pHKpQf8Ia2",
-        "driveId": "19RY8oeveHYS0BXnNb4We36pHKpQf8Ia2",
-        "enabled": true
+        "driveId": "19RY8oeveHYS0BXnNb4We36pHKpQf8Ia2"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1TosiK1UIiHvZ6O7Cy5pC4Mpwlpb8IFF9",
         "thumbnail": "/api/img?id=1TosiK1UIiHvZ6O7Cy5pC4Mpwlpb8IFF9",
-        "driveId": "1TosiK1UIiHvZ6O7Cy5pC4Mpwlpb8IFF9",
-        "enabled": true
+        "driveId": "1TosiK1UIiHvZ6O7Cy5pC4Mpwlpb8IFF9"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1koAtUC-DgfdptyQVd70PUV61Su6GDsW5",
         "thumbnail": "/api/img?id=1koAtUC-DgfdptyQVd70PUV61Su6GDsW5",
-        "driveId": "1koAtUC-DgfdptyQVd70PUV61Su6GDsW5",
-        "enabled": true
+        "driveId": "1koAtUC-DgfdptyQVd70PUV61Su6GDsW5"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1AH6gjNu_qSov_KASiM75zy3v0kEI9Ugr",
         "thumbnail": "/api/img?id=1AH6gjNu_qSov_KASiM75zy3v0kEI9Ugr",
-        "driveId": "1AH6gjNu_qSov_KASiM75zy3v0kEI9Ugr",
-        "enabled": true
+        "driveId": "1AH6gjNu_qSov_KASiM75zy3v0kEI9Ugr"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=18kcC6b-YVcU2alNAd8Kzl2AGYYTOn0Wn",
         "thumbnail": "/api/img?id=18kcC6b-YVcU2alNAd8Kzl2AGYYTOn0Wn",
-        "driveId": "18kcC6b-YVcU2alNAd8Kzl2AGYYTOn0Wn",
-        "enabled": true
+        "driveId": "18kcC6b-YVcU2alNAd8Kzl2AGYYTOn0Wn"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1zmTCEustbg48sOhd_QCZBc79GVnF-ATQ",
         "thumbnail": "/api/img?id=1zmTCEustbg48sOhd_QCZBc79GVnF-ATQ",
-        "driveId": "1zmTCEustbg48sOhd_QCZBc79GVnF-ATQ",
-        "enabled": true
+        "driveId": "1zmTCEustbg48sOhd_QCZBc79GVnF-ATQ"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": ""
   },
   {
     "id": "fb_1758558498_333",
