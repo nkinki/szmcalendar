@@ -24536,160 +24536,164 @@
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 23.",
     "dateSort": "2025-09-23",
-    "text": "Szent Mihály 6 új fényképet töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nNyárbúcsúztató délutánt tartottak a 3. b osztályosok szeptember 23-án. A vénasszonyok nyarát idéző meleg napon fagyizott és játszótéren is járt az osztály. \nmcs",
+    "text": "Nyárbúcsúztató délutánt tartottak a 3. b osztályosok szeptember 23-án. A vénasszonyok nyarát idéző meleg napon fagyizott és játszótéren is járt az osztály.\n",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1HqerOhjY7HpsXqSG8VZyPNFFoN-9BuIV",
         "thumbnail": "/api/img?id=1HqerOhjY7HpsXqSG8VZyPNFFoN-9BuIV",
-        "driveId": "1HqerOhjY7HpsXqSG8VZyPNFFoN-9BuIV",
-        "enabled": true
+        "driveId": "1HqerOhjY7HpsXqSG8VZyPNFFoN-9BuIV"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1XoSNulrS2ya1mXKMEZekLSiG-jAV9v7B",
         "thumbnail": "/api/img?id=1XoSNulrS2ya1mXKMEZekLSiG-jAV9v7B",
-        "driveId": "1XoSNulrS2ya1mXKMEZekLSiG-jAV9v7B",
-        "enabled": true
+        "driveId": "1XoSNulrS2ya1mXKMEZekLSiG-jAV9v7B"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1qiFeReQvfca3WD03wluZwrZS8-BfquLo",
         "thumbnail": "/api/img?id=1qiFeReQvfca3WD03wluZwrZS8-BfquLo",
-        "driveId": "1qiFeReQvfca3WD03wluZwrZS8-BfquLo",
-        "enabled": true
+        "driveId": "1qiFeReQvfca3WD03wluZwrZS8-BfquLo"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1Y1qNxaS3_o67WygJLNTHe5896kUUEJU-",
         "thumbnail": "/api/img?id=1Y1qNxaS3_o67WygJLNTHe5896kUUEJU-",
-        "driveId": "1Y1qNxaS3_o67WygJLNTHe5896kUUEJU-",
-        "enabled": true
+        "driveId": "1Y1qNxaS3_o67WygJLNTHe5896kUUEJU-"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1MwOE7S_gcnQ-qV3ZlHQxPgd3jTxDdYwR",
         "thumbnail": "/api/img?id=1MwOE7S_gcnQ-qV3ZlHQxPgd3jTxDdYwR",
-        "driveId": "1MwOE7S_gcnQ-qV3ZlHQxPgd3jTxDdYwR",
-        "enabled": true
+        "driveId": "1MwOE7S_gcnQ-qV3ZlHQxPgd3jTxDdYwR"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-",
         "thumbnail": "/api/img?id=1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-",
-        "driveId": "1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-",
-        "enabled": true
+        "driveId": "1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-"
       }
     ],
-    "textAlign": "justify",
+    "textAlign": "left",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": "",
+    "imageWidthPercent": 66
   },
   {
     "id": "fb_1758621818_330",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 23.",
     "dateSort": "2025-09-23",
-    "text": "Szent Mihály 14 új fényképet töltött fel.\n🦅🦉 Madaras móka Szent Mihály Óvoda módra 🦜🦉",
+    "text": "\nImre István látogatott el hozzánk, akit a gyerekek csak “Madaras bácsinak” szólítottak. Elhozta nekünk kedvenc madarait: Marcit, a papagájt, Bogyót, a macska baglyot és Henriettát, a réti héját. Interaktív előadásban volt részünk a madarak társaságában.\nA gyerekek sok újdonságot tanulhattak meg a madarakról, megsimogathatták a papagájt és a baglyot, valamint az előadás végén a réti héjával egy bátorságpróbát is kiálltak.\nAz óvónénik sem maradtak ki a sorból! A vállaikon üldögéltek a madarak, illetve a karjaik között repült àt Henrietta, a réti héja. Ez volt az ő bátorságpróbájuk.\nNagyon izgalmas és érdekes program volt, teljesen elvarázsolta a résztvevőket a “Madaras bácsi”.",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=1cFPZNkV24t6U9olEE1ZiIT_lgZ78rB9B",
         "thumbnail": "/api/img?id=1cFPZNkV24t6U9olEE1ZiIT_lgZ78rB9B",
-        "driveId": "1cFPZNkV24t6U9olEE1ZiIT_lgZ78rB9B",
-        "enabled": true
+        "driveId": "1cFPZNkV24t6U9olEE1ZiIT_lgZ78rB9B"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1niKs0NqOPGAhN9iKRWX7JTK8mVzUZ_JQ",
         "thumbnail": "/api/img?id=1niKs0NqOPGAhN9iKRWX7JTK8mVzUZ_JQ",
-        "driveId": "1niKs0NqOPGAhN9iKRWX7JTK8mVzUZ_JQ",
-        "enabled": true
+        "driveId": "1niKs0NqOPGAhN9iKRWX7JTK8mVzUZ_JQ"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1OgL7NMpf_vYTIXHbUecsGnN5G0YXMwCj",
         "thumbnail": "/api/img?id=1OgL7NMpf_vYTIXHbUecsGnN5G0YXMwCj",
-        "driveId": "1OgL7NMpf_vYTIXHbUecsGnN5G0YXMwCj",
-        "enabled": true
+        "driveId": "1OgL7NMpf_vYTIXHbUecsGnN5G0YXMwCj"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1l0Iawqea5m3olNSZTGeqAiIMdsQ-eIY0",
         "thumbnail": "/api/img?id=1l0Iawqea5m3olNSZTGeqAiIMdsQ-eIY0",
-        "driveId": "1l0Iawqea5m3olNSZTGeqAiIMdsQ-eIY0",
-        "enabled": true
+        "driveId": "1l0Iawqea5m3olNSZTGeqAiIMdsQ-eIY0"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1ZxSIqYSiE18KJGN37_-6wyqqOMhJa3Kl",
         "thumbnail": "/api/img?id=1ZxSIqYSiE18KJGN37_-6wyqqOMhJa3Kl",
-        "driveId": "1ZxSIqYSiE18KJGN37_-6wyqqOMhJa3Kl",
-        "enabled": true
+        "driveId": "1ZxSIqYSiE18KJGN37_-6wyqqOMhJa3Kl"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1eNcKpyZQnEZrdsZWd8vPASTzBDOMA92z",
         "thumbnail": "/api/img?id=1eNcKpyZQnEZrdsZWd8vPASTzBDOMA92z",
-        "driveId": "1eNcKpyZQnEZrdsZWd8vPASTzBDOMA92z",
-        "enabled": true
+        "driveId": "1eNcKpyZQnEZrdsZWd8vPASTzBDOMA92z"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=10n9Ftg_VBU91cjD4wc8riErol-EqKmdo",
         "thumbnail": "/api/img?id=10n9Ftg_VBU91cjD4wc8riErol-EqKmdo",
-        "driveId": "10n9Ftg_VBU91cjD4wc8riErol-EqKmdo",
-        "enabled": true
+        "driveId": "10n9Ftg_VBU91cjD4wc8riErol-EqKmdo"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1vnsZFwywzlEIWuQeVeaVtglme5aVu-H_",
         "thumbnail": "/api/img?id=1vnsZFwywzlEIWuQeVeaVtglme5aVu-H_",
-        "driveId": "1vnsZFwywzlEIWuQeVeaVtglme5aVu-H_",
-        "enabled": true
+        "driveId": "1vnsZFwywzlEIWuQeVeaVtglme5aVu-H_"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1RYgngL2JTXEz6AEOPWJzHvAAjew-BE-n",
         "thumbnail": "/api/img?id=1RYgngL2JTXEz6AEOPWJzHvAAjew-BE-n",
-        "driveId": "1RYgngL2JTXEz6AEOPWJzHvAAjew-BE-n",
-        "enabled": true
+        "driveId": "1RYgngL2JTXEz6AEOPWJzHvAAjew-BE-n"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1sIIWf6rGSZ__OdVvvZ6DS0VRegNwJt_n",
         "thumbnail": "/api/img?id=1sIIWf6rGSZ__OdVvvZ6DS0VRegNwJt_n",
-        "driveId": "1sIIWf6rGSZ__OdVvvZ6DS0VRegNwJt_n",
-        "enabled": true
+        "driveId": "1sIIWf6rGSZ__OdVvvZ6DS0VRegNwJt_n"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=111I1rGAZ3eED9_dGmywTa0ZgL7wWz8cJ",
         "thumbnail": "/api/img?id=111I1rGAZ3eED9_dGmywTa0ZgL7wWz8cJ",
-        "driveId": "111I1rGAZ3eED9_dGmywTa0ZgL7wWz8cJ",
-        "enabled": true
+        "driveId": "111I1rGAZ3eED9_dGmywTa0ZgL7wWz8cJ"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=12Qtrqd6SYp3uOq18vOaQSQZCDQ1Bs1ET",
         "thumbnail": "/api/img?id=12Qtrqd6SYp3uOq18vOaQSQZCDQ1Bs1ET",
-        "driveId": "12Qtrqd6SYp3uOq18vOaQSQZCDQ1Bs1ET",
-        "enabled": true
+        "driveId": "12Qtrqd6SYp3uOq18vOaQSQZCDQ1Bs1ET"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1kKDPPk3BHNOue0lXe77r8J8xUphfvRhy",
         "thumbnail": "/api/img?id=1kKDPPk3BHNOue0lXe77r8J8xUphfvRhy",
-        "driveId": "1kKDPPk3BHNOue0lXe77r8J8xUphfvRhy",
-        "enabled": true
+        "driveId": "1kKDPPk3BHNOue0lXe77r8J8xUphfvRhy"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=12AC4cvSR1cJBKQVlY3IUHb76wh1BK-7Q",
         "thumbnail": "/api/img?id=12AC4cvSR1cJBKQVlY3IUHb76wh1BK-7Q",
-        "driveId": "12AC4cvSR1cJBKQVlY3IUHb76wh1BK-7Q",
-        "enabled": true
+        "driveId": "12AC4cvSR1cJBKQVlY3IUHb76wh1BK-7Q"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "imageWidthPercent": 50,
+    "title": ""
   },
   {
     "id": "fb_1758613464_331",
