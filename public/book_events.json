@@ -24089,142 +24089,146 @@
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 30.",
     "dateSort": "2025-09-30",
-    "text": "Szent Mihály 6 új fényképet töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nGaál Richárd iskola lelkész tartotta intézményünk dolgozóinak az első lelki gyakorlatot, szeptember 29-én, hétfőn, délután a görögkatolikus templomban.",
+    "text": "Gaál Richárd iskola lelkész tartotta intézményünk dolgozóinak az első lelki gyakorlatot, szeptember 29-én, hétfőn, délután a görögkatolikus templomban.",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=10JYM1YLHpuz7OfMUIRhPuY-Tbp_2caS5",
         "thumbnail": "/api/img?id=10JYM1YLHpuz7OfMUIRhPuY-Tbp_2caS5",
-        "driveId": "10JYM1YLHpuz7OfMUIRhPuY-Tbp_2caS5",
-        "enabled": true
+        "driveId": "10JYM1YLHpuz7OfMUIRhPuY-Tbp_2caS5"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1iItzOdZF6Ty2Z5xW3vVKprNtB72R3XvR",
         "thumbnail": "/api/img?id=1iItzOdZF6Ty2Z5xW3vVKprNtB72R3XvR",
-        "driveId": "1iItzOdZF6Ty2Z5xW3vVKprNtB72R3XvR",
-        "enabled": true
+        "driveId": "1iItzOdZF6Ty2Z5xW3vVKprNtB72R3XvR"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1yk9dYUMr0roRu3hl8KC3UFHH66R-xJUU",
         "thumbnail": "/api/img?id=1yk9dYUMr0roRu3hl8KC3UFHH66R-xJUU",
-        "driveId": "1yk9dYUMr0roRu3hl8KC3UFHH66R-xJUU",
-        "enabled": true
+        "driveId": "1yk9dYUMr0roRu3hl8KC3UFHH66R-xJUU"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1viD82zzqqEbs6AZ9J6PIIx3Skb0wOjMj",
         "thumbnail": "/api/img?id=1viD82zzqqEbs6AZ9J6PIIx3Skb0wOjMj",
-        "driveId": "1viD82zzqqEbs6AZ9J6PIIx3Skb0wOjMj",
-        "enabled": true
+        "driveId": "1viD82zzqqEbs6AZ9J6PIIx3Skb0wOjMj"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1eFU9OK7N4hPnnOPNl1Av51CwMlWK6AYD",
         "thumbnail": "/api/img?id=1eFU9OK7N4hPnnOPNl1Av51CwMlWK6AYD",
-        "driveId": "1eFU9OK7N4hPnnOPNl1Av51CwMlWK6AYD",
-        "enabled": true
+        "driveId": "1eFU9OK7N4hPnnOPNl1Av51CwMlWK6AYD"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1BO7S7FBavR1JkTfJcDc6qctqSI01lLFQ",
         "thumbnail": "/api/img?id=1BO7S7FBavR1JkTfJcDc6qctqSI01lLFQ",
-        "driveId": "1BO7S7FBavR1JkTfJcDc6qctqSI01lLFQ",
-        "enabled": true
+        "driveId": "1BO7S7FBavR1JkTfJcDc6qctqSI01lLFQ"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": "",
+    "imageWidthPercent": 64
   },
   {
     "id": "fb_1759177252_322",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 29.",
     "dateSort": "2025-09-29",
-    "text": "Szent Mihály 11 új fényképet töltött fel.\n■Pályaorientációs nap Debrecenben■\nAz V. Hello szakma! – Út a jövőbe pályaválasztási kiállításra látogatott iskolánk 7-8. évfolyama szeptember 29-én. Helyszín: a Nagyerdei Stadion (Debrecen)",
+    "text": "Az V. Hello szakma! – Út a jövőbe pályaválasztási kiállításra látogatott iskolánk 7-8. évfolyama szeptember 29-én. Helyszín: a Nagyerdei Stadion (Debrecen)",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1zRgjgYNfjFi0IIiS0EFHuv6znIyYaW5n",
         "thumbnail": "/api/img?id=1zRgjgYNfjFi0IIiS0EFHuv6znIyYaW5n",
-        "driveId": "1zRgjgYNfjFi0IIiS0EFHuv6znIyYaW5n",
-        "enabled": true
+        "driveId": "1zRgjgYNfjFi0IIiS0EFHuv6znIyYaW5n"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1uKOqKAhVfqtxzF65BzfONG_kxl84YTMc",
         "thumbnail": "/api/img?id=1uKOqKAhVfqtxzF65BzfONG_kxl84YTMc",
-        "driveId": "1uKOqKAhVfqtxzF65BzfONG_kxl84YTMc",
-        "enabled": true
+        "driveId": "1uKOqKAhVfqtxzF65BzfONG_kxl84YTMc"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1RHJg-0D_SjXVK5KMxGZcFi3TH9j9Ef6j",
         "thumbnail": "/api/img?id=1RHJg-0D_SjXVK5KMxGZcFi3TH9j9Ef6j",
-        "driveId": "1RHJg-0D_SjXVK5KMxGZcFi3TH9j9Ef6j",
-        "enabled": true
+        "driveId": "1RHJg-0D_SjXVK5KMxGZcFi3TH9j9Ef6j"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1m-9c4xeD6QwWg4bn2jptBmCjEjT_29mH",
         "thumbnail": "/api/img?id=1m-9c4xeD6QwWg4bn2jptBmCjEjT_29mH",
-        "driveId": "1m-9c4xeD6QwWg4bn2jptBmCjEjT_29mH",
-        "enabled": true
+        "driveId": "1m-9c4xeD6QwWg4bn2jptBmCjEjT_29mH"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1bybLUid2NMV1jTAmgZ87dcd5EmRFe5cy",
         "thumbnail": "/api/img?id=1bybLUid2NMV1jTAmgZ87dcd5EmRFe5cy",
-        "driveId": "1bybLUid2NMV1jTAmgZ87dcd5EmRFe5cy",
-        "enabled": true
+        "driveId": "1bybLUid2NMV1jTAmgZ87dcd5EmRFe5cy"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1n0qlRM3pJ_zevRa2NB1tRafcQ_Kk4bN9",
         "thumbnail": "/api/img?id=1n0qlRM3pJ_zevRa2NB1tRafcQ_Kk4bN9",
-        "driveId": "1n0qlRM3pJ_zevRa2NB1tRafcQ_Kk4bN9",
-        "enabled": true
+        "driveId": "1n0qlRM3pJ_zevRa2NB1tRafcQ_Kk4bN9"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=15tg1_FWse30nXcrTafQOWI7hQRxznpTt",
         "thumbnail": "/api/img?id=15tg1_FWse30nXcrTafQOWI7hQRxznpTt",
-        "driveId": "15tg1_FWse30nXcrTafQOWI7hQRxznpTt",
-        "enabled": true
+        "driveId": "15tg1_FWse30nXcrTafQOWI7hQRxznpTt"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1PjmnZDKIDUTP7EqJqMnpHaN-Ha1ApK9X",
         "thumbnail": "/api/img?id=1PjmnZDKIDUTP7EqJqMnpHaN-Ha1ApK9X",
-        "driveId": "1PjmnZDKIDUTP7EqJqMnpHaN-Ha1ApK9X",
-        "enabled": true
+        "driveId": "1PjmnZDKIDUTP7EqJqMnpHaN-Ha1ApK9X"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1to1ffGQpJmM-8wUPYXACVLivjahWH5-C",
         "thumbnail": "/api/img?id=1to1ffGQpJmM-8wUPYXACVLivjahWH5-C",
-        "driveId": "1to1ffGQpJmM-8wUPYXACVLivjahWH5-C",
-        "enabled": true
+        "driveId": "1to1ffGQpJmM-8wUPYXACVLivjahWH5-C"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1SkRldXc1hnXrECKJMkAOfethMkY5C5-x",
         "thumbnail": "/api/img?id=1SkRldXc1hnXrECKJMkAOfethMkY5C5-x",
-        "driveId": "1SkRldXc1hnXrECKJMkAOfethMkY5C5-x",
-        "enabled": true
+        "driveId": "1SkRldXc1hnXrECKJMkAOfethMkY5C5-x"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1sDPw-LKCOUsEPLSYt6EaRGk9SJBLEWqg",
         "thumbnail": "/api/img?id=1sDPw-LKCOUsEPLSYt6EaRGk9SJBLEWqg",
-        "driveId": "1sDPw-LKCOUsEPLSYt6EaRGk9SJBLEWqg",
-        "enabled": true
+        "driveId": "1sDPw-LKCOUsEPLSYt6EaRGk9SJBLEWqg"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "imageWidthPercent": 63,
+    "title": ""
   },
   {
     "id": "fb_1759063585_323",
