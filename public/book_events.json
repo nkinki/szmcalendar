@@ -24231,56 +24231,58 @@
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 28.",
     "dateSort": "2025-09-28",
-    "text": "Szent Mihály 6 új fényképet töltött fel.\n■Diáksikerek■\nÚj rovatot indítunk, melynek célja, hogy intézményünk számos tehetséges diákját bemutassuk. Ha valamiben kiemelkedőek vagytok, ne rejtsétek véka alá! Várjuk a megkereséseket!\n●Mercs Péter●\nMercs Péter 3. b osztályos tanulónk a DEAC U9-es csapat  játékosaként sikert-sikerre halmoz. Heti 3 edzésre, 2 kapus edzésre és hétvégi mérkőzésre jár, s mellette tartja kitűnő tanulmányi eredményét. \nPeti 2021-ben kezdte ovi foci szinten a labdarúgást, majd 2022-ben a Nyiradonyi VVTK  már mint igazolt játékosa vett részt a meccseken.\n2023. nyarán már a Debreceni Egyetem Atlétikai Club (DEAC) csapatában folytatta tehetsége kibontakoztatását.  Mezőnyjátékosként kezdte, majd egy évvel később kapus lett a csapatában. Több arany érmet és első helyet nyert már csapatával és voltak különdíjai is: »Legjobb kapus«. \nTavaly novemberben ő lett a hónap játékosa, és kapott »A csapat legjobb játékosa« díjat is.\nSikereit tehetségének, kiváló összetartó csapatának, kiváló edzőinek és támogató szüleinek köszönheti.\nKívánunk sok sikert pályájához!",
+    "text": "Mercs Péter 3. b osztályos tanulónk a DEAC U9-es csapat  játékosaként sikert-sikerre halmoz. Heti 3 edzésre, 2 kapus edzésre és hétvégi mérkőzésre jár, s mellette tartja kitűnő tanulmányi eredményét.\nPeti 2021-ben kezdte ovi foci szinten a labdarúgást, majd 2022-ben a Nyiradonyi VVTK  már mint igazolt játékosa vett részt a meccseken.\n2023. nyarán már a Debreceni Egyetem Atlétikai Club (DEAC) csapatában folytatta tehetsége kibontakoztatását.  Mezőnyjátékosként kezdte, majd egy évvel később kapus lett a csapatában. Több arany érmet és első helyet nyert már csapatával és voltak különdíjai is: »Legjobb kapus«.\nTavaly novemberben ő lett a hónap játékosa, és kapott »A csapat legjobb játékosa« díjat is.\nSikereit tehetségének, kiváló összetartó csapatának, kiváló edzőinek és támogató szüleinek köszönheti.\nKívánunk sok sikert pályájához!",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1gAUJFOqe7pmlRSqxTt8dqQmP9QCslegW",
         "thumbnail": "/api/img?id=1gAUJFOqe7pmlRSqxTt8dqQmP9QCslegW",
-        "driveId": "1gAUJFOqe7pmlRSqxTt8dqQmP9QCslegW",
-        "enabled": true
+        "driveId": "1gAUJFOqe7pmlRSqxTt8dqQmP9QCslegW"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=12pewXOpNLccZj6tteoNyfed8hFOFim1Z",
         "thumbnail": "/api/img?id=12pewXOpNLccZj6tteoNyfed8hFOFim1Z",
-        "driveId": "12pewXOpNLccZj6tteoNyfed8hFOFim1Z",
-        "enabled": true
+        "driveId": "12pewXOpNLccZj6tteoNyfed8hFOFim1Z"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1_lDN9zQgr0gWnrZo4xWZz7gUxWCUiO5S",
         "thumbnail": "/api/img?id=1_lDN9zQgr0gWnrZo4xWZz7gUxWCUiO5S",
-        "driveId": "1_lDN9zQgr0gWnrZo4xWZz7gUxWCUiO5S",
-        "enabled": true
+        "driveId": "1_lDN9zQgr0gWnrZo4xWZz7gUxWCUiO5S"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1L7toW0ruCedeKaMN2yj_Tle1iqJzbZXa",
         "thumbnail": "/api/img?id=1L7toW0ruCedeKaMN2yj_Tle1iqJzbZXa",
-        "driveId": "1L7toW0ruCedeKaMN2yj_Tle1iqJzbZXa",
-        "enabled": true
+        "driveId": "1L7toW0ruCedeKaMN2yj_Tle1iqJzbZXa"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1nxvS6LqSHmvfVpYHBRMps5m_-4B-XrIM",
         "thumbnail": "/api/img?id=1nxvS6LqSHmvfVpYHBRMps5m_-4B-XrIM",
-        "driveId": "1nxvS6LqSHmvfVpYHBRMps5m_-4B-XrIM",
-        "enabled": true
+        "driveId": "1nxvS6LqSHmvfVpYHBRMps5m_-4B-XrIM"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1FXkNwpku677IkiJ9GuyM3TeUYx_MLufT",
         "thumbnail": "/api/img?id=1FXkNwpku677IkiJ9GuyM3TeUYx_MLufT",
-        "driveId": "1FXkNwpku677IkiJ9GuyM3TeUYx_MLufT",
-        "enabled": true
+        "driveId": "1FXkNwpku677IkiJ9GuyM3TeUYx_MLufT"
       }
     ],
-    "textAlign": "justify",
+    "textAlign": "left",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": "",
+    "imageWidthPercent": 48
   },
   {
     "id": "fb_1758888974_325",
@@ -24426,68 +24428,70 @@
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 26.",
     "dateSort": "2025-09-26",
-    "text": "Szent Mihály 8 új fényképet töltött fel.\n♡ÉLETKÉPEK A SZENT MIHÁLYBÓL♡\nSzeptember 19-én délután a 6. b osztály közös  főzést szervezett. Nagyon kellemes, jó hangulatú programmal indították el az új tanévet. Hartmann-Huszti Beáta",
+    "text": "Szeptember 19-én délután a 6. b osztály közös  főzést szervezett. Nagyon kellemes, jó hangulatú programmal indították el az új tanévet. ",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1D1RDv14WgpxkMcleNM6_DFcInmwRFlaj",
         "thumbnail": "/api/img?id=1D1RDv14WgpxkMcleNM6_DFcInmwRFlaj",
-        "driveId": "1D1RDv14WgpxkMcleNM6_DFcInmwRFlaj",
-        "enabled": true
+        "driveId": "1D1RDv14WgpxkMcleNM6_DFcInmwRFlaj"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1b1uX0013BkvcbZkVB2xtBcT5PKoObdxE",
         "thumbnail": "/api/img?id=1b1uX0013BkvcbZkVB2xtBcT5PKoObdxE",
-        "driveId": "1b1uX0013BkvcbZkVB2xtBcT5PKoObdxE",
-        "enabled": true
+        "driveId": "1b1uX0013BkvcbZkVB2xtBcT5PKoObdxE"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1LKMLhD51jG6CIf_x-IamEYwkglCcNNvN",
         "thumbnail": "/api/img?id=1LKMLhD51jG6CIf_x-IamEYwkglCcNNvN",
-        "driveId": "1LKMLhD51jG6CIf_x-IamEYwkglCcNNvN",
-        "enabled": true
+        "driveId": "1LKMLhD51jG6CIf_x-IamEYwkglCcNNvN"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1Bb_uQTAqAZegZerkxtQqCVlFPlUEfV61",
         "thumbnail": "/api/img?id=1Bb_uQTAqAZegZerkxtQqCVlFPlUEfV61",
-        "driveId": "1Bb_uQTAqAZegZerkxtQqCVlFPlUEfV61",
-        "enabled": true
+        "driveId": "1Bb_uQTAqAZegZerkxtQqCVlFPlUEfV61"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1m8Yyw4QxSu3BZAnRIWotw1p33DYykPA1",
         "thumbnail": "/api/img?id=1m8Yyw4QxSu3BZAnRIWotw1p33DYykPA1",
-        "driveId": "1m8Yyw4QxSu3BZAnRIWotw1p33DYykPA1",
-        "enabled": true
+        "driveId": "1m8Yyw4QxSu3BZAnRIWotw1p33DYykPA1"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=10MXKYD-xrajRP3tEeZu2jDZ1oAt7Lfdf",
         "thumbnail": "/api/img?id=10MXKYD-xrajRP3tEeZu2jDZ1oAt7Lfdf",
-        "driveId": "10MXKYD-xrajRP3tEeZu2jDZ1oAt7Lfdf",
-        "enabled": true
+        "driveId": "10MXKYD-xrajRP3tEeZu2jDZ1oAt7Lfdf"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=19QjF7Pqlvbnh4StYvY6oKdfaRlbfp_nM",
         "thumbnail": "/api/img?id=19QjF7Pqlvbnh4StYvY6oKdfaRlbfp_nM",
-        "driveId": "19QjF7Pqlvbnh4StYvY6oKdfaRlbfp_nM",
-        "enabled": true
+        "driveId": "19QjF7Pqlvbnh4StYvY6oKdfaRlbfp_nM"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1BV7VxelH9dN9jpMr61IL40yVpfIwez7b",
         "thumbnail": "/api/img?id=1BV7VxelH9dN9jpMr61IL40yVpfIwez7b",
-        "driveId": "1BV7VxelH9dN9jpMr61IL40yVpfIwez7b",
-        "enabled": true
+        "driveId": "1BV7VxelH9dN9jpMr61IL40yVpfIwez7b"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": "",
+    "imageWidthPercent": 66
   },
   {
     "id": "fb_1758660612_329",
