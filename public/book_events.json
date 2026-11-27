@@ -24389,37 +24389,11 @@
     "title": ""
   },
   {
-    "id": "fb_1758881913_326",
-    "schoolYear": "2025/2026",
-    "date": "2025. szeptember 26.",
-    "dateSort": "2025-09-26",
-    "text": "Szent Mihály egy új fényképet töltött fel.",
-    "images": [
-      {
-        "url": "/api/img?id=1JUiHtWzqdtrZ1t2FRgvVWnuA4mwvQC4d",
-        "thumbnail": "/api/img?id=1JUiHtWzqdtrZ1t2FRgvVWnuA4mwvQC4d",
-        "driveId": "1JUiHtWzqdtrZ1t2FRgvVWnuA4mwvQC4d",
-        "enabled": true
-      }
-    ],
-    "textAlign": "justify",
-    "textColor": "#b45309",
-    "color": "#b45309",
-    "dropCap": true,
-    "dropCapStyle": "gradient",
-    "dropCapColor": "#b45309",
-    "dropCapSize": 3.2,
-    "dropCapSpacing": 4,
-    "dropCapOffsetY": 2,
-    "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
-  },
-  {
     "id": "fb_1758862049_327",
     "schoolYear": "2025/2026",
     "date": "2025. szeptember 26.",
     "dateSort": "2025-09-26",
-    "text": "Szent Mihály 2 új fényképet töltött fel.\n■Papírkörforgás a Szent Mihályban■\nAz iskolai papírgyűjtés régi hagyomány már az intézmények életében. Így volt ez 2025. szeptember 15-én, a nyíradonyi Szent Mihály Görögkatolikus Óvoda, Általános Iskola, és AMI fali között is. \nA papírgyűjtési akció egy hétig tartott. \n Pocsai Emese a Diákönkormányzatot segítő pedagógus a papírgyűjtést nemcsak az DÖK pénzének növelésére, hanem a közösségépítésre és a környezettudatosságra való nevelésre szánta a program megrendezésével.\n– Az újrahasznosított vagy újra használt papír számtalan értékes és praktikus módon felhasználható. Készülhet belőle többek között csomagolóanyag, designbútor, vagy hullámkarton, amiből a kartondoboz készül. A hulladékpapírból újrahasznosított papírt is lehet gyártani. A gyűjtés során főként karton, újságpapír, irodai papír, régi tankönyvek gyűjtése volt a mérvadó. Szerencsére sok diák, pedagógus, szülő, boltok, helyi intézmények csatlakoztak a kezdeményezéshez. \nÍgy sikerült 2 egész konténernyi vagyis 4 tonna mennyiségű papírt újrahasznosításra küldeni – nyilatkozta Emese néni.\nA diákönkormányzatot segítő pedagógus hálásan köszöni azon szülők segítségét, akik szabadidejüket otthagyva összegyűjtötték a felajánlott hatalmas mennyiségű papírt. Köszönettel tartozik még azoknak a kollegáknak is, akik szintén azon voltak, hogy gyermekeink jövőjéért, és a bolygónkért tegyenek valamit.",
+    "text": "Az iskolai papírgyűjtés régi hagyomány már az intézmények életében. Így volt ez 2025. szeptember 15-én is. A papírgyűjtési akció egy hétig tartott.\nPocsai Emese a Diákönkormányzatot segítő pedagógus a papírgyűjtést nemcsak az DÖK pénzének növelésére, hanem a közösségépítésre és a környezettudatosságra való nevelésre szánta a program megrendezésével.\n– Az újrahasznosított vagy újra használt papír számtalan értékes és praktikus módon felhasználható. Készülhet belőle többek között csomagolóanyag, designbútor, vagy hullámkarton, amiből a kartondoboz készül. A hulladékpapírból újrahasznosított papírt is lehet gyártani. A gyűjtés során főként karton, újságpapír, irodai papír, régi tankönyvek gyűjtése volt a mérvadó. Szerencsére sok diák, pedagógus, szülő, boltok, helyi intézmények csatlakoztak a kezdeményezéshez.\nÍgy sikerült 2 egész konténernyi vagyis 4 tonna mennyiségű papírt újrahasznosításra küldeni – nyilatkozta Emese néni.\n",
     "images": [
       {
         "url": "/api/img?id=1rRu5VLpJrJKkM52idpt0attnM4WokXey",
@@ -24438,13 +24412,14 @@
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "title": ""
   },
   {
     "id": "fb_1758852965_328",
@@ -24558,7 +24533,7 @@
         "driveId": "1hcqAiNEomP7m2V15VT5dTRmPU8F-8al-"
       }
     ],
-    "textAlign": "left",
+    "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
