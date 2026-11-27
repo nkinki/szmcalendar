@@ -23606,139 +23606,142 @@
     "text": "Szent Mihály 6 új fényképet töltött fel.\n🫶Meseolvasás az óvodában🫶\nSzeptember 30-án, déli alvás előtt nyolcadikos tanulók lepték meg az óvodásokat. A gyermekek ámulattal hallgatták a csodás népmeséket, amelyeket az iskolás diákok olvastak nekik.",
     "images": [
       {
+        "enabled": true,
         "url": "/api/img?id=1PpTxFug3pAb3hFk3jwlSK9MSReG2aZwi",
         "thumbnail": "/api/img?id=1PpTxFug3pAb3hFk3jwlSK9MSReG2aZwi",
-        "driveId": "1PpTxFug3pAb3hFk3jwlSK9MSReG2aZwi",
-        "enabled": true
+        "driveId": "1PpTxFug3pAb3hFk3jwlSK9MSReG2aZwi"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1p6lu8EpLdBCouSoiQQvcNOALubAlFvRF",
         "thumbnail": "/api/img?id=1p6lu8EpLdBCouSoiQQvcNOALubAlFvRF",
-        "driveId": "1p6lu8EpLdBCouSoiQQvcNOALubAlFvRF",
-        "enabled": true
+        "driveId": "1p6lu8EpLdBCouSoiQQvcNOALubAlFvRF"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1vakpbFgM8-DMVrEz7Zj9u8t7fSGXukPD",
         "thumbnail": "/api/img?id=1vakpbFgM8-DMVrEz7Zj9u8t7fSGXukPD",
-        "driveId": "1vakpbFgM8-DMVrEz7Zj9u8t7fSGXukPD",
-        "enabled": true
+        "driveId": "1vakpbFgM8-DMVrEz7Zj9u8t7fSGXukPD"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1SmL4XJOmaPcBm07Pq5LhOR__dkhPi5IA",
         "thumbnail": "/api/img?id=1SmL4XJOmaPcBm07Pq5LhOR__dkhPi5IA",
-        "driveId": "1SmL4XJOmaPcBm07Pq5LhOR__dkhPi5IA",
-        "enabled": true
+        "driveId": "1SmL4XJOmaPcBm07Pq5LhOR__dkhPi5IA"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1l36GglKlnSJVjroTfkd8O-XVoNWqGTof",
         "thumbnail": "/api/img?id=1l36GglKlnSJVjroTfkd8O-XVoNWqGTof",
-        "driveId": "1l36GglKlnSJVjroTfkd8O-XVoNWqGTof",
-        "enabled": true
+        "driveId": "1l36GglKlnSJVjroTfkd8O-XVoNWqGTof"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1ZDGvTT0VeBAw6eEoJmYLovWn9GdGQu5Q",
         "thumbnail": "/api/img?id=1ZDGvTT0VeBAw6eEoJmYLovWn9GdGQu5Q",
-        "driveId": "1ZDGvTT0VeBAw6eEoJmYLovWn9GdGQu5Q",
-        "enabled": true
+        "driveId": "1ZDGvTT0VeBAw6eEoJmYLovWn9GdGQu5Q"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "imageWidthPercent": 65
   },
   {
     "id": "fb_1759332845_316",
     "schoolYear": "2025/2026",
     "date": "2025. október 1.",
     "dateSort": "2025-10-01",
-    "text": "Szent Mihály 11 új fényképet töltött fel.\n🍄🐜🦋🐭Mesés délelőtt az óvodában🐦🐰🦊🍄\nA Szent Mihály Óvoda dolgozói szeptember 30-án a Magyar Népmese Napja alkalmából „A gomba alatt” című mesét adták elő a gyermekek nagy örömére, melyet a kicsik tapsviharral jutalmaztak.",
+    "text": "A Szent Mihály Óvoda dolgozói szeptember 30-án a Magyar Népmese Napja alkalmából „A gomba alatt” című mesét adták elő a gyermekek nagy örömére, melyet a kicsik tapsviharral jutalmaztak.",
     "images": [
       {
+        "enabled": false,
         "url": "/api/img?id=1MEfu5h1ZnK6vSX2-QGJHrTYBq_ef1llw",
         "thumbnail": "/api/img?id=1MEfu5h1ZnK6vSX2-QGJHrTYBq_ef1llw",
-        "driveId": "1MEfu5h1ZnK6vSX2-QGJHrTYBq_ef1llw",
-        "enabled": true
+        "driveId": "1MEfu5h1ZnK6vSX2-QGJHrTYBq_ef1llw"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1lh1r4IccQIIR0U2RNcs5LrN84sRcvZ4N",
         "thumbnail": "/api/img?id=1lh1r4IccQIIR0U2RNcs5LrN84sRcvZ4N",
-        "driveId": "1lh1r4IccQIIR0U2RNcs5LrN84sRcvZ4N",
-        "enabled": true
+        "driveId": "1lh1r4IccQIIR0U2RNcs5LrN84sRcvZ4N"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1LT67V75O8FEpWkCZpTyNkBVqVI1hwuTO",
         "thumbnail": "/api/img?id=1LT67V75O8FEpWkCZpTyNkBVqVI1hwuTO",
-        "driveId": "1LT67V75O8FEpWkCZpTyNkBVqVI1hwuTO",
-        "enabled": true
+        "driveId": "1LT67V75O8FEpWkCZpTyNkBVqVI1hwuTO"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=16nyFnMa5gbLEp17kWURXm0_NA3N23Xwh",
         "thumbnail": "/api/img?id=16nyFnMa5gbLEp17kWURXm0_NA3N23Xwh",
-        "driveId": "16nyFnMa5gbLEp17kWURXm0_NA3N23Xwh",
-        "enabled": true
+        "driveId": "16nyFnMa5gbLEp17kWURXm0_NA3N23Xwh"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1LNowCLXmXMJ-RAev5gN_sPa3nEE02mgV",
         "thumbnail": "/api/img?id=1LNowCLXmXMJ-RAev5gN_sPa3nEE02mgV",
-        "driveId": "1LNowCLXmXMJ-RAev5gN_sPa3nEE02mgV",
-        "enabled": true
+        "driveId": "1LNowCLXmXMJ-RAev5gN_sPa3nEE02mgV"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=14goI65JK1qOehk07GDVRVMAQ-QMmJwaf",
         "thumbnail": "/api/img?id=14goI65JK1qOehk07GDVRVMAQ-QMmJwaf",
-        "driveId": "14goI65JK1qOehk07GDVRVMAQ-QMmJwaf",
-        "enabled": true
+        "driveId": "14goI65JK1qOehk07GDVRVMAQ-QMmJwaf"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=10ec6a2l2BNt64rhOa07FgEr5pXvlzNUJ",
         "thumbnail": "/api/img?id=10ec6a2l2BNt64rhOa07FgEr5pXvlzNUJ",
-        "driveId": "10ec6a2l2BNt64rhOa07FgEr5pXvlzNUJ",
-        "enabled": true
+        "driveId": "10ec6a2l2BNt64rhOa07FgEr5pXvlzNUJ"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=1bIh33bALqn2g0VYW04bgZlqJ9Vyg3A3m",
         "thumbnail": "/api/img?id=1bIh33bALqn2g0VYW04bgZlqJ9Vyg3A3m",
-        "driveId": "1bIh33bALqn2g0VYW04bgZlqJ9Vyg3A3m",
-        "enabled": true
+        "driveId": "1bIh33bALqn2g0VYW04bgZlqJ9Vyg3A3m"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1w7QSMe0dEKBue_GCpeJUcoAwOvCpCRUe",
         "thumbnail": "/api/img?id=1w7QSMe0dEKBue_GCpeJUcoAwOvCpCRUe",
-        "driveId": "1w7QSMe0dEKBue_GCpeJUcoAwOvCpCRUe",
-        "enabled": true
+        "driveId": "1w7QSMe0dEKBue_GCpeJUcoAwOvCpCRUe"
       },
       {
+        "enabled": true,
         "url": "/api/img?id=1pmZ0_vjmV2132YylLXPiknGSxPMLKJvP",
         "thumbnail": "/api/img?id=1pmZ0_vjmV2132YylLXPiknGSxPMLKJvP",
-        "driveId": "1pmZ0_vjmV2132YylLXPiknGSxPMLKJvP",
-        "enabled": true
+        "driveId": "1pmZ0_vjmV2132YylLXPiknGSxPMLKJvP"
       },
       {
+        "enabled": false,
         "url": "/api/img?id=14NPUyraSfw9LxRK2sF4ir91A8ZePZuiP",
         "thumbnail": "/api/img?id=14NPUyraSfw9LxRK2sF4ir91A8ZePZuiP",
-        "driveId": "14NPUyraSfw9LxRK2sF4ir91A8ZePZuiP",
-        "enabled": true
+        "driveId": "14NPUyraSfw9LxRK2sF4ir91A8ZePZuiP"
       }
     ],
     "textAlign": "justify",
     "textColor": "#b45309",
     "color": "#b45309",
     "dropCap": true,
-    "dropCapStyle": "gradient",
+    "dropCapStyle": "box",
     "dropCapColor": "#b45309",
     "dropCapSize": 3.2,
     "dropCapSpacing": 4,
     "dropCapOffsetY": 2,
     "dropCapFont": "'Georgia', serif",
-    "dropCapBg": ""
+    "dropCapBg": "",
+    "imageWidthPercent": 63,
+    "title": ""
   },
   {
     "id": "fb_1759318959_317",
